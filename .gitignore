@@ -1,0 +1,26 @@
+# IDE e Editor
+.idea/
+.vscode/
+*.swp
+*.iml
+
+# Java / Build
+target/
+build/
+*.class
+*.jar
+*.war
+
+# Node.js (per il futuro fleet management)
+node_modules/
+npm-debug.log
+
+# Jolie
+hs_err_pid*
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml

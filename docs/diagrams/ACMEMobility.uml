@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:tiny="http:///schemas/tiny/_BYoc0M1fEfCUUIcnJ5BZ-g/3" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http:///schemas/tiny/_BYoc0M1fEfCUUIcnJ5BZ-g/3 tiny.profile.uml#_BYoc0c1fEfCUUIcnJ5BZ-g">
+  <uml:Model xmi:id="_u5Et8OJqEfCy0tpT-R-2Og" name="ACMEMobility">
+    <packageImport xmi:type="uml:PackageImport" xmi:id="_vEEdAOJqEfCy0tpT-R-2Og">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Package" xmi:id="_pXBFQOMHEfCRFJbPhVmytg" name="MySOATasks">
+      <packagedElement xmi:type="uml:Class" xmi:id="_LmIS0OJsEfCiFqTI_QlqVA" name="RentalManagement" visibility="public">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_RDNbwOMKEfCGvehFy59jFw" name="RequestImmediateRent">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_VYYsQOMKEfCGvehFy59jFw" name="vehicleID"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_W7sSEOMKEfCGvehFy59jFw" name="userID"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_mdVlkOMLEfCGvehFy59jFw" name="requestImmediateRent(vehicleID, userID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_nk3OUOMLEfCGvehFy59jFw" name="reserveVehicle(stationID, vechicleID, userID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_oYmYYOMLEfCGvehFy59jFw" name="cancelReservation(reservationID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_taN4IOMLEfCGvehFy59jFw" name="submitQRCode(reservationID, qrData)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_035xsOMLEfCGvehFy59jFw" name="commandUnlock(rentalID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_4KiAEOMLEfCGvehFy59jFw" name="commandLock(rentalID, stationID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_7-R-gOMLEfCGvehFy59jFw" name="commandClose(rentalID)"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_2Ck8cOMIEfCRFJbPhVmytg" name="IRentalAction" visibility="public">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_leb_QOMJEfCRFJbPhVmytg" name="requestImmediateRent">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_qASZ0OMJEfCRFJbPhVmytg" name="vehicleID"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_s0r0EOMJEfCRFJbPhVmytg" name="userID"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_pOod8OMKEfCGvehFy59jFw" name="requestImmediateRent(vehicleID, userID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_1rBGIOMKEfCGvehFy59jFw" name="submitQRCode(reservationID, qrData)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_1zfI0OMOEfCGvehFy59jFw" name="commandLock(rentalID, stationID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_5SEIgOMOEfCGvehFy59jFw" name="commandUnlock(rentalID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_6rZS8OMOEfCGvehFy59jFw" name="commandClose(rentalID)"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_PlU98OMJEfCRFJbPhVmytg" client="_2Ck8cOMIEfCRFJbPhVmytg" supplier="_LmIS0OJsEfCiFqTI_QlqVA"/>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_3_dGkOMNEfCGvehFy59jFw" name="IBooking" visibility="public">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_3_dGkeMNEfCGvehFy59jFw" name="requestImmediateRent">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_3_dGkuMNEfCGvehFy59jFw" name="vehicleID"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_3_dGk-MNEfCGvehFy59jFw" name="userID"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_3_dGlOMNEfCGvehFy59jFw" name="requestImmediateRent(vehicleID, userID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_3_dGleMNEfCGvehFy59jFw" name="reserveVehicle(stationID, vechicleID, userID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_GBRbgOMOEfCGvehFy59jFw" name="cancelReservation(reservationID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_JiF24OMOEfCGvehFy59jFw" name="reserveVehicle(stationID, vechicleID, userID)"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_jhKA8OMOEfCGvehFy59jFw" client="_3_dGkOMNEfCGvehFy59jFw" supplier="_LmIS0OJsEfCiFqTI_QlqVA"/>
+      <packagedElement xmi:type="uml:Usage" xmi:id="_vsolsOMWEfCGvehFy59jFw" client="_LmIS0OJsEfCiFqTI_QlqVA" supplier="_MAwC8OMUEfCGvehFy59jFw"/>
+      <packagedElement xmi:type="uml:Usage" xmi:id="_z0WB8OMWEfCGvehFy59jFw" client="_LmIS0OJsEfCiFqTI_QlqVA" supplier="_S2v_gOMWEfCGvehFy59jFw"/>
+      <packagedElement xmi:type="uml:Usage" xmi:id="_1P5SkOMZEfCGvehFy59jFw" client="_LmIS0OJsEfCiFqTI_QlqVA" supplier="_jGmc0OMXEfCGvehFy59jFw"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_sBegYOMHEfCRFJbPhVmytg" name="MySOAEntities">
+      <packagedElement xmi:type="uml:Class" xmi:id="_pKb3QOMGEfCRFJbPhVmytg" name="FleetManagement">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_aODPIOMUEfCGvehFy59jFw" name="startMonitoring(vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_brdoUOMUEfCGvehFy59jFw" name="stopMonitoring(vechicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_dDOFcOMUEfCGvehFy59jFw" name="getVehicleStatus(vechicleID)"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_ugKl0OMGEfCRFJbPhVmytg" name="StationManagement">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_-A_4oOMVEfCGvehFy59jFw" name="unlockVehicle(vehicleID, stationID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_Bbm-UOMWEfCGvehFy59jFw" name="lockVehicle(vehicleID, stationID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_DVvvwOMWEfCGvehFy59jFw" name="reserveSlot(stationID, vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_NWI2oOMWEfCGvehFy59jFw" name="cancelReservation(stationID, vehicleID)"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_MAwC8OMUEfCGvehFy59jFw" name="IFleetManager">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_Q8s_kOMUEfCGvehFy59jFw" name="startMonitoring(vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_Tl1lAOMUEfCGvehFy59jFw" name="stopMonitoring(vechicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_VmZHgOMUEfCGvehFy59jFw" name="getVehicleStatus(vechicleID)"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_iREqYOMUEfCGvehFy59jFw" name="VehicleTracking">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_y5KeAOMUEfCGvehFy59jFw" name="getCoordinates(vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_3VUgQOMUEfCGvehFy59jFw" name="calculateDistance(vehicleID, startTimestamp)"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_oU_7sOMUEfCGvehFy59jFw" name="IGeoLocation">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_oU_7seMUEfCGvehFy59jFw" name="startMonitoring(vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_oU_7suMUEfCGvehFy59jFw" name="stopMonitoring(vechicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_oU_7s-MUEfCGvehFy59jFw" name="getVehicleStatus(vechicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_tPVHsOMUEfCGvehFy59jFw" name="getCoordinates(vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_2SWnYOMUEfCGvehFy59jFw" name="calculateDistance(vehicleID, startTimestamp)"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_6_wxsOMUEfCGvehFy59jFw" name="BatteryMonitoring">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_6_wxseMUEfCGvehFy59jFw" name="getCoordinates(vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_6_wxsuMUEfCGvehFy59jFw" name="calculateDistance(vehicleID, startTimestamp)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_oRamwOMVEfCGvehFy59jFw" name="getBatteryLevel(vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_o_emoOMVEfCGvehFy59jFw" name="checkHealthStatus(vehicleID)"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_-2KbgOMUEfCGvehFy59jFw" name="IPowerSystem">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_-2KbgeMUEfCGvehFy59jFw" name="startMonitoring(vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_-2KbguMUEfCGvehFy59jFw" name="stopMonitoring(vechicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_-2Kbg-MUEfCGvehFy59jFw" name="getVehicleStatus(vechicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_-2KbhOMUEfCGvehFy59jFw" name="getCoordinates(vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_-2KbheMUEfCGvehFy59jFw" name="calculateDistance(vehicleID, startTimestamp)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_DiRlUOMVEfCGvehFy59jFw" name="getBatteryLevel(vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_F9K6cOMVEfCGvehFy59jFw" name="checkHealthStatus(vehicleID)"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_UeG0UOMVEfCGvehFy59jFw" client="_MAwC8OMUEfCGvehFy59jFw" supplier="_pKb3QOMGEfCRFJbPhVmytg"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_bFRVkOMVEfCGvehFy59jFw" name="&lt;&lt;use>>" client="_pKb3QOMGEfCRFJbPhVmytg" supplier="_-2KbgOMUEfCGvehFy59jFw"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_bzRrEOMVEfCGvehFy59jFw" name="&lt;&lt;use>>" client="_pKb3QOMGEfCRFJbPhVmytg" supplier="_oU_7sOMUEfCGvehFy59jFw"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_q9VacOMVEfCGvehFy59jFw" client="_-2KbgOMUEfCGvehFy59jFw" supplier="_6_wxsOMUEfCGvehFy59jFw"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_rh3D0OMVEfCGvehFy59jFw" client="_oU_7sOMUEfCGvehFy59jFw" supplier="_iREqYOMUEfCGvehFy59jFw"/>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_S2v_gOMWEfCGvehFy59jFw" name="IStationControl">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_S2v_geMWEfCGvehFy59jFw" name="startMonitoring(vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_S2v_guMWEfCGvehFy59jFw" name="stopMonitoring(vechicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_S2v_g-MWEfCGvehFy59jFw" name="getVehicleStatus(vechicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_S2v_hOMWEfCGvehFy59jFw" name="getCoordinates(vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_S2v_heMWEfCGvehFy59jFw" name="calculateDistance(vehicleID, startTimestamp)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_Y5T-4OMWEfCGvehFy59jFw" name="unlockVehicle(vehicleID, stationID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_aEoigOMWEfCGvehFy59jFw" name="lockVehicle(vehicleID, stationID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_a6GK4OMWEfCGvehFy59jFw" name="reserveSlot(stationID, vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_cNBLUOMWEfCGvehFy59jFw" name="cancelReservation(stationID, vehicleID)"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_iIfrQOMWEfCGvehFy59jFw" client="_S2v_gOMWEfCGvehFy59jFw" supplier="_ugKl0OMGEfCRFJbPhVmytg"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_Ng0lAOMIEfCRFJbPhVmytg" name="MySOAUtilities">
+      <packagedElement xmi:type="uml:Class" xmi:id="_rIVuYOMGEfCRFJbPhVmytg" name="PaymentProcessing">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_25NrsOMXEfCGvehFy59jFw" name="preAuthorize(cardData, amount)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_32lS4OMXEfCGvehFy59jFw" name="releaseDeposit(token)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_43CDQOMXEfCGvehFy59jFw" name="captureDeposit(token, amount)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_6WqC8OMXEfCGvehFy59jFw" name="processDirectCharge(cardData, amount)"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_jGmc0OMXEfCGvehFy59jFw" name="IPaymentGateway">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_jGmc0eMXEfCGvehFy59jFw" name="startMonitoring(vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_jGmc0uMXEfCGvehFy59jFw" name="stopMonitoring(vechicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_jGmc0-MXEfCGvehFy59jFw" name="getVehicleStatus(vechicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_jGmc1OMXEfCGvehFy59jFw" name="getCoordinates(vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_jGmc1eMXEfCGvehFy59jFw" name="calculateDistance(vehicleID, startTimestamp)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_jGmc1uMXEfCGvehFy59jFw" name="unlockVehicle(vehicleID, stationID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_jGmc1-MXEfCGvehFy59jFw" name="lockVehicle(vehicleID, stationID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_jGmc2OMXEfCGvehFy59jFw" name="reserveSlot(stationID, vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_jGmc2eMXEfCGvehFy59jFw" name="cancelReservation(stationID, vehicleID)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_nVSq0OMXEfCGvehFy59jFw" name="preAuthorize(cardData, amount)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_soMH0OMXEfCGvehFy59jFw" name="releaseDeposit(token)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_wjbOUOMXEfCGvehFy59jFw" name="captureDeposit(token, amount)"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_yw7AoOMXEfCGvehFy59jFw" name="processDirectCharge(cardData, amount)"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_-ebwoOMXEfCGvehFy59jFw" client="_jGmc0OMXEfCGvehFy59jFw" supplier="_rIVuYOMGEfCRFJbPhVmytg"/>
+    </packagedElement>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_Iv7hwOJsEfCiFqTI_QlqVA">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Xf8ZcOJsEfCiFqTI_QlqVA" source="PapyrusVersion">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Xf8ZceJsEfCiFqTI_QlqVA" key="Version" value="2.0.0"/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Xf8ZcuJsEfCiFqTI_QlqVA" key="Comment" value=""/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Xf8Zc-JsEfCiFqTI_QlqVA" key="Copyright" value=""/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Xf8ZdOJsEfCiFqTI_QlqVA" key="Date" value="2025-11-29"/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Xf8ZdeJsEfCiFqTI_QlqVA" key="Author" value=""/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Xf7LUOJsEfCiFqTI_QlqVA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="tiny.profile.uml#_BYoc0c1fEfCUUIcnJ5BZ-g"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="tiny.profile.uml#__qIfcMpEEfCzdMqoAvZnSA"/>
+    </profileApplication>
+  </uml:Model>
+  <tiny:Capability xmi:id="_i1qUgOJsEfCiFqTI_QlqVA" base_Class="_LmIS0OJsEfCiFqTI_QlqVA"/>
+  <tiny:Capability xmi:id="_pKgvwOMGEfCRFJbPhVmytg" base_Class="_pKb3QOMGEfCRFJbPhVmytg"/>
+  <tiny:Capability xmi:id="_rIXjkOMGEfCRFJbPhVmytg" base_Class="_rIVuYOMGEfCRFJbPhVmytg"/>
+  <tiny:Capability xmi:id="_ugMbAOMGEfCRFJbPhVmytg" base_Class="_ugKl0OMGEfCRFJbPhVmytg"/>
+  <tiny:ServiceInterface xmi:id="_7_850OMIEfCRFJbPhVmytg" base_Interface="_2Ck8cOMIEfCRFJbPhVmytg"/>
+  <tiny:Expose xmi:id="_igN6oOMJEfCRFJbPhVmytg" base_Dependency="_PlU98OMJEfCRFJbPhVmytg"/>
+  <tiny:ServiceInterface xmi:id="_3_gw8OMNEfCGvehFy59jFw" base_Interface="_3_dGkOMNEfCGvehFy59jFw"/>
+  <tiny:Expose xmi:id="_lTh9gOMOEfCGvehFy59jFw" base_Dependency="_jhKA8OMOEfCGvehFy59jFw"/>
+  <tiny:Capability xmi:id="_iRHtsOMUEfCGvehFy59jFw" base_Class="_iREqYOMUEfCGvehFy59jFw"/>
+  <tiny:ServiceInterface xmi:id="_n8WyMOMUEfCGvehFy59jFw" base_Interface="_MAwC8OMUEfCGvehFy59jFw"/>
+  <tiny:ServiceInterface xmi:id="_oVBw4OMUEfCGvehFy59jFw" base_Interface="_oU_7sOMUEfCGvehFy59jFw"/>
+  <tiny:Capability xmi:id="_6_zN8OMUEfCGvehFy59jFw" base_Class="_6_wxsOMUEfCGvehFy59jFw"/>
+  <tiny:ServiceInterface xmi:id="_-2OF4OMUEfCGvehFy59jFw" base_Interface="_-2KbgOMUEfCGvehFy59jFw"/>
+  <tiny:Expose xmi:id="_VhMB8OMVEfCGvehFy59jFw" base_Dependency="_UeG0UOMVEfCGvehFy59jFw"/>
+  <tiny:Expose xmi:id="_sk51MOMVEfCGvehFy59jFw" base_Dependency="_q9VacOMVEfCGvehFy59jFw"/>
+  <tiny:Expose xmi:id="_uHDkcOMVEfCGvehFy59jFw" base_Dependency="_rh3D0OMVEfCGvehFy59jFw"/>
+  <tiny:ServiceInterface xmi:id="_S2x0vOMWEfCGvehFy59jFw" base_Interface="_S2v_gOMWEfCGvehFy59jFw"/>
+  <tiny:Expose xmi:id="_i8DPIOMWEfCGvehFy59jFw" base_Dependency="_iIfrQOMWEfCGvehFy59jFw"/>
+  <tiny:ServiceInterface xmi:id="_jGo5EOMXEfCGvehFy59jFw" base_Interface="_jGmc0OMXEfCGvehFy59jFw"/>
+  <tiny:Expose xmi:id="__qn28OMXEfCGvehFy59jFw" base_Dependency="_-ebwoOMXEfCGvehFy59jFw"/>
+</xmi:XMI>

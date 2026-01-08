@@ -1,0 +1,217 @@
+C_ACMEMobility ::=
+
+    /* RAMO 1: NOLEGGIO IMMEDIATO */
+    (
+        scan: c -> a ;
+        auth_req: a -> b ;
+        (
+            /* Autorizzazione fallita */
+            ( auth_fail: b -> a ;
+              notify_auth_fail: a -> c
+            )
+            +
+            /* Autorizzazione OK */
+            ( auth_ok: b -> a ;
+              unlock_cmd: a -> s ;
+              (
+                  /* Errore sblocco stazione */
+                  ( unlock_fail: s -> a ;
+                    release_req: a -> b ;
+                    release_conf: b -> a ;
+                    notify_unlock_fail: a -> c
+                  )
+                  +
+                  /* Sblocco riuscito -> INIZIO NOLEGGIO */
+                  ( unlock_conf: s -> a ;
+                    (track_start: a -> f | notify_unlock_done: a -> c)
+
+                    /* polling iterato, poi close */
+                    ( poll: a -> f ; status: f -> a )* ;
+                    close: c -> a ;
+
+                    /* FASE DI CHIUSURA */
+                    lock_cmd: a -> s ;
+                    (
+                        ( 
+                         ( 
+                          lock_fail: s -> a ;
+                          error: a -> c ;
+                          retry_close: c -> a ;
+                          lock_cmd: a -> s
+                         )* ;
+                          lock_conf: s -> a 
+                        )
+                        +
+                         ( lock_conf: s -> a; )
+                    ) ;
+
+                    track_stop: a -> f ;
+
+                    /* Pagamento: unica richiesta */
+                    charge: a -> b ;
+                    (
+                        /* Pagamento OK: rilascio residuo cauzione + ricevuta */
+                        ( charge_ok: b -> a ;
+                          release_req: a -> b ;
+                          release_conf: b -> a ;
+                          send_receipt: a -> c
+                        )
+                        +
+                        /* Pagamento KO: la banca usa la cauzione (tutta o parte) */
+                        ( charge_fail: b -> a ;
+                          (
+                              /* Cauzione intera trattenuta */
+                              ( take_full_cau: b -> a ;
+                                (
+                                    /* Caso: cauzione = importo (nessun debito residuo) */
+                                    ( send_receipt: a -> c )
+                                    +
+                                    /* Caso: cauzione insufficiente -> debito residuo */
+                                    ( send_receipt: a -> c ;
+                                      notify_remain_debt: a -> c
+                                    )
+                                )
+                              )
+                              +
+                              /* Cauzione trattenuta parzialmente -> rilascio residuo */
+                              ( take_part_cau: b -> a ;
+                                release_req: a -> b ;
+                                release_conf: b -> a ;
+                                send_receipt: a -> c
+                              )
+                          )
+                        )
+                    )
+                  )
+              )
+            )
+        )
+    )
+
+    +
+
+    /* RAMO 2: PRENOTAZIONE BREVE */
+    (
+        book: c -> a ;
+        auth_req: a -> b ;
+        (
+            /* Autorizzazione fallita */
+            ( auth_fail: b -> a ;
+              notify_auth_fail: a -> c
+            )
+            +
+            /* Autorizzazione OK -> RISERVA VEICOLO */
+            ( auth_ok: b -> a ;
+              reserve: a -> s ;
+              reserve_conf: s -> a ;
+              notify_booked: a -> c ;
+
+              (
+                  /* SOTTO-RAMO 2.1: RITIRO VEICOLO (SCAN) */
+                  ( scan: c -> a ;
+                    unlock_cmd: a -> s ;
+                    (
+                        /* (3) Unlock FAIL: annullo prenotazione + rilascio cauzione + notifica */
+                        ( unlock_fail: s -> a ;
+                          cancel_reserve_cmd: a -> s ;
+                          cancel_reserve_conf: s -> a ;
+                          release_req: a -> b ;
+                          release_conf: b -> a ;
+                          notify_unlock_fail: a -> c
+                        )
+                        +
+                        /* Unlock OK -> noleggio come immediato */
+                        ( unlock_conf: s -> a ;
+                         (track_start: a -> f | notify_unlock_done: a -> c)
+                          
+
+                          /* (1) polling */
+                          ( poll: a -> f ; status: f -> a )* ;
+                          close: c -> a ;
+
+                          lock_cmd: a -> s ;
+                          (
+                              ( lock_fail: s -> a ;
+                                error: a -> c ;
+                                retry_close: c -> a ;
+                                lock_cmd: a -> s
+                              )* ;
+                              lock_conf: s -> a
+                          ) ;
+
+                          track_stop: a -> f ;
+			  
+			  retrieveLastStatus: f -> a;
+													
+                          charge: a -> b ;
+                          (
+                              ( charge_ok: b -> a ;
+                                release_req: a -> b ;
+                                release_conf: b -> a ;
+                                send_receipt: a -> c
+                              )
+                              +
+                              ( charge_fail: b -> a ;
+                                (
+                                    ( take_full_cau: b -> a ;
+                                      (
+                                          ( send_receipt: a -> c )
+                                          +
+                                          ( send_receipt: a -> c ;
+                                            notify_remain_debt: a -> c
+                                          )
+                                      )
+                                    )
+                                    +
+                                    ( take_part_cau: b -> a ;
+                                      release_req: a -> b ;
+                                      release_conf: b -> a ;
+                                      send_receipt: a -> c
+                                    )
+                                )
+                              )
+                          )
+                        )
+                    )
+                  )
+
+                  +
+
+                  /* SOTTO-RAMO 2.2: TIMEOUT AUTOMATICO */
+                  ( timeout_notice: a -> c ;
+                    timeout_ack: c -> a ;
+
+                    cancel_reserve_cmd: a -> s ;
+                    cancel_reserve_conf: s -> a ;
+
+                    charge_noshow: a -> b ;
+                    charge_noshow_ok: b -> a ;
+
+                    notify_penalty: a -> c
+                  )
+
+                  +
+
+                  /* (4) SOTTO-RAMO 2.3: CANCELLAZIONE VOLONTARIA */
+                  ( cancel: c -> a ;
+                    cancel_reserve_cmd: a -> s ;
+                    cancel_reserve_conf: s -> a ;
+
+                    (
+                        /* Annullamento gratuito: rilascio cauzione */
+                        ( release_req: a -> b ;
+                          release_conf: b -> a ;
+                          notify_cancel_ok: a -> c
+                        )
+                        +
+                        /* Annullamento tardivo: penale (conversione cauzione in addebito) */
+                        ( charge_late: a -> b ;
+                          charge_late_ok: b -> a ;
+                          notify_penalty: a -> c
+                        )
+                    )
+                  )
+              )
+            )
+        )
+    )
