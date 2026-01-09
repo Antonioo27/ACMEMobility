@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bank-deployment
+  labels:
+    app: bank-service
+spec:
+  replicas: 1 # Per ora una copia basta. In produzione metteresti 2 o 3.
+  selector:
+    matchLabels:
+      app: bank-service
+  template:
+    metadata:
+      labels:
+        app: bank-service
+    spec:
+      containers:
+      - name: bank-container
+        # IMPORTANTE: Se usi Minikube/Kind locale, usa l'immagine che hai buildato
+        image: acmemobility-bank:v4 
+        imagePullPolicy: Never # Usa quella locale se c'è
+        ports:
+        - containerPort: 8000
+        env:
+        # Qui in futuro potrai iniettare variabili d'ambiente
+        - name: JOLIE_ENV
+          value: "production"

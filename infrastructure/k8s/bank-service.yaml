@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bank-service # <--- QUESTO SARA' IL NOME DNS INTERNO
+spec:
+  selector:
+    app: bank-service # Deve combaciare con la label del Deployment
+  ports:
+    - protocol: TCP
+      port: 8000      # Porta esposta agli altri servizi nel cluster
+      targetPort: 8000 # Porta interna del container Jolie
+  type: ClusterIP # ClusterIP significa "raggiungibile solo dagli altri microservizi", non da fuori internet. Perfetto per la banca.
+
