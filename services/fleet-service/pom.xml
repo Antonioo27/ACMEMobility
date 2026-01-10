@@ -12,7 +12,7 @@
     <name>ACMEMobility Fleet Management</name>
 
     <modules>
-        <module>fleet-gateway</module>
+        <!--<module>fleet-gateway</module>-->
         <module>tracking-service</module>
         <module>battery-service</module>
     </modules>

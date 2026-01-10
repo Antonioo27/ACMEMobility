@@ -7,6 +7,8 @@ import it.unibo.acme.fleet.tracking.util.Geo;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import io.helidon.service.registry.Service.Inject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,10 +19,16 @@ public class TrackingCapability {
 
     private final ConcurrentHashMap<String, VehicleTrackingState> stateByVehicle = new ConcurrentHashMap<>();
 
-    private final long snapshotIntervalMs;
-    private final double publishDistanceThresholdM;
-    private final boolean publishStopped;
+    private long snapshotIntervalMs;
+    private double publishDistanceThresholdM;
+    private boolean publishStopped;
 
+
+    public TrackingCapability() {
+        // CDI proxy
+    }
+
+    @Inject
     public TrackingCapability(
             @ConfigProperty(name = "tracking.snapshot.intervalMs", defaultValue = "1000") long snapshotIntervalMs,
             @ConfigProperty(name = "tracking.snapshot.publishDistanceThresholdM", defaultValue = "10") double publishDistanceThresholdM,

@@ -5,6 +5,8 @@ import it.unibo.acme.fleet.battery.model.TelemetryMessage;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import io.helidon.service.registry.Service.Inject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,11 +16,16 @@ public class BatteryCapability {
 
     private final ConcurrentHashMap<String, VehicleBatteryState> stateByVehicle = new ConcurrentHashMap<>();
 
-    private final long snapshotIntervalMs;
-    private final int publishDeltaPct;
-    private final int lowThresholdPct;
-    private final boolean publishStopped;
+    private long snapshotIntervalMs;
+    private int publishDeltaPct;
+    private int lowThresholdPct;
+    private boolean publishStopped;
 
+    public BatteryCapability() {
+        // CDI proxy
+    }
+
+    @Inject
     public BatteryCapability(
             @ConfigProperty(name = "battery.snapshot.intervalMs", defaultValue = "1000") long snapshotIntervalMs,
             @ConfigProperty(name = "battery.snapshot.publishDeltaPct", defaultValue = "1") int publishDeltaPct,
