@@ -26,7 +26,7 @@ public class GatewayBootstrap {
 
     void onStart(@Observes @Initialized(ApplicationScoped.class) Object init) {
         LOG.info("Forcing initialization of NATS snapshot subscriber...");
-        subscriber.get(); // triggers @PostConstruct => subscribe NATS
+        subscriber.get().toString(); // triggers @PostConstruct => subscribe NATS
         LOG.info("GatewayBootstrap completed.");
     }
 }
