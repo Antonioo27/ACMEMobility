@@ -1,39 +1,33 @@
+# syntax=docker/dockerfile:1
 
-# 1st stage, build the app
-FROM container-registry.oracle.com/java/jdk-no-fee-term:21 AS build
+# 1) Build stage
+FROM maven:3.9.8-eclipse-temurin-21 AS build
+WORKDIR /app
 
-# Install maven
-WORKDIR /usr/share
-RUN set -x && \
-    curl -O https://archive.apache.org/dist/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.tar.gz && \
-    tar -xvf apache-maven-*-bin.tar.gz  && \
-    rm apache-maven-*-bin.tar.gz && \
-    mv apache-maven-* maven && \
-    ln -s /usr/share/maven/bin/mvn /bin/
+# Copia solo pom per sfruttare cache dipendenze
+COPY pom.xml ./
+RUN mvn -B -ntp -DskipTests dependency:go-offline
 
-WORKDIR /helidon
+# Copia sorgenti e build
+COPY src ./src
+RUN mvn -B -ntp -DskipTests package
 
-# Create a first layer to cache the "Maven World" in the local repository.
-# Incremental docker builds will always resume after that, unless you update
-# the pom
-ADD pom.xml .
-RUN mvn package -Dmaven.test.skip -Declipselink.weave.skip -Declipselink.weave.skip -DskipOpenApiGenerate
+# 2) Runtime stage (più leggero del full JDK)
+FROM eclipse-temurin:21-jre
+WORKDIR /app
 
-# Do the Maven build!
-# Incremental docker builds will resume here when you change sources
-ADD src src
-RUN mvn package -DskipTests
+# (consigliato) utente non-root
+RUN useradd -r -u 10001 -g root appuser
 
-RUN echo "done!"
+# Copia jar + libs (Helidon spesso produce libs/ con dipendenze)
+COPY --from=build /app/target/station-service.jar ./station-service.jar
+COPY --from=build /app/target/libs ./libs
 
-# 2nd stage, build the runtime image
-FROM container-registry.oracle.com/java/jdk-no-fee-term:21
-WORKDIR /helidon
-
-# Copy the binary built in the 1st stage
-COPY --from=build /helidon/target/station-service.jar ./
-COPY --from=build /helidon/target/libs ./libs
-
-CMD ["java", "-jar", "station-service.jar"]
+# Helidon deve ascoltare su 0.0.0.0 in container
+ENV SERVER_HOST=0.0.0.0
+ENV SERVER_PORT=8080
 
 EXPOSE 8080
+USER 10001
+
+CMD ["java", "-jar", "station-service.jar"]
