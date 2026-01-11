@@ -5,7 +5,7 @@ import it.unibo.acme.fleet.battery.model.TelemetryMessage;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import io.helidon.service.registry.Service.Inject;
+import jakarta.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -7,7 +7,7 @@ import it.unibo.acme.fleet.tracking.util.Geo;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import io.helidon.service.registry.Service.Inject;
+import jakarta.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.List;
