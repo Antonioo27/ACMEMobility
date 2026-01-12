@@ -1,0 +1,138 @@
+# ---------------------------------------------------
+# 1. NATS SERVER (Il cuore della messaggistica)
+# ---------------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleet-nats  # IMPORTANTE: Questo è il nome DNS che usano gli altri
+  labels:
+    app: fleet-nats
+spec:
+  selector:
+    app: fleet-nats
+  ports:
+  - name: client
+    port: 4222
+    targetPort: 4222
+  - name: monitor
+    port: 8222
+    targetPort: 8222
+  type: ClusterIP # Solo interno
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fleet-nats
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fleet-nats
+  template:
+    metadata:
+      labels:
+        app: fleet-nats
+    spec:
+      containers:
+      - name: nats
+        image: nats:latest
+        ports:
+        - containerPort: 4222
+        - containerPort: 8222
+
+---
+# ---------------------------------------------------
+# 2. TRACKING SERVICE (Backend)
+# ---------------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracking-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tracking-service
+  template:
+    metadata:
+      labels:
+        app: tracking-service
+    spec:
+      containers:
+      - name: tracking-service
+        # Assicurati di aver fatto: docker build -t acme/tracking-service:latest .
+        image: acme/tracking-service:latest
+        imagePullPolicy: IfNotPresent # O Never se usi Kind/Minikube senza caricare img
+        env:
+        - name: NATS_URL
+          value: "nats://fleet-nats:4222"
+
+---
+# ---------------------------------------------------
+# 3. BATTERY SERVICE (Backend)
+# ---------------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: battery-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: battery-service
+  template:
+    metadata:
+      labels:
+        app: battery-service
+    spec:
+      containers:
+      - name: battery-service
+        # Assicurati di aver fatto: docker build -t acme/battery-service:latest .
+        image: acme/battery-service:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: NATS_URL
+          value: "nats://fleet-nats:4222"
+
+---
+# ---------------------------------------------------
+# 4. FLEET GATEWAY (L'ingresso REST)
+# ---------------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fleet-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fleet-gateway
+  template:
+    metadata:
+      labels:
+        app: fleet-gateway
+    spec:
+      containers:
+      - name: fleet-gateway
+        # Assicurati di aver fatto: docker build -t acme/fleet-gateway:latest .
+        image: acme/fleet-gateway:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        env:
+        - name: NATS_URL
+          value: "nats://fleet-nats:4222"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleet-gateway-svc
+spec:
+  type: NodePort # Permette l'accesso dall'esterno del cluster
+  selector:
+    app: fleet-gateway
+  ports:
+    - protocol: TCP
+      port: 8080       # Porta interna al cluster
+      targetPort: 8080 # Porta del container Java
+      nodePort: 30080  # Porta fissa per il tuo PC (http://localhost:30080)

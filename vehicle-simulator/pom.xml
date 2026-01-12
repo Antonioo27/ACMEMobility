@@ -13,9 +13,9 @@
     <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <mainClass>it.unibo.acme.fleet.simulator.Main</mainClass>
-    <jnats.version>2.24.1</jnats.version>
-    <yasson.version>3.0.4</yasson.version>
-    <jakarta.json.bind.version>3.0.1</jakarta.json.bind.version>
+    
+    <jnats.version>2.16.14</jnats.version> <yasson.version>3.0.3</yasson.version>
+    <jakarta.json.bind.version>3.0.0</jakarta.json.bind.version>
     <jakarta.json.version>2.1.3</jakarta.json.version>
   </properties>
 
@@ -23,8 +23,7 @@
     <dependency>
       <groupId>io.nats</groupId>
       <artifactId>jnats</artifactId>
-      <version>${jnats.version}</version>
-    </dependency>
+      <version>2.16.14</version> </dependency>
 
     <dependency>
       <groupId>jakarta.json.bind</groupId>
@@ -45,9 +44,8 @@
     <dependency>
       <groupId>org.eclipse.parsson</groupId>
       <artifactId>jakarta.json</artifactId>
-      <version>1.1.7</version>
+      <version>1.1.5</version>
     </dependency>
-
 
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -61,7 +59,17 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+            <release>21</release>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.6.1</version>
         <executions>
           <execution>
             <id>copy-libs</id>
@@ -79,6 +87,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.1</version>
         <configuration>
           <archive>
             <manifest>
@@ -93,9 +102,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <useModulePath>false</useModulePath>
-        </configuration>
+        <version>3.2.5</version>
       </plugin>
     </plugins>
   </build>

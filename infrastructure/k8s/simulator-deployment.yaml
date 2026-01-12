@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vehicle-simulator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vehicle-simulator
+  template:
+    metadata:
+      labels:
+        app: vehicle-simulator
+    spec:
+      containers:
+      - name: vehicle-simulator
+        # Assicurati che il nome immagine corrisponda a quello che hai buildato
+        image: acme/vehicle-simulator:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        # QUI avviene la magia. Kubernetes imposta la var d'ambiente
+        # e il tuo SimulatorConfig.java la leggerà al posto del default.
+        - name: NATS_URL
+          value: "nats://fleet-nats:4222"
+          
+        # Puoi configurare anche gli altri parametri definiti nella tua classe!
+        - name: SIM_NUM_VEHICLES
+          value: "10"
+        - name: SIM_SPEED_MPS
+          value: "15.0"
+        - name: SIM_TICK_MS
+          value: "2000"
