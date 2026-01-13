@@ -70,21 +70,6 @@ public class InMemoryVehicleStore implements VehicleStore {
         vehicles.put(id, vehicle);
     }
 
-    @Override
-    public long countDockedAtStation(String stationId) {
-        String sid = normalize(stationId);
-        if (sid == null) return 0;
-
-        // Conta solo i veicoli che:
-        // - hanno currentStationId = stationId
-        // - e sono in stati che occupano uno slot dock (AVAILABLE o RESERVED)
-        return vehicles.values().stream()
-                .filter(v -> sid.equals(v.getCurrentStationId()))
-                .filter(v -> v.getState() == VehicleState.DOCKED_AVAILABLE
-                        || v.getState() == VehicleState.DOCKED_RESERVED)
-                .count();
-    }
-
     // ----------------- utilities (test/debug) -----------------
 
     public void clear() {

@@ -40,14 +40,6 @@ public enum DomainError {
      */
     NOT_AUTHORIZED,
 
-    // ----------------- Station constraints -----------------
-
-    /**
-     * La station non ha posti liberi per dockare (lock).
-     * In StationServiceImpl.lock() viene verificato capacity vs veicoli docked.
-     */
-    STATION_FULL,
-
     // ----------------- Vehicle constraints / state -----------------
 
     /**

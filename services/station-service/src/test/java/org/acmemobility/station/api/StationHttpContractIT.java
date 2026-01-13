@@ -53,8 +53,8 @@ class StationHttpContractIT {
         vehicleStore.clear();
         reservationStore.clear();
 
-        stationStore.upsert(new Station(STATION_S45, 10));
-        stationStore.upsert(new Station(STATION_S46, 10));
+        stationStore.upsert(new Station(STATION_S45));
+        stationStore.upsert(new Station(STATION_S46));
 
         Vehicle v = new Vehicle(VEHICLE_V123);
         v.dockAt(STATION_S45);

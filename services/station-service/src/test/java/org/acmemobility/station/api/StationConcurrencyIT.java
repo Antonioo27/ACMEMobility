@@ -65,7 +65,7 @@ class StationConcurrencyIT {
         reservationStore.clear();
 
         // Seed: stazione capiente e veicolo docked e disponibile.
-        stationStore.upsert(new Station(STATION_ID, 10));
+        stationStore.upsert(new Station(STATION_ID));
 
         Vehicle v = new Vehicle(VEHICLE_ID);
         v.dockAt(STATION_ID);

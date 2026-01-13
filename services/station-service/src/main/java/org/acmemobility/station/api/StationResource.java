@@ -9,9 +9,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.acmemobility.station.api.dto.ErrorResponse;
-import org.acmemobility.station.api.dto.LockRequest;
-import org.acmemobility.station.api.dto.UnlockRequest;
+import org.acmemobility.station.api.dto.*;
 import org.acmemobility.station.api.mapper.StationApiMapper;
 import org.acmemobility.station.domain.service.LockResult;
 import org.acmemobility.station.domain.service.StationService;
@@ -83,12 +81,9 @@ public class StationResource {
         );
 
         // Traduzione dominio -> DTO risposta.
-        Object body = mapper.toUnlockResponse(stationId, result);
+        UnlockResponse body = mapper.toUnlockResponse(stationId, result);
 
-        return Response.ok()
-                .type(MediaType.APPLICATION_JSON)
-                .entity(body)
-                .build();
+        return Response.ok(body).build();
     }
 
     /**
@@ -116,12 +111,9 @@ public class StationResource {
 
         LockResult result = stationService.lock(stationId, vehicleId, request.rentalId);
 
-        Object body = mapper.toLockResponse(stationId, result);
+        LockResponse body = mapper.toLockResponse(stationId, result);
 
-        return Response.ok()
-                .type(MediaType.APPLICATION_JSON)
-                .entity(body)
-                .build();
+        return Response.ok(body).build();
     }
 
     /**

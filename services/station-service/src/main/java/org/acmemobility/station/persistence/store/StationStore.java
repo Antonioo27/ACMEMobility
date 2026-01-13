@@ -10,13 +10,11 @@ import java.util.Optional;
  * Scopo:
  * - astrarre il layer di persistenza per le stazioni (oggi in-memory, domani DB)
  * - offrire al dominio operazioni minime:
- *   - findById: recupera la stazione per applicare vincoli (es. capacity)
+ *   - findById: recupera la stazione per applicare vincoli di coerenza (es. esistenza stazione)
  *   - upsert: inserisce o aggiorna una stazione
  *
  * Nota:
- * - le Station nel vostro modello sono oggetti semplici (id + capacity).
- * - le regole "vive" (capienza piena, ecc.) vengono applicate nel dominio (StationServiceImpl),
- *   non qui nello store.
+ * - le regole di business "vive" vengono applicate nel dominio (StationServiceImpl), non nello store.
  */
 public interface StationStore {
 

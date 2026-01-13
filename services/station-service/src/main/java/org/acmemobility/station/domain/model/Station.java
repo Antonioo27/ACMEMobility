@@ -4,25 +4,16 @@ import java.util.Objects;
 
 public class Station {
     private final String stationId;
-    private final int capacity;
 
-    public Station(String stationId, int capacity) {
+    public Station(String stationId) {
         if (stationId == null || stationId.isBlank()) {
             throw new IllegalArgumentException("stationId must not be blank");
         }
-        if (capacity <= 0) {
-            throw new IllegalArgumentException("capacity must be > 0");
-        }
         this.stationId = stationId.trim();
-        this.capacity = capacity;
     }
 
     public String getStationId() {
         return stationId;
-    }
-
-    public int getCapacity() {
-        return capacity;
     }
 
     @Override
@@ -39,6 +30,6 @@ public class Station {
 
     @Override
     public String toString() {
-        return "Station{stationId='" + stationId + "', capacity=" + capacity + "}";
+        return "Station{stationId='" + stationId + "'}";
     }
 }

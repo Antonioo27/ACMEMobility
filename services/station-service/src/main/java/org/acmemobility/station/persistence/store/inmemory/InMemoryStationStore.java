@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * - essere thread-safe a livello di accesso alla mappa (ConcurrentHashMap)
  *
  * Nota:
- * - Le Station sono oggetti piccoli e "quasi immutabili" (id/capacity), quindi qui non servono
+ * - Le Station sono oggetti piccoli e "quasi immutabili" (id), quindi qui non servono
  *   lock dedicati come per i veicoli.
  */
 @ApplicationScoped
@@ -90,10 +90,9 @@ public class InMemoryStationStore implements StationStore {
 
     private void seedDemoData() {
         // Stazioni demo "standard" usate spesso nei test/esperimenti.
-        // capacity diversa per poter testare STATION_FULL in modo controllato.
-        upsert(new Station("S45", 10));
-        upsert(new Station("S46", 4));
-        upsert(new Station("S47", 2));
+        upsert(new Station("S45"));
+        upsert(new Station("S46"));
+        upsert(new Station("S47"));
     }
 
     private static String normalize(String s) {

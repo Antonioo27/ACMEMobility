@@ -12,8 +12,6 @@ import java.util.Optional;
  * - offrire al dominio (StationServiceImpl) operazioni minime e mirate:
  *   - findById: leggere lo stato di un veicolo
  *   - upsert: creare/aggiornare un veicolo
- *   - countDockedAtStation: vincolo di capacità stazione (quanti veicoli occupano slot)
- *
  * Nota:
  * - "upsert" = insert se nuovo / update se esiste (semantica comoda per store semplici).
  */
@@ -31,13 +29,4 @@ public interface VehicleStore {
      */
     void upsert(Vehicle vehicle);
 
-    /**
-     * Conta quanti veicoli occupano uno slot dock nella stazione.
-     * Per definizione, occupano slot:
-     * - DOCKED_AVAILABLE
-     * - DOCKED_RESERVED
-     *
-     * Serve per la regola: station capacity non può essere superata in lock().
-     */
-    long countDockedAtStation(String stationId);
 }

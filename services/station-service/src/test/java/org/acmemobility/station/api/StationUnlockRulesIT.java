@@ -61,8 +61,8 @@ class StationUnlockRulesIT {
         reservationStore.clear();
 
         // Stazioni
-        stationStore.upsert(new Station(STATION_S45, 10));
-        stationStore.upsert(new Station(STATION_S46, 10));
+        stationStore.upsert(new Station(STATION_S45));
+        stationStore.upsert(new Station(STATION_S46));
 
         // Veicoli (entrambi docked in S45)
         Vehicle v123 = new Vehicle(VEHICLE_V123);

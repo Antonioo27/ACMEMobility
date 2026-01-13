@@ -85,7 +85,7 @@ class StationApiIT {
     /**
      * Seed deterministico:
      * - pulizia store
-     * - creazione di 1 station (capiente)
+     * - creazione di 1 station
      * - creazione di 1 veicolo docked e disponibile in quella station
      *
      * In questo modo ogni test parte dalla stessa "fotografia" del mondo.
@@ -98,7 +98,7 @@ class StationApiIT {
         reservationStore.clear();
 
         // Station + one vehicle docked & available.
-        stationStore.upsert(new Station(STATION_ID, 10));
+        stationStore.upsert(new Station(STATION_ID));
 
         Vehicle v = new Vehicle(VEHICLE_ID);
         v.dockAt(STATION_ID); // DOCKED_AVAILABLE + currentStationId

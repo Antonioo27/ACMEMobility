@@ -28,7 +28,7 @@ public class StationServiceImpl implements StationService {
     // Obiettivo: evitare race tra reserve/unlock/cancel/lock sullo stesso vehicleId.
     private final VehicleLockManager lockManager;
 
-    // TTL della reservation, configurabile da MicroProfile config (default 15 minuti).
+    // TTL della reservation, configurabile da MicroProfile config (default 30 minuti).
     private final long reservationTtlMinutes;
 
     @Inject
@@ -113,6 +113,11 @@ public class StationServiceImpl implements StationService {
         // Verifica esistenza stazione (fail-fast).
         requireStation(stationId);
 
+        // userId obbligatorio: serve per autorizzazione/coerenza (solo owner può cancellare).
+        if (isBlank(userId)) {
+            throw DomainException.of(DomainError.RENTAL_MISMATCH, "userId is required");
+        }
+
         // Prima lettura per validare appartenenza stationId -> reservation.
         Reservation initial = requireReservation(reservationId);
         if (!stationId.equals(initial.getStationId())) {
@@ -128,9 +133,8 @@ public class StationServiceImpl implements StationService {
                 throw DomainException.of(DomainError.RESERVATION_NOT_FOUND);
             }
 
-            // Autorizzazione (se userId è presente): solo owner può cancellare.
-            // Se userId non è passato, la decisione è: "non verifico qui".
-            if (!isBlank(userId) && !userId.equals(r.getUserId())) {
+            // Autorizzazione: solo owner può cancellare.
+            if (!userId.equals(r.getUserId())) {
                 throw DomainException.of(DomainError.NOT_AUTHORIZED);
             }
 
@@ -192,6 +196,11 @@ public class StationServiceImpl implements StationService {
             throw DomainException.of(DomainError.RENTAL_MISMATCH, "rentalId is required");
         }
 
+        // userId obbligatorio: l'API lo richiede e serve per autorizzazione/coerenza.
+        if (isBlank(userId)) {
+            throw DomainException.of(DomainError.RENTAL_MISMATCH, "userId is required");
+        }
+
         // Serializzazione per veicolo: unlock compete con reserve/cancel/lock.
         return lockManager.withVehicleLock(vehicleId, () -> {
             Vehicle v = requireVehicle(vehicleId);
@@ -240,8 +249,8 @@ public class StationServiceImpl implements StationService {
                     throw DomainException.of(DomainError.RESERVATION_MISMATCH);
                 }
 
-                // Autorizzazione (se userId presente): deve essere l'owner della reservation.
-                if (!isBlank(userId) && !userId.equals(r.getUserId())) {
+                // Autorizzazione: deve essere l'owner della reservation.
+                if (!userId.equals(r.getUserId())) {
                     throw DomainException.of(DomainError.NOT_AUTHORIZED);
                 }
 
@@ -288,8 +297,8 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public LockResult lock(String stationId, String vehicleId, String rentalId) {
-        // Verifica esistenza station (serve anche per capacità).
-        Station station = requireStation(stationId);
+        // Verifica esistenza station (coerenza e validazione dominio).
+        requireStation(stationId);
 
         if (isBlank(rentalId)) {
             throw DomainException.of(DomainError.RENTAL_MISMATCH, "rentalId is required");
@@ -322,13 +331,6 @@ public class StationServiceImpl implements StationService {
             // Deve matchare il rental attivo, altrimenti un client sta chiudendo un noleggio diverso.
             if (v.getActiveRentalId() == null || !rentalId.equals(v.getActiveRentalId())) {
                 throw DomainException.of(DomainError.RENTAL_MISMATCH);
-            }
-
-            // Verifica capacità stazione: non puoi dockare se piena.
-            long occupied = vehicleStore.countDockedAtStation(stationId);
-            int capacity = station.getCapacity();
-            if (occupied >= capacity) {
-                throw DomainException.of(DomainError.STATION_FULL);
             }
 
             // Transizione a docked disponibile nella station + pulizia rental.

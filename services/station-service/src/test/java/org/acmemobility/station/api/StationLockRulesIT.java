@@ -60,9 +60,8 @@ class StationLockRulesIT {
         vehicleStore.clear();
         reservationStore.clear();
 
-        // Stazioni (capacità "larga" di default; i test cambiano la capacity quando serve).
-        stationStore.upsert(new Station(STATION_S45, 10));
-        stationStore.upsert(new Station(STATION_S46, 10));
+        stationStore.upsert(new Station(STATION_S45));
+        stationStore.upsert(new Station(STATION_S46));
 
         // Veicolo docked in S45 (stato iniziale standard per i casi lock/unlock/reserve).
         Vehicle v123 = new Vehicle(VEHICLE_V123);
@@ -153,28 +152,6 @@ class StationLockRulesIT {
 
         ErrorResponse err = lockExpectingError(STATION_S45, VEHICLE_V123, req, 409);
         assertEquals("RENTAL_MISMATCH", err.error);
-    }
-
-    @Test
-    @DisplayName("Lock: station full -> 409 STATION_FULL (setup: capacity=1 and already occupied)")
-    void lock_when_station_full_returns_409_station_full() {
-        // Setup: capacity deve essere > 0 (vincolo del modello Station).
-        stationStore.upsert(new Station(STATION_S46, 1));
-
-        // E rendiamo S46 già piena: 1 veicolo docked lì.
-        Vehicle filler = new Vehicle("V999");
-        filler.dockAt(STATION_S46);
-        vehicleStore.upsert(filler);
-
-        // And: vehicle IN_USE (così il lock fa il check di capacità/occupancy).
-        unlockOk(STATION_S45, VEHICLE_V123, USER_1, RENTAL_R1, null);
-
-        // When: lock at S46
-        LockRequest req = new LockRequest();
-        req.rentalId = RENTAL_R1;
-
-        ErrorResponse err = lockExpectingError(STATION_S46, VEHICLE_V123, req, 409);
-        assertEquals("STATION_FULL", err.error);
     }
 
     // -------------------------------------------------------------------------
