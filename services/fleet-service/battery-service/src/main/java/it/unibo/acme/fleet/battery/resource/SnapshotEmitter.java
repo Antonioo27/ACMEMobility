@@ -42,7 +42,7 @@ public class SnapshotEmitter {
         scheduler.scheduleAtFixedRate(() -> {
             long now = System.currentTimeMillis();
             var snaps = capability.collectSnapshotsToPublish(now);
-            for (var s : snaps) {
+            for (var s : java.util.List.copyOf(snaps)) {
                 publisher.publish(s);
             }
         }, intervalMs, intervalMs, TimeUnit.MILLISECONDS);

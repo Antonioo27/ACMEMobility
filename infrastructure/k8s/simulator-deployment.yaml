@@ -15,7 +15,7 @@ spec:
       containers:
       - name: vehicle-simulator
         # Assicurati che il nome immagine corrisponda a quello che hai buildato
-        image: acme/vehicle-simulator:latest
+        image: acme/vehicle-simulator:v2
         imagePullPolicy: IfNotPresent
         env:
         # QUI avviene la magia. Kubernetes imposta la var d'ambiente

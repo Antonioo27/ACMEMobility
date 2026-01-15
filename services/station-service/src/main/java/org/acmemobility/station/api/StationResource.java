@@ -70,6 +70,10 @@ public class StationResource {
             return badRequest();
         }
 
+        if (isBlank(request.destinationStationId)) {
+             return badRequest(); // O gestisci errore specifico "DESTINATION_REQUIRED"
+        }
+
         // Logica reale: delega al dominio.
         // StationServiceImpl applica regole e aggiorna gli store.
         UnlockResult result = stationService.unlock(
@@ -77,7 +81,8 @@ public class StationResource {
                 vehicleId,
                 request.rentalId,
                 request.reservationId,
-                request.userId
+                request.userId,
+                request.destinationStationId // Passiamo la destinazione
         );
 
         // Traduzione dominio -> DTO risposta.

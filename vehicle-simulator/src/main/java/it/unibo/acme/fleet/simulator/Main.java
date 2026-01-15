@@ -2,7 +2,7 @@ package it.unibo.acme.fleet.simulator;
 
 import io.nats.client.Connection;
 import io.nats.client.Nats;
-import it.unibo.acme.fleet.simulator.stream.TelemetryStreamer;
+import it.unibo.acme.fleet.simulator.stream.FleetSimulator;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -19,7 +19,7 @@ public class Main {
         try (Connection nats = Nats.connect(cfg.natsUrl)) {
             Jsonb jsonb = JsonbBuilder.create();
 
-            TelemetryStreamer streamer = new TelemetryStreamer(cfg, nats, jsonb);
+            FleetSimulator streamer = new FleetSimulator(cfg, nats, jsonb);
             streamer.start();
 
             Thread.currentThread().join();

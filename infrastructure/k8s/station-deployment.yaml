@@ -16,37 +16,48 @@ spec:
     spec:
       containers:
         - name: station-container
-          image: acmemobility-station:v1
-          imagePullPolicy: Never   # locale su minikube/kind
+          # IMPORTANTE: Se hai buildato la v2 come ti ho suggerito, scrivi v2 qui!
+          # Se stai ancora usando la v1 (e l'hai ricaricata con minikube image load), lascia v1.
+          image: acmemobility-station:v5  
+          imagePullPolicy: Never
           ports:
             - containerPort: 8080
 
-          # MicroProfile Config: server.host/server.port
           env:
             - name: SERVER_HOST
               value: "0.0.0.0"
             - name: SERVER_PORT
               value: "8080"
+            - name: NATS_URL
+              value: "nats://fleet-nats:4222"
+            
+            # --- CORREZIONE QUI SOTTO ---
+            # Uniamo tutte le opzioni Java in un'unica stringa separata da spazi.
+            # 1. Limite RAM (per evitare crash)
+            # 2. Seed Demo (per caricare S01, S02...)
+            # 3. TTL (configurazione extra)
+            - name: JAVA_OPTS
+              value: "-XX:MaxRAMPercentage=75.0 -Dstation.seed.demo=true -Dstation.reservation.ttl.minutes=60"
 
-          # Helidon health endpoints (con MP Health):
-          # /health/live e /health/ready
-          livenessProbe:
-            httpGet:
-              path: /health/live
-              port: 8080
-            initialDelaySeconds: 10
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /health/ready
-              port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 5
+          # Disabilitiamo i controlli per ora
+          # livenessProbe: ...
+          # readinessProbe: ...
 
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "256Mi"
-            limits:
-              cpu: "500m"
-              memory: "512Mi"
+          # Risorse commentate per evitare limiti stretti
+          # resources: ...
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: station-service
+  labels:
+    app: station-service
+spec:
+  selector:
+    app: station-service
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP

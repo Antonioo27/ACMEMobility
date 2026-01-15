@@ -98,7 +98,8 @@ class StationApiIT {
         reservationStore.clear();
 
         // Station + one vehicle docked & available.
-        stationStore.upsert(new Station(STATION_ID));
+        // FIX: Aggiunte coordinate dummy (44.5, 11.3)
+        stationStore.upsert(new Station(STATION_ID, 44.5, 11.3));
 
         Vehicle v = new Vehicle(VEHICLE_ID);
         v.dockAt(STATION_ID); // DOCKED_AVAILABLE + currentStationId

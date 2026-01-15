@@ -53,8 +53,9 @@ class StationHttpContractIT {
         vehicleStore.clear();
         reservationStore.clear();
 
-        stationStore.upsert(new Station(STATION_S45));
-        stationStore.upsert(new Station(STATION_S46));
+        // FIX: Aggiunte coordinate dummy
+        stationStore.upsert(new Station(STATION_S45, 44.5, 11.3));
+        stationStore.upsert(new Station(STATION_S46, 44.6, 11.4));
 
         Vehicle v = new Vehicle(VEHICLE_V123);
         v.dockAt(STATION_S45);

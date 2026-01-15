@@ -9,6 +9,7 @@ import org.acmemobility.station.persistence.lock.VehicleLockManager;
 import org.acmemobility.station.persistence.store.ReservationStore;
 import org.acmemobility.station.persistence.store.StationStore;
 import org.acmemobility.station.persistence.store.VehicleStore;
+import org.acmemobility.station.domain.service.integration.VehicleCommandDispatcher;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.time.Instant;
@@ -31,11 +32,14 @@ public class StationServiceImpl implements StationService {
     // TTL della reservation, configurabile da MicroProfile config (default 30 minuti).
     private final long reservationTtlMinutes;
 
+    private final VehicleCommandDispatcher commandDispatcher;
+
     @Inject
     public StationServiceImpl(StationStore stationStore,
                               VehicleStore vehicleStore,
                               ReservationStore reservationStore,
                               VehicleLockManager lockManager,
+                              VehicleCommandDispatcher commandDispatcher, 
                               @ConfigProperty(name = "station.reservation.ttl.minutes", defaultValue = "30")
                               long reservationTtlMinutes) {
         this.stationStore = stationStore;
@@ -43,6 +47,7 @@ public class StationServiceImpl implements StationService {
         this.reservationStore = reservationStore;
         this.lockManager = lockManager;
         this.reservationTtlMinutes = reservationTtlMinutes;
+        this.commandDispatcher = commandDispatcher;
     }
 
     @Override
@@ -185,11 +190,16 @@ public class StationServiceImpl implements StationService {
     public UnlockResult unlock(String stationId,
                                String vehicleId,
                                String rentalId,
-                               String reservationId,
-                               String userId) {
+                               String reservationId,                               
+                               String userId,
+                               String destinationStationId) {
 
         // Verifica stazione (fail-fast).
         requireStation(stationId);
+
+        //  Validazione Destinazione
+        Station destStation = stationStore.findById(destinationStationId)
+                .orElseThrow(() -> DomainException.of(DomainError.STATION_NOT_FOUND, "Destination station not found"));
 
         // rentalId è obbligatorio: serve a legare l’operazione al noleggio specifico.
         if (isBlank(rentalId)) {
@@ -291,6 +301,14 @@ public class StationServiceImpl implements StationService {
             v.startRental(rentalId);
             vehicleStore.upsert(v);
 
+            // 2. COMUNICAZIONE AL SIMULATORE
+            // Inviamo il comando fisico al simulatore: "Sbloccati e vai alle coordinate X,Y"
+            commandDispatcher.sendUnlockCommand(
+                    vehicleId, 
+                    destStation.getLat(), 
+                    destStation.getLon()
+            );
+
             return new UnlockResult(v, consumedReservationId);
         });
     }
@@ -337,6 +355,10 @@ public class StationServiceImpl implements StationService {
             // Scelta "pulizia mentale": endRentalAndDock(...) evita setter sparsi.
             v.endRentalAndDock(stationId);
             vehicleStore.upsert(v);
+
+            // 3. COMUNICAZIONE AL SIMULATORE
+             // Inviamo il comando fisico: "Bloccati qui"
+            commandDispatcher.sendLockCommand(vehicleId);
 
             return new LockResult(v, rentalId);
         });

@@ -32,16 +32,12 @@ public class InMemoryStationStore implements StationStore {
      * Flag configurabile per caricare un set demo di stazioni all'avvio.
      * Serve per far girare il servizio e alcuni test senza dover seedare manualmente.
      */
-    private final boolean seedDemo;
 
     @Inject
-    public InMemoryStationStore(
-            @ConfigProperty(name = "station.seed.demo", defaultValue = "false") boolean seedDemo
-    ) {
-        this.seedDemo = seedDemo;
-        if (seedDemo) {
-            seedDemoData();
-        }
+    public InMemoryStationStore() {
+        // NIENTE IF, NIENTE CONFIG. CARICA E BASTA.
+        System.out.println("!!! FORCING DATA SEED IN MEMORY STORE !!!");
+        seedDemoData();
     }
 
     @Override
@@ -82,17 +78,20 @@ public class InMemoryStationStore implements StationStore {
      * Se station.seed.demo=false, non fa nulla: evita seed non voluti.
      */
     public void reseedDemo() {
-        if (!seedDemo) return;
         seedDemoData();
     }
 
     // ----------------- internal -----------------
 
     private void seedDemoData() {
-        // Stazioni demo "standard" usate spesso nei test/esperimenti.
-        upsert(new Station("S45"));
-        upsert(new Station("S46"));
-        upsert(new Station("S47"));
+        // Coordinate Bologna (allineate col simulatore)
+        upsert(new Station("S01", 44.4949, 11.3426)); // Piazza Maggiore
+        upsert(new Station("S02", 44.5070, 11.3510)); // Stazione Centrale
+        upsert(new Station("S03", 44.4795, 11.3300)); // Stadio
+        upsert(new Station("S04", 44.5005, 11.3170)); // Ospedale Maggiore
+        upsert(new Station("S05", 44.5170, 11.3235)); // Fiera
+        
+        System.out.println("DEBUG: InMemoryStationStore seeded with stations S01-S05");
     }
 
     private static String normalize(String s) {

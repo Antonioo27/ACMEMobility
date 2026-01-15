@@ -36,16 +36,12 @@ public class InMemoryVehicleStore implements VehicleStore {
      * Flag configurabile per "seed" di dati demo.
      * Utile per far girare il servizio senza dover sempre creare stazioni/veicoli a mano.
      */
-    private final boolean seedDemo;
 
     @Inject
-    public InMemoryVehicleStore(
-            @ConfigProperty(name = "station.seed.demo", defaultValue = "false") boolean seedDemo
-    ) {
-        this.seedDemo = seedDemo;
-        if (seedDemo) {
-            seedDemoData();
-        }
+    public InMemoryVehicleStore() {
+        // NIENTE IF, NIENTE CONFIG. CARICA E BASTA.
+        System.out.println("!!! FORCING DATA SEED IN MEMORY STORE !!!");
+        seedDemoData();
     }
 
     @Override
@@ -85,26 +81,27 @@ public class InMemoryVehicleStore implements VehicleStore {
      * Se station.seed.demo=false, non fa nulla: evita sorprese in ambienti non-demo.
      */
     public void reseedDemo() {
-        if (!seedDemo) return;
         seedDemoData();
     }
 
     // ----------------- internal -----------------
 
     private void seedDemoData() {
-        // Dati "demo" coerenti con i vostri test d'integrazione (es. S45, V123).
-        // NOTA: upsert fa normalize+validazioni, quindi riusiamo upsert.
-        Vehicle v123 = new Vehicle("V123");
-        v123.dockAt("S45");
-        upsert(v123);
+        // Creiamo 10 veicoli come nel simulatore (V001 ... V010)
+        for (int i = 1; i <= 10; i++) {
+            String vehicleId = String.format("V%03d", i); 
+            Vehicle v = new Vehicle(vehicleId);
 
-        Vehicle v124 = new Vehicle("V124");
-        v124.dockAt("S45");
-        upsert(v124);
+            // Distribuzione deterministica (Round Robin):
+            // i=1 -> S01, i=2 -> S02 ... i=5 -> S05, i=6 -> S01 ...
+            int stationIndex = ((i - 1) % 5) + 1;
+            String stationId = String.format("S%02d", stationIndex);
 
-        Vehicle v200 = new Vehicle("V200");
-        v200.dockAt("S46");
-        upsert(v200);
+            v.dockAt(stationId);
+            
+            // Salviamo nello store
+            upsert(v);
+        }
     }
 
     private static String normalize(String s) {

@@ -65,7 +65,8 @@ class StationConcurrencyIT {
         reservationStore.clear();
 
         // Seed: stazione capiente e veicolo docked e disponibile.
-        stationStore.upsert(new Station(STATION_ID));
+        // FIX: Aggiunte coordinate dummy
+        stationStore.upsert(new Station(STATION_ID, 44.5, 11.3));
 
         Vehicle v = new Vehicle(VEHICLE_ID);
         v.dockAt(STATION_ID);

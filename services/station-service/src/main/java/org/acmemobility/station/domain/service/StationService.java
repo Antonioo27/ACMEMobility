@@ -7,7 +7,7 @@ public interface StationService {
 
     Reservation cancelReservation(String stationId, String reservationId, String userId);
 
-    UnlockResult unlock(String stationId, String vehicleId, String rentalId, String reservationId, String userId);
+    UnlockResult unlock(String stationId, String vehicleId, String rentalId, String reservationId, String userId, String destinationStationId);
 
     LockResult lock(String stationId, String vehicleId, String rentalId);
 }
