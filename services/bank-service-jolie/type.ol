@@ -22,11 +22,19 @@ type PaymentDeclined: void {
     .originalAmount: double
 }
 
-// Tipo usato per tutte le operazioni che chiudono la transazione
-// Il token qui serve al cset per ritrovare la sessione giusta
-type TokenOperation: void {
+type ReleaseRequest: void {
     .token: string
-    .amount?: double // Opzionale: serve per capture o pagamento finale
+    .amount?: double 
+}
+
+type CaptureRequest: void {
+    .token: string
+    .amount?: double 
+}
+
+type FinalPaymentRequest: void {
+    .token: string
+    .amount?: double 
 }
 
 type BankResponse: void {

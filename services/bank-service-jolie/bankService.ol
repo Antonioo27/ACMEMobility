@@ -17,7 +17,9 @@ service BankService {
 
     cset {
         token: PreAuthResponse.token
-               TokenOperation.token
+               ReleaseRequest.token    // Aggiornato
+               CaptureRequest.token    // Aggiornato
+               FinalPaymentRequest.token // Aggiornato
     }
 
     init {
