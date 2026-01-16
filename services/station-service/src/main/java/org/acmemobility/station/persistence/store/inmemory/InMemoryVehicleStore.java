@@ -7,6 +7,9 @@ import org.acmemobility.station.domain.model.VehicleState;
 import org.acmemobility.station.persistence.store.VehicleStore;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -65,6 +68,15 @@ public class InMemoryVehicleStore implements VehicleStore {
         // qui significa "assicurati che lo store veda lo stato aggiornato".
         vehicles.put(id, vehicle);
     }
+
+    @Override
+    public List<Vehicle> findAll() {
+        // Ritorno deterministico: utile per test/contract (ordine stabile)
+        return vehicles.values().stream()
+                .sorted(Comparator.comparing(Vehicle::getVehicleId))
+                .collect(Collectors.toList());
+    }
+
 
     // ----------------- utilities (test/debug) -----------------
 

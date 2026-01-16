@@ -6,6 +6,10 @@ import org.acmemobility.station.domain.model.Station;
 import org.acmemobility.station.persistence.store.StationStore;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -62,6 +66,15 @@ public class InMemoryStationStore implements StationStore {
         // Se esisteva già, viene aggiornata; se non esisteva, viene inserita.
         stations.put(id, station);
     }
+
+    @Override
+    public List<Station> findAll() {
+        // Ritorno deterministico: utile per test/contract (ordine stabile)
+        return stations.values().stream()
+                .sorted(Comparator.comparing(Station::getStationId))
+                .collect(Collectors.toList());
+    }
+
 
     // ----------------- utilities (test/debug) -----------------
 

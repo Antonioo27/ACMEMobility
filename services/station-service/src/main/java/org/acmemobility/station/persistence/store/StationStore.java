@@ -2,6 +2,7 @@ package org.acmemobility.station.persistence.store;
 
 import org.acmemobility.station.domain.model.Station;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -29,4 +30,10 @@ public interface StationStore {
      * "Upsert" evita di distinguere tra create e update nello store in-memory.
      */
     void upsert(Station station);
+
+    /**
+     * @return lista di tutte le stazioni (ordine non garantito dallo store; nei test conviene renderlo deterministico nell'impl)
+     */
+    List<Station> findAll();
+
 }

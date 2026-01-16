@@ -2,6 +2,7 @@ package org.acmemobility.station.persistence.store;
 
 import org.acmemobility.station.domain.model.Vehicle;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,5 +29,10 @@ public interface VehicleStore {
      * Nel modello attuale il Vehicle è un oggetto mutabile: lo store conserva il reference.
      */
     void upsert(Vehicle vehicle);
+
+    /**
+     * @return lista di tutti i veicoli (ordine non garantito dallo store; nell'impl in-memory conviene ordinarli)
+     */
+    List<Vehicle> findAll();
 
 }

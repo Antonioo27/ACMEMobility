@@ -10,6 +10,10 @@ import org.acmemobility.station.domain.model.Reservation;
 import org.acmemobility.station.domain.model.Vehicle;
 import org.acmemobility.station.domain.service.LockResult;
 import org.acmemobility.station.domain.service.UnlockResult;
+import org.acmemobility.station.api.dto.StationDto;
+import org.acmemobility.station.api.dto.VehicleDto;
+import org.acmemobility.station.domain.model.Station;
+
 
 /**
  * Mapper "API layer": converte oggetti di dominio (Reservation, Vehicle, risultati del service)
@@ -136,4 +140,31 @@ public class StationApiMapper {
     public ErrorResponse error(String code) {
         return new ErrorResponse(code);
     }
+
+    public StationDto toStationDto(Station s) {
+        if (s == null) {
+            throw new IllegalArgumentException("Station is null");
+        }
+
+        StationDto dto = new StationDto();
+        dto.stationId = s.getStationId();
+        dto.lat = s.getLat();
+        dto.lon = s.getLon();
+        return dto;
+    }
+
+    public VehicleDto toVehicleDto(Vehicle v) {
+        if (v == null) {
+            throw new IllegalArgumentException("Vehicle is null");
+        }
+
+        VehicleDto dto = new VehicleDto();
+        dto.vehicleId = v.getVehicleId();
+        dto.vehicleState = (v.getState() != null) ? v.getState().name() : null;
+        dto.currentStationId = v.getCurrentStationId();        // null se IN_USE
+        dto.activeReservationId = v.getActiveReservationId();  // null se non RESERVED
+        dto.activeRentalId = v.getActiveRentalId();            // null se non IN_USE
+        return dto;
+    }
+
 }

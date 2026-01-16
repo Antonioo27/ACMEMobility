@@ -16,6 +16,9 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @ApplicationScoped
 public class StationServiceImpl implements StationService {
@@ -169,7 +172,6 @@ public class StationServiceImpl implements StationService {
             if (v.getState() == VehicleState.DOCKED_RESERVED
                     && reservationId.equals(v.getActiveReservationId())) {
 
-                // Scelta "pulizia mentale":
                 // - clearReservation() azzera i campi legati alla prenotazione
                 // - dockAt(...) ristabilisce uno stato DOCKED_AVAILABLE coerente
                 v.clearReservation();
@@ -427,6 +429,26 @@ public class StationServiceImpl implements StationService {
 
         vehicleStore.upsert(v);
     }
+
+    @Override
+    public List<Station> listStations() {
+        return stationStore.findAll();
+    }
+
+    @Override
+    public List<Vehicle> listVehicles() {
+        return vehicleStore.findAll();
+    }
+
+    @Override
+    public List<Vehicle> listVehiclesAtStation(String stationId) {
+        requireStation(stationId); // se non esiste -> DomainException(STATION_NOT_FOUND)
+
+        return vehicleStore.findAll().stream()
+                .filter(v -> stationId.equals(v.getCurrentStationId()))
+                .collect(Collectors.toList());
+    }
+
 
     // ---------- require* helpers: traduzione "not found" in DomainException ----------
 
