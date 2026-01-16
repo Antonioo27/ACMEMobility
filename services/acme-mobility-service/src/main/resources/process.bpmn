@@ -1,75 +1,217 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1veqc1s" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.41.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0">
-  <bpmn:process id="ACME_Rental_Process" isExecutable="true">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1veqc1s" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.41.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0">
+  <bpmn:process id="ACME_Rental_Process" name="ACME Rental Process" isExecutable="true">
+    
     <bpmn:startEvent id="StartEvent_RentalReq" name="Richiesta Noleggio arrivo">
-      <bpmn:extensionElements />
       <bpmn:outgoing>Flow_17ldfi3</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_17ldfi3" sourceRef="StartEvent_RentalReq" targetRef="Task_BankAuth" />
     <bpmn:serviceTask id="Task_BankAuth" name="Richiedi blocco cauzionale">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="bank-auth" retries="3" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_17ldfi3</bpmn:incoming>
-      <bpmn:outgoing>Flow_1lwuikt</bpmn:outgoing>
+      <bpmn:outgoing>Flow_02rsclq</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:boundaryEvent id="Event_1oc6f8h" name="Auth fallita" attachedToRef="Task_BankAuth">
+    <bpmn:boundaryEvent id="Event_1oc6f8h" attachedToRef="Task_BankAuth">
       <bpmn:outgoing>Flow_0mri6z8</bpmn:outgoing>
       <bpmn:errorEventDefinition id="ErrorEventDefinition_0xzln16" errorRef="Error_0y8xwvy" />
     </bpmn:boundaryEvent>
     <bpmn:endEvent id="Event_0fn9c5i" name="Noleggio rifiutato">
       <bpmn:incoming>Flow_0mri6z8</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_0mri6z8" sourceRef="Event_1oc6f8h" targetRef="Event_0fn9c5i" />
-    <bpmn:endEvent id="Event_07z82we" name="Temp: auth ok">
-      <bpmn:incoming>Flow_1lwuikt</bpmn:incoming>
+
+    <bpmn:exclusiveGateway id="Gateway_10birrb" name="Tipo Richiesta?">
+      <bpmn:incoming>Flow_02rsclq</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mo5bki</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1pucnle</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:endEvent id="Event_0rx0fub">
+      <bpmn:incoming>Flow_1pucnle</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_1lwuikt" sourceRef="Task_BankAuth" targetRef="Event_07z82we" />
+
+    <bpmn:serviceTask id="Activity_0z6s3af" name="Sblocca Veicolo">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="station-unlock" retries="3" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0mo5bki</bpmn:incoming>
+      <bpmn:outgoing>Flow_193lecp</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:boundaryEvent id="Event_0bcg1aa" attachedToRef="Activity_0z6s3af">
+      <bpmn:outgoing>Flow_0mcnqo7</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_00l3r1m" errorRef="Error_1lcrzx4" />
+    </bpmn:boundaryEvent>
+    
+    <bpmn:serviceTask id="Activity_1xjrfcd" name="Rilascia Cauzione">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="bank-release" retries="3" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0mcnqo7</bpmn:incoming>
+      <bpmn:outgoing>Flow_1pkl1ty</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0t0qayn" name="Notifica Errore Utente">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="notify-user" retries="3" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1pkl1ty</bpmn:incoming>
+      <bpmn:outgoing>Flow_0qdu0pw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_13f53s1" name="Sblocco fallito">
+      <bpmn:incoming>Flow_0qdu0pw</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:serviceTask id="Activity_StartTracking" name="Avvia Tracking (Fleet)">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="fleet-start-tracking" retries="3" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_193lecp</bpmn:incoming>
+      <bpmn:outgoing>Flow_To_Loop</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:exclusiveGateway id="Gateway_Loop_Merge">
+      <bpmn:incoming>Flow_To_Loop</bpmn:incoming>
+      <bpmn:incoming>Flow_From_Poll</bpmn:incoming>
+      <bpmn:outgoing>Flow_To_EventGateway</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    
+    <bpmn:eventBasedGateway id="Gateway_Wait_Events">
+      <bpmn:incoming>Flow_To_EventGateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_To_Timer</bpmn:outgoing>
+      <bpmn:outgoing>Flow_To_StopMsg</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+
+    <bpmn:intermediateCatchEvent id="Event_Timer_Poll" name="Ogni 10 secondi">
+      <bpmn:incoming>Flow_To_Timer</bpmn:incoming>
+      <bpmn:outgoing>Flow_To_UpdateTask</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT10S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:serviceTask id="Activity_Poll_Status" name="Aggiorna Stato (Polling)">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="fleet-update-status" retries="1" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_To_UpdateTask</bpmn:incoming>
+      <bpmn:outgoing>Flow_From_Poll</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:intermediateCatchEvent id="Event_Msg_Stop" name="Stop Noleggio Ricevuto">
+      <bpmn:incoming>Flow_To_StopMsg</bpmn:incoming>
+      <bpmn:outgoing>Flow_Stop_To_Lock</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1" messageRef="Message_StopRental" />
+    </bpmn:intermediateCatchEvent>
+
+    <bpmn:serviceTask id="Activity_LockVehicle" name="Blocca Veicolo (Station)">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="station-lock" retries="3" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Stop_To_Lock</bpmn:incoming>
+      <bpmn:outgoing>Flow_Lock_To_StopTrack</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:serviceTask id="Activity_StopTracking" name="Stop Tracking &amp; Dati Finali (Fleet)">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="fleet-stop-tracking" retries="3" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Lock_To_StopTrack</bpmn:incoming>
+      <bpmn:outgoing>Flow_StopTrack_To_Charge</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:serviceTask id="Activity_Charge" name="Pagamento Finale (Banca)">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="bank-charge" retries="1" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_StopTrack_To_Charge</bpmn:incoming>
+      <bpmn:outgoing>Flow_Charge_To_End</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:endEvent id="Event_Rental_Completed" name="Noleggio Concluso">
+      <bpmn:incoming>Flow_Charge_To_End</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_17ldfi3" sourceRef="StartEvent_RentalReq" targetRef="Task_BankAuth" />
+    <bpmn:sequenceFlow id="Flow_02rsclq" sourceRef="Task_BankAuth" targetRef="Gateway_10birrb" />
+    <bpmn:sequenceFlow id="Flow_0mri6z8" sourceRef="Event_1oc6f8h" targetRef="Event_0fn9c5i" />
+    <bpmn:sequenceFlow id="Flow_0mo5bki" name="scan" sourceRef="Gateway_10birrb" targetRef="Activity_0z6s3af">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=requestType = "SCAN"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1pucnle" name="book" sourceRef="Gateway_10birrb" targetRef="Event_0rx0fub">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=requestType = "BOOK"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_193lecp" sourceRef="Activity_0z6s3af" targetRef="Activity_StartTracking" />
+    <bpmn:sequenceFlow id="Flow_0mcnqo7" sourceRef="Event_0bcg1aa" targetRef="Activity_1xjrfcd" />
+    <bpmn:sequenceFlow id="Flow_1pkl1ty" sourceRef="Activity_1xjrfcd" targetRef="Activity_0t0qayn" />
+    <bpmn:sequenceFlow id="Flow_0qdu0pw" sourceRef="Activity_0t0qayn" targetRef="Event_13f53s1" />
+    <bpmn:sequenceFlow id="Flow_To_Loop" sourceRef="Activity_StartTracking" targetRef="Gateway_Loop_Merge" />
+    <bpmn:sequenceFlow id="Flow_To_EventGateway" sourceRef="Gateway_Loop_Merge" targetRef="Gateway_Wait_Events" />
+    <bpmn:sequenceFlow id="Flow_To_Timer" sourceRef="Gateway_Wait_Events" targetRef="Event_Timer_Poll" />
+    <bpmn:sequenceFlow id="Flow_To_UpdateTask" sourceRef="Event_Timer_Poll" targetRef="Activity_Poll_Status" />
+    <bpmn:sequenceFlow id="Flow_From_Poll" sourceRef="Activity_Poll_Status" targetRef="Gateway_Loop_Merge" />
+    <bpmn:sequenceFlow id="Flow_To_StopMsg" sourceRef="Gateway_Wait_Events" targetRef="Event_Msg_Stop" />
+    
+    <bpmn:sequenceFlow id="Flow_Stop_To_Lock" sourceRef="Event_Msg_Stop" targetRef="Activity_LockVehicle" />
+    <bpmn:sequenceFlow id="Flow_Lock_To_StopTrack" sourceRef="Activity_LockVehicle" targetRef="Activity_StopTracking" />
+    <bpmn:sequenceFlow id="Flow_StopTrack_To_Charge" sourceRef="Activity_StopTracking" targetRef="Activity_Charge" />
+    <bpmn:sequenceFlow id="Flow_Charge_To_End" sourceRef="Activity_Charge" targetRef="Event_Rental_Completed" />
+
   </bpmn:process>
+
   <bpmn:error id="Error_0y8xwvy" name="Auth Fallita" errorCode="BANK_AUTH_FAILED" />
+  <bpmn:error id="Error_1lcrzx4" name="unlock-failed" errorCode="UNLOCK_FAILED" />
+  <bpmn:message id="Message_StopRental" name="Message_StopRental">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=rentalId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ACME_Rental_Process">
-      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_RentalReq">
-        <dc:Bounds x="182" y="102" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="163" y="145" width="74" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0ubk68t_di" bpmnElement="Task_BankAuth">
-        <dc:Bounds x="330" y="80" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0fn9c5i_di" bpmnElement="Event_0fn9c5i">
-        <dc:Bounds x="472" y="222" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="449" y="265" width="83" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_07z82we_di" bpmnElement="Event_07z82we">
-        <dc:Bounds x="542" y="102" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="526" y="145" width="70" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1usx2ms_di" bpmnElement="Event_1oc6f8h">
-        <dc:Bounds x="382" y="142" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="343" y="185" width="53" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_17ldfi3_di" bpmnElement="Flow_17ldfi3">
-        <di:waypoint x="218" y="120" />
-        <di:waypoint x="330" y="120" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1lwuikt_di" bpmnElement="Flow_1lwuikt">
-        <di:waypoint x="430" y="120" />
-        <di:waypoint x="542" y="120" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0mri6z8_di" bpmnElement="Flow_0mri6z8">
-        <di:waypoint x="400" y="178" />
-        <di:waypoint x="400" y="240" />
-        <di:waypoint x="472" y="240" />
-      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_RentalReq"><dc:Bounds x="182" y="172" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ubk68t_di" bpmnElement="Task_BankAuth"><dc:Bounds x="330" y="150" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0fn9c5i_di" bpmnElement="Event_0fn9c5i"><dc:Bounds x="472" y="292" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_10birrb_di" bpmnElement="Gateway_10birrb" isMarkerVisible="true"><dc:Bounds x="545" y="165" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0rx0fub_di" bpmnElement="Event_0rx0fub"><dc:Bounds x="712" y="282" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0u6a91k_di" bpmnElement="Activity_0z6s3af"><dc:Bounds x="750" y="150" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1xjrfcd_di" bpmnElement="Activity_1xjrfcd"><dc:Bounds x="860" y="270" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0t0qayn_di" bpmnElement="Activity_0t0qayn"><dc:Bounds x="1030" y="270" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_13f53s1_di" bpmnElement="Event_13f53s1"><dc:Bounds x="1172" y="292" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_StartTracking_di" bpmnElement="Activity_StartTracking"><dc:Bounds x="920" y="150" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Loop_Merge_di" bpmnElement="Gateway_Loop_Merge" isMarkerVisible="true"><dc:Bounds x="1080" y="165" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Wait_Events_di" bpmnElement="Gateway_Wait_Events"><dc:Bounds x="1200" y="165" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Timer_Poll_di" bpmnElement="Event_Timer_Poll"><dc:Bounds x="1300" y="120" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_Poll_Status_di" bpmnElement="Activity_Poll_Status"><dc:Bounds x="1400" y="98" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Msg_Stop_di" bpmnElement="Event_Msg_Stop"><dc:Bounds x="1300" y="220" width="36" height="36" /></bpmndi:BPMNShape>
+      
+      <bpmndi:BPMNShape id="Activity_LockVehicle_di" bpmnElement="Activity_LockVehicle"><dc:Bounds x="1400" y="220" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_StopTracking_di" bpmnElement="Activity_StopTracking"><dc:Bounds x="1550" y="220" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_Charge_di" bpmnElement="Activity_Charge"><dc:Bounds x="1700" y="220" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_Rental_Completed_di" bpmnElement="Event_Rental_Completed"><dc:Bounds x="1850" y="242" width="36" height="36" /></bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Event_1usx2ms_di" bpmnElement="Event_1oc6f8h"><dc:Bounds x="382" y="212" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0yysffp_di" bpmnElement="Event_0bcg1aa"><dc:Bounds x="812" y="212" width="36" height="36" /></bpmndi:BPMNShape>
+
+      <bpmndi:BPMNEdge id="Flow_17ldfi3_di" bpmnElement="Flow_17ldfi3"><di:waypoint x="218" y="190" /><di:waypoint x="330" y="190" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02rsclq_di" bpmnElement="Flow_02rsclq"><di:waypoint x="430" y="190" /><di:waypoint x="545" y="190" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mri6z8_di" bpmnElement="Flow_0mri6z8"><di:waypoint x="400" y="248" /><di:waypoint x="400" y="310" /><di:waypoint x="472" y="310" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mo5bki_di" bpmnElement="Flow_0mo5bki"><di:waypoint x="595" y="190" /><di:waypoint x="750" y="190" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pucnle_di" bpmnElement="Flow_1pucnle"><di:waypoint x="570" y="215" /><di:waypoint x="570" y="300" /><di:waypoint x="712" y="300" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_193lecp_di" bpmnElement="Flow_193lecp"><di:waypoint x="850" y="190" /><di:waypoint x="920" y="190" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mcnqo7_di" bpmnElement="Flow_0mcnqo7"><di:waypoint x="830" y="248" /><di:waypoint x="830" y="310" /><di:waypoint x="860" y="310" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pkl1ty_di" bpmnElement="Flow_1pkl1ty"><di:waypoint x="960" y="310" /><di:waypoint x="1030" y="310" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qdu0pw_di" bpmnElement="Flow_0qdu0pw"><di:waypoint x="1130" y="310" /><di:waypoint x="1172" y="310" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_To_Loop_di" bpmnElement="Flow_To_Loop"><di:waypoint x="1020" y="190" /><di:waypoint x="1080" y="190" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_To_EventGateway_di" bpmnElement="Flow_To_EventGateway"><di:waypoint x="1130" y="190" /><di:waypoint x="1200" y="190" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_To_Timer_di" bpmnElement="Flow_To_Timer"><di:waypoint x="1225" y="165" /><di:waypoint x="1225" y="138" /><di:waypoint x="1300" y="138" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_To_UpdateTask_di" bpmnElement="Flow_To_UpdateTask"><di:waypoint x="1336" y="138" /><di:waypoint x="1400" y="138" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_From_Poll_di" bpmnElement="Flow_From_Poll"><di:waypoint x="1450" y="98" /><di:waypoint x="1450" y="80" /><di:waypoint x="1105" y="80" /><di:waypoint x="1105" y="165" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_To_StopMsg_di" bpmnElement="Flow_To_StopMsg"><di:waypoint x="1225" y="215" /><di:waypoint x="1225" y="238" /><di:waypoint x="1300" y="238" /></bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_Stop_To_Lock_di" bpmnElement="Flow_Stop_To_Lock"><di:waypoint x="1336" y="238" /><di:waypoint x="1400" y="238" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Lock_To_StopTrack_di" bpmnElement="Flow_Lock_To_StopTrack"><di:waypoint x="1500" y="260" /><di:waypoint x="1550" y="260" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_StopTrack_To_Charge_di" bpmnElement="Flow_StopTrack_To_Charge"><di:waypoint x="1650" y="260" /><di:waypoint x="1700" y="260" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Charge_To_End_di" bpmnElement="Flow_Charge_To_End"><di:waypoint x="1800" y="260" /><di:waypoint x="1850" y="260" /></bpmndi:BPMNEdge>
+
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

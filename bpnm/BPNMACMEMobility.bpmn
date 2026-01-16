@@ -50,186 +50,155 @@
     <bpmn:messageFlow id="Flow_1175ch5" sourceRef="Event_14v5p9e" targetRef="Event_08lncb5" />
   </bpmn:collaboration>
   <bpmn:process id="Process_1v3khep" isExecutable="false">
-    <bpmn:task id="Activity_0thlg7q" name="Create security block">
-      <bpmn:incoming>Flow_0szv0qo</bpmn:incoming>
-      <bpmn:outgoing>Flow_1s33wli</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:endEvent id="Event_1ugaqv2">
-      <bpmn:incoming>Flow_19amd2r</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:sendTask id="Activity_1x82rbl" name="Send message of failure">
-      <bpmn:incoming>Flow_0fbu8gs</bpmn:incoming>
-      <bpmn:outgoing>Flow_19amd2r</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:task id="Activity_17wkid8" name="Release security block">
-      <bpmn:incoming>Flow_15tv3k1</bpmn:incoming>
-      <bpmn:outgoing>Flow_1tsiiyd</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:endEvent id="Event_1193ed9">
-      <bpmn:incoming>Flow_1gkjqvg</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:endEvent id="Event_0czs5n3">
-      <bpmn:incoming>Flow_1m0f7vw</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:intermediateThrowEvent id="Event_1dgpeyx" name="Send confirmation message">
-      <bpmn:incoming>Flow_1tsiiyd</bpmn:incoming>
-      <bpmn:outgoing>Flow_1gkjqvg</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0j3b1t8" />
-    </bpmn:intermediateThrowEvent>
-    <bpmn:sendTask id="Activity_04e66mj" name="Send message of failure">
-      <bpmn:incoming>Flow_05hgz5d</bpmn:incoming>
-      <bpmn:outgoing>Flow_1m0f7vw</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:task id="Activity_10gem4z" name="Process final transaction">
-      <bpmn:incoming>Flow_1vxn301</bpmn:incoming>
-      <bpmn:outgoing>Flow_1qs3zq4</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:endEvent id="Event_1ktu7nt" name="Send confirmation message">
-      <bpmn:incoming>Flow_1qs3zq4</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0ukm7gt" />
-    </bpmn:endEvent>
-    <bpmn:endEvent id="Event_0pvpcnm" name="Send error message">
-      <bpmn:incoming>Flow_1r4ogty</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1g2kh9k" />
-    </bpmn:endEvent>
-    <bpmn:task id="Activity_0etas47" name="Convert block to charge">
-      <bpmn:incoming>Flow_0rwiyrf</bpmn:incoming>
-      <bpmn:outgoing>Flow_0y9oxvo</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:sendTask id="Activity_0boeam7" name="Send operation outcome">
-      <bpmn:incoming>Flow_0y9oxvo</bpmn:incoming>
-      <bpmn:outgoing>Flow_0qyku7o</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:endEvent id="Event_0i72t4t">
-      <bpmn:incoming>Flow_0qyku7o</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:endEvent id="Event_125pm6h" name="Send confirmation message">
-      <bpmn:incoming>Flow_1s33wli</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1xigu5i" />
-    </bpmn:endEvent>
-    <bpmn:boundaryEvent id="Event_0v6ts54" attachedToRef="Activity_10gem4z">
-      <bpmn:outgoing>Flow_1r4ogty</bpmn:outgoing>
-      <bpmn:errorEventDefinition id="ErrorEventDefinition_1jfna1r" />
-    </bpmn:boundaryEvent>
-    <bpmn:boundaryEvent id="Event_0lnayqb" attachedToRef="Activity_17wkid8">
-      <bpmn:outgoing>Flow_05hgz5d</bpmn:outgoing>
-      <bpmn:errorEventDefinition id="ErrorEventDefinition_18tsck4" />
-    </bpmn:boundaryEvent>
-    <bpmn:boundaryEvent id="Event_1twz0us" attachedToRef="Activity_0thlg7q">
-      <bpmn:outgoing>Flow_0fbu8gs</bpmn:outgoing>
-      <bpmn:errorEventDefinition id="ErrorEventDefinition_06erkqt" />
-    </bpmn:boundaryEvent>
-    <bpmn:sequenceFlow id="Flow_0szv0qo" sourceRef="Event_0un1iza" targetRef="Activity_0thlg7q" />
-    <bpmn:sequenceFlow id="Flow_1s33wli" sourceRef="Activity_0thlg7q" targetRef="Event_125pm6h" />
-    <bpmn:sequenceFlow id="Flow_19amd2r" sourceRef="Activity_1x82rbl" targetRef="Event_1ugaqv2" />
-    <bpmn:sequenceFlow id="Flow_0fbu8gs" sourceRef="Event_1twz0us" targetRef="Activity_1x82rbl" />
-    <bpmn:sequenceFlow id="Flow_15tv3k1" sourceRef="Event_1l2bp0h" targetRef="Activity_17wkid8" />
-    <bpmn:sequenceFlow id="Flow_1tsiiyd" sourceRef="Activity_17wkid8" targetRef="Event_1dgpeyx" />
-    <bpmn:sequenceFlow id="Flow_1gkjqvg" sourceRef="Event_1dgpeyx" targetRef="Event_1193ed9" />
-    <bpmn:sequenceFlow id="Flow_1m0f7vw" sourceRef="Activity_04e66mj" targetRef="Event_0czs5n3" />
-    <bpmn:sequenceFlow id="Flow_05hgz5d" sourceRef="Event_0lnayqb" targetRef="Activity_04e66mj" />
-    <bpmn:sequenceFlow id="Flow_1vxn301" sourceRef="Event_0f2jlq8" targetRef="Activity_10gem4z" />
-    <bpmn:sequenceFlow id="Flow_1qs3zq4" sourceRef="Activity_10gem4z" targetRef="Event_1ktu7nt" />
-    <bpmn:sequenceFlow id="Flow_1r4ogty" sourceRef="Event_0v6ts54" targetRef="Event_0pvpcnm" />
-    <bpmn:sequenceFlow id="Flow_0rwiyrf" sourceRef="Event_0ejid1j" targetRef="Activity_0etas47" />
-    <bpmn:sequenceFlow id="Flow_0y9oxvo" sourceRef="Activity_0etas47" targetRef="Activity_0boeam7" />
-    <bpmn:sequenceFlow id="Flow_0qyku7o" sourceRef="Activity_0boeam7" targetRef="Event_0i72t4t" />
-    <bpmn:startEvent id="Event_1l2bp0h" name="Release request arrived">
-      <bpmn:outgoing>Flow_15tv3k1</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0x1uacp" />
-    </bpmn:startEvent>
     <bpmn:startEvent id="Event_0un1iza" name="Auth request arrived">
       <bpmn:outgoing>Flow_0szv0qo</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1jpjpnm" />
-    </bpmn:startEvent>
-    <bpmn:startEvent id="Event_0f2jlq8" name="Request charge received">
-      <bpmn:outgoing>Flow_1vxn301</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_180ta90" />
     </bpmn:startEvent>
     <bpmn:startEvent id="Event_0ejid1j" name="Capture request received">
       <bpmn:outgoing>Flow_0rwiyrf</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_0hfrngv" />
     </bpmn:startEvent>
+    <bpmn:task id="Activity_0etas47" name="Convert block to charge">
+      <bpmn:incoming>Flow_0rwiyrf</bpmn:incoming>
+      <bpmn:outgoing>Flow_0y9oxvo</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Activity_0thlg7q" name="Create security block">
+      <bpmn:incoming>Flow_0szv0qo</bpmn:incoming>
+      <bpmn:outgoing>Flow_1s33wli</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="Event_0czs5n3">
+      <bpmn:incoming>Flow_1m0f7vw</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_0i72t4t">
+      <bpmn:incoming>Flow_0qyku7o</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="Event_0lnayqb" attachedToRef="Activity_17wkid8">
+      <bpmn:outgoing>Flow_05hgz5d</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_18tsck4" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="Event_0v6ts54" attachedToRef="Activity_10gem4z">
+      <bpmn:outgoing>Flow_1r4ogty</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1jfna1r" />
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="Event_1193ed9">
+      <bpmn:incoming>Flow_1gkjqvg</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="Event_1twz0us" attachedToRef="Activity_0thlg7q">
+      <bpmn:outgoing>Flow_0fbu8gs</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_06erkqt" />
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="Event_1ugaqv2">
+      <bpmn:incoming>Flow_19amd2r</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_05hgz5d" sourceRef="Event_0lnayqb" targetRef="Activity_04e66mj" />
+    <bpmn:sequenceFlow id="Flow_0fbu8gs" sourceRef="Event_1twz0us" targetRef="Activity_1x82rbl" />
+    <bpmn:sequenceFlow id="Flow_0qyku7o" sourceRef="Activity_0boeam7" targetRef="Event_0i72t4t" />
+    <bpmn:sequenceFlow id="Flow_0rwiyrf" sourceRef="Event_0ejid1j" targetRef="Activity_0etas47" />
+    <bpmn:sequenceFlow id="Flow_0szv0qo" sourceRef="Event_0un1iza" targetRef="Activity_0thlg7q" />
+    <bpmn:sequenceFlow id="Flow_0y9oxvo" sourceRef="Activity_0etas47" targetRef="Activity_0boeam7" />
+    <bpmn:sequenceFlow id="Flow_15tv3k1" sourceRef="Event_1l2bp0h" targetRef="Activity_17wkid8" />
+    <bpmn:sequenceFlow id="Flow_19amd2r" sourceRef="Activity_1x82rbl" targetRef="Event_1ugaqv2" />
+    <bpmn:sequenceFlow id="Flow_1gkjqvg" sourceRef="Event_1dgpeyx" targetRef="Event_1193ed9" />
+    <bpmn:sequenceFlow id="Flow_1m0f7vw" sourceRef="Activity_04e66mj" targetRef="Event_0czs5n3" />
+    <bpmn:sequenceFlow id="Flow_1qs3zq4" sourceRef="Activity_10gem4z" targetRef="Event_1ktu7nt" />
+    <bpmn:sequenceFlow id="Flow_1r4ogty" sourceRef="Event_0v6ts54" targetRef="Event_0pvpcnm" />
+    <bpmn:sequenceFlow id="Flow_1s33wli" sourceRef="Activity_0thlg7q" targetRef="Event_125pm6h" />
+    <bpmn:sequenceFlow id="Flow_1tsiiyd" sourceRef="Activity_17wkid8" targetRef="Event_1dgpeyx" />
+    <bpmn:sequenceFlow id="Flow_1vxn301" sourceRef="Event_0f2jlq8" targetRef="Activity_10gem4z" />
+    <bpmn:task id="Activity_10gem4z" name="Process final transaction">
+      <bpmn:incoming>Flow_1vxn301</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qs3zq4</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:startEvent id="Event_1l2bp0h" name="Release request arrived">
+      <bpmn:outgoing>Flow_15tv3k1</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0x1uacp" />
+    </bpmn:startEvent>
+    <bpmn:task id="Activity_17wkid8" name="Release security block">
+      <bpmn:incoming>Flow_15tv3k1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1tsiiyd</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:startEvent id="Event_0f2jlq8" name="Request charge received">
+      <bpmn:outgoing>Flow_1vxn301</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_180ta90" />
+    </bpmn:startEvent>
+    <bpmn:intermediateThrowEvent id="Event_1dgpeyx" name="Send confirmation message">
+      <bpmn:incoming>Flow_1tsiiyd</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gkjqvg</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0j3b1t8" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:endEvent id="Event_1ktu7nt" name="Send confirmation message">
+      <bpmn:incoming>Flow_1qs3zq4</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0ukm7gt" />
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_125pm6h" name="Send confirmation message">
+      <bpmn:incoming>Flow_1s33wli</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1xigu5i" />
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_0pvpcnm" name="Send error message">
+      <bpmn:incoming>Flow_1r4ogty</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1g2kh9k" />
+    </bpmn:endEvent>
+    <bpmn:sendTask id="Activity_1x82rbl" name="Send message of failure">
+      <bpmn:incoming>Flow_0fbu8gs</bpmn:incoming>
+      <bpmn:outgoing>Flow_19amd2r</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="Activity_04e66mj" name="Send message of failure">
+      <bpmn:incoming>Flow_05hgz5d</bpmn:incoming>
+      <bpmn:outgoing>Flow_1m0f7vw</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="Activity_0boeam7" name="Send operation outcome">
+      <bpmn:incoming>Flow_0y9oxvo</bpmn:incoming>
+      <bpmn:outgoing>Flow_0qyku7o</bpmn:outgoing>
+    </bpmn:sendTask>
   </bpmn:process>
   <bpmn:process id="Process_072z644" isExecutable="false">
-    <bpmn:sequenceFlow id="Flow_026d68f" sourceRef="Activity_0c1ac9s" targetRef="Event_1i49erh" />
-    <bpmn:sequenceFlow id="Flow_14jjlz5" sourceRef="Event_1d7xtsw" targetRef="Activity_0c1ac9s" />
-    <bpmn:sequenceFlow id="Flow_1fehlhb" sourceRef="Activity_1j3y09u" targetRef="Event_0lo94v1" />
-    <bpmn:sequenceFlow id="Flow_1tphtxd" sourceRef="Activity_0dxk5he" targetRef="Activity_1j3y09u" />
-    <bpmn:sequenceFlow id="Flow_13iqqhy" sourceRef="Event_1c7txm0" targetRef="Activity_0dxk5he" />
-    <bpmn:sequenceFlow id="Flow_159pjnh" sourceRef="Activity_0f7e1p3" targetRef="Event_0om8wp3" />
-    <bpmn:sequenceFlow id="Flow_0vqyuzt" sourceRef="Event_1vmfsdn" targetRef="Activity_0f7e1p3" />
-    <bpmn:sequenceFlow id="Flow_087y8f1" sourceRef="Event_0mn3llo" targetRef="Activity_1qhx1rb" />
-    <bpmn:sequenceFlow id="Flow_1ke1fba" sourceRef="Activity_1qhx1rb" targetRef="Event_0aowk86" />
-    <bpmn:sequenceFlow id="Flow_0m43ddt" sourceRef="Event_0nal59h" targetRef="Event_1kt0wvh" />
-    <bpmn:sequenceFlow id="Flow_0l3bdle" sourceRef="Activity_05ghvrx" targetRef="Event_0nal59h" />
-    <bpmn:sequenceFlow id="Flow_0li39ar" sourceRef="Event_1x96pm9" targetRef="Activity_05ghvrx" />
-    <bpmn:sequenceFlow id="Flow_0nwmfsc" sourceRef="Event_1rwa4re" targetRef="Activity_09d0vat" />
-    <bpmn:sequenceFlow id="Flow_1vdj4z4" sourceRef="Activity_09d0vat" targetRef="Event_032wcht" />
-    <bpmn:sequenceFlow id="Flow_0zl3263" sourceRef="Event_0bozu7p" targetRef="Event_1capf1w" />
-    <bpmn:sequenceFlow id="Flow_1mx1h7e" sourceRef="Activity_1aa641l" targetRef="Event_0bozu7p" />
-    <bpmn:sequenceFlow id="Flow_14f2s5j" sourceRef="Event_043aneq" targetRef="Activity_1aa641l" />
-    <bpmn:boundaryEvent id="Event_1d7xtsw" attachedToRef="Activity_0f7e1p3">
-      <bpmn:outgoing>Flow_14jjlz5</bpmn:outgoing>
-      <bpmn:errorEventDefinition id="ErrorEventDefinition_15uzg94" />
-    </bpmn:boundaryEvent>
-    <bpmn:boundaryEvent id="Event_0mn3llo" attachedToRef="Activity_05ghvrx">
-      <bpmn:outgoing>Flow_087y8f1</bpmn:outgoing>
-      <bpmn:errorEventDefinition id="ErrorEventDefinition_1pmy26h" />
-    </bpmn:boundaryEvent>
-    <bpmn:boundaryEvent id="Event_1rwa4re" attachedToRef="Activity_1aa641l">
-      <bpmn:outgoing>Flow_0nwmfsc</bpmn:outgoing>
-      <bpmn:errorEventDefinition id="ErrorEventDefinition_1omlwio" />
-    </bpmn:boundaryEvent>
-    <bpmn:endEvent id="Event_1i49erh">
-      <bpmn:incoming>Flow_026d68f</bpmn:incoming>
+    <bpmn:endEvent id="Event_032wcht">
+      <bpmn:incoming>Flow_1vdj4z4</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sendTask id="Activity_0c1ac9s" name="Send reservation failure">
-      <bpmn:incoming>Flow_14jjlz5</bpmn:incoming>
-      <bpmn:outgoing>Flow_026d68f</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:endEvent id="Event_0om8wp3" name="Send confirmation message">
-      <bpmn:incoming>Flow_159pjnh</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0puz6ty" />
+    <bpmn:endEvent id="Event_0aowk86">
+      <bpmn:incoming>Flow_1ke1fba</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:endEvent id="Event_0lo94v1">
       <bpmn:incoming>Flow_1fehlhb</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sendTask id="Activity_1j3y09u" name="Send unreservation outcome">
-      <bpmn:incoming>Flow_1tphtxd</bpmn:incoming>
-      <bpmn:outgoing>Flow_1fehlhb</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:task id="Activity_0dxk5he" name="Unreserve vehicle">
-      <bpmn:incoming>Flow_13iqqhy</bpmn:incoming>
-      <bpmn:outgoing>Flow_1tphtxd</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:startEvent id="Event_1c7txm0" name="Uneservation  received">
-      <bpmn:outgoing>Flow_13iqqhy</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1c2gflp" />
-    </bpmn:startEvent>
-    <bpmn:task id="Activity_0f7e1p3" name="Reserve vehicle">
-      <bpmn:incoming>Flow_0vqyuzt</bpmn:incoming>
-      <bpmn:outgoing>Flow_159pjnh</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:startEvent id="Event_1vmfsdn" name="Reservation vehicle received">
-      <bpmn:outgoing>Flow_0vqyuzt</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0x7gkxr" />
-    </bpmn:startEvent>
-    <bpmn:sendTask id="Activity_1qhx1rb" name="Send message of failure">
-      <bpmn:incoming>Flow_087y8f1</bpmn:incoming>
-      <bpmn:outgoing>Flow_1ke1fba</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:intermediateThrowEvent id="Event_0nal59h" name="Send confirmation message">
-      <bpmn:incoming>Flow_0l3bdle</bpmn:incoming>
-      <bpmn:outgoing>Flow_0m43ddt</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0jkzaaw" />
-    </bpmn:intermediateThrowEvent>
-    <bpmn:endEvent id="Event_0aowk86">
-      <bpmn:incoming>Flow_1ke1fba</bpmn:incoming>
+    <bpmn:boundaryEvent id="Event_0mn3llo" attachedToRef="Activity_05ghvrx">
+      <bpmn:outgoing>Flow_087y8f1</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1pmy26h" />
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="Event_1capf1w">
+      <bpmn:incoming>Flow_0zl3263</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="Event_1d7xtsw" attachedToRef="Activity_0f7e1p3">
+      <bpmn:outgoing>Flow_14jjlz5</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_15uzg94" />
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="Event_1i49erh">
+      <bpmn:incoming>Flow_026d68f</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:endEvent id="Event_1kt0wvh">
       <bpmn:incoming>Flow_0m43ddt</bpmn:incoming>
     </bpmn:endEvent>
+    <bpmn:boundaryEvent id="Event_1rwa4re" attachedToRef="Activity_1aa641l">
+      <bpmn:outgoing>Flow_0nwmfsc</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1omlwio" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_026d68f" sourceRef="Activity_0c1ac9s" targetRef="Event_1i49erh" />
+    <bpmn:sequenceFlow id="Flow_087y8f1" sourceRef="Event_0mn3llo" targetRef="Activity_1qhx1rb" />
+    <bpmn:sequenceFlow id="Flow_0l3bdle" sourceRef="Activity_05ghvrx" targetRef="Event_0nal59h" />
+    <bpmn:sequenceFlow id="Flow_0li39ar" sourceRef="Event_1x96pm9" targetRef="Activity_05ghvrx" />
+    <bpmn:sequenceFlow id="Flow_0m43ddt" sourceRef="Event_0nal59h" targetRef="Event_1kt0wvh" />
+    <bpmn:sequenceFlow id="Flow_0nwmfsc" sourceRef="Event_1rwa4re" targetRef="Activity_09d0vat" />
+    <bpmn:sequenceFlow id="Flow_0vqyuzt" sourceRef="Event_1vmfsdn" targetRef="Activity_0f7e1p3" />
+    <bpmn:sequenceFlow id="Flow_0zl3263" sourceRef="Event_0bozu7p" targetRef="Event_1capf1w" />
+    <bpmn:sequenceFlow id="Flow_13iqqhy" sourceRef="Event_1c7txm0" targetRef="Activity_0dxk5he" />
+    <bpmn:sequenceFlow id="Flow_14f2s5j" sourceRef="Event_043aneq" targetRef="Activity_1aa641l" />
+    <bpmn:sequenceFlow id="Flow_14jjlz5" sourceRef="Event_1d7xtsw" targetRef="Activity_0c1ac9s" />
+    <bpmn:sequenceFlow id="Flow_159pjnh" sourceRef="Activity_0f7e1p3" targetRef="Event_0om8wp3" />
+    <bpmn:sequenceFlow id="Flow_1fehlhb" sourceRef="Activity_1j3y09u" targetRef="Event_0lo94v1" />
+    <bpmn:sequenceFlow id="Flow_1ke1fba" sourceRef="Activity_1qhx1rb" targetRef="Event_0aowk86" />
+    <bpmn:sequenceFlow id="Flow_1mx1h7e" sourceRef="Activity_1aa641l" targetRef="Event_0bozu7p" />
+    <bpmn:sequenceFlow id="Flow_1tphtxd" sourceRef="Activity_0dxk5he" targetRef="Activity_1j3y09u" />
+    <bpmn:sequenceFlow id="Flow_1vdj4z4" sourceRef="Activity_09d0vat" targetRef="Event_032wcht" />
     <bpmn:task id="Activity_05ghvrx" name="Lock vehicle">
       <bpmn:incoming>Flow_0li39ar</bpmn:incoming>
       <bpmn:outgoing>Flow_0l3bdle</bpmn:outgoing>
@@ -238,21 +207,48 @@
       <bpmn:outgoing>Flow_0li39ar</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_0q0435s" />
     </bpmn:startEvent>
-    <bpmn:sendTask id="Activity_09d0vat" name="Send message of failure">
-      <bpmn:incoming>Flow_0nwmfsc</bpmn:incoming>
-      <bpmn:outgoing>Flow_1vdj4z4</bpmn:outgoing>
-    </bpmn:sendTask>
+    <bpmn:startEvent id="Event_1vmfsdn" name="Reservation vehicle received">
+      <bpmn:outgoing>Flow_0vqyuzt</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0x7gkxr" />
+    </bpmn:startEvent>
+    <bpmn:task id="Activity_0f7e1p3" name="Reserve vehicle">
+      <bpmn:incoming>Flow_0vqyuzt</bpmn:incoming>
+      <bpmn:outgoing>Flow_159pjnh</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="Event_0om8wp3" name="Send confirmation message">
+      <bpmn:incoming>Flow_159pjnh</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0puz6ty" />
+    </bpmn:endEvent>
+    <bpmn:intermediateThrowEvent id="Event_0nal59h" name="Send confirmation message">
+      <bpmn:incoming>Flow_0l3bdle</bpmn:incoming>
+      <bpmn:outgoing>Flow_0m43ddt</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0jkzaaw" />
+    </bpmn:intermediateThrowEvent>
     <bpmn:intermediateThrowEvent id="Event_0bozu7p" name="Send confirmation message">
       <bpmn:incoming>Flow_1mx1h7e</bpmn:incoming>
       <bpmn:outgoing>Flow_0zl3263</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_14tdn4s" />
     </bpmn:intermediateThrowEvent>
-    <bpmn:endEvent id="Event_032wcht">
-      <bpmn:incoming>Flow_1vdj4z4</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:endEvent id="Event_1capf1w">
-      <bpmn:incoming>Flow_0zl3263</bpmn:incoming>
-    </bpmn:endEvent>
+    <bpmn:sendTask id="Activity_1qhx1rb" name="Send message of failure">
+      <bpmn:incoming>Flow_087y8f1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ke1fba</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="Activity_09d0vat" name="Send message of failure">
+      <bpmn:incoming>Flow_0nwmfsc</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vdj4z4</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="Activity_0c1ac9s" name="Send reservation failure">
+      <bpmn:incoming>Flow_14jjlz5</bpmn:incoming>
+      <bpmn:outgoing>Flow_026d68f</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="Activity_1j3y09u" name="Send unreservation outcome">
+      <bpmn:incoming>Flow_1tphtxd</bpmn:incoming>
+      <bpmn:outgoing>Flow_1fehlhb</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:startEvent id="Event_1c7txm0" name="Uneservation  received">
+      <bpmn:outgoing>Flow_13iqqhy</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1c2gflp" />
+    </bpmn:startEvent>
     <bpmn:startEvent id="Event_043aneq" name="Unlock command received">
       <bpmn:outgoing>Flow_14f2s5j</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_0gaijdo" />
@@ -261,206 +257,222 @@
       <bpmn:incoming>Flow_14f2s5j</bpmn:incoming>
       <bpmn:outgoing>Flow_1mx1h7e</bpmn:outgoing>
     </bpmn:task>
+    <bpmn:task id="Activity_0dxk5he" name="Unreserve vehicle">
+      <bpmn:incoming>Flow_13iqqhy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1tphtxd</bpmn:outgoing>
+    </bpmn:task>
   </bpmn:process>
   <bpmn:process id="Process_1i9npux" isExecutable="false">
-    <bpmn:startEvent id="Event_16o9thl" name="Rental intention arrived">
-      <bpmn:outgoing>Flow_014rl7x</bpmn:outgoing>
-    </bpmn:startEvent>
-    <bpmn:sendTask id="Activity_1pla4uy" name="ScanQR or book">
-      <bpmn:incoming>Flow_014rl7x</bpmn:incoming>
-      <bpmn:outgoing>Flow_0sjft71</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:endEvent id="Event_1go9psn" name="Rental finished">
-      <bpmn:incoming>Flow_1mixtbl</bpmn:incoming>
-      <bpmn:incoming>Flow_1xy2ntg</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:intermediateCatchEvent id="Event_1a9f57a" name="Receipt received">
-      <bpmn:incoming>Flow_0ano61j</bpmn:incoming>
-      <bpmn:outgoing>Flow_1xy2ntg</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0aad8is" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:intermediateCatchEvent id="Event_1sararl" name="Payment issue notification">
-      <bpmn:incoming>Flow_1e72ysf</bpmn:incoming>
-      <bpmn:outgoing>Flow_1mixtbl</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0w834bw" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:eventBasedGateway id="Gateway_0rudd6v">
-      <bpmn:incoming>Flow_0it05t0</bpmn:incoming>
-      <bpmn:outgoing>Flow_1e72ysf</bpmn:outgoing>
-      <bpmn:outgoing>Flow_0ano61j</bpmn:outgoing>
-    </bpmn:eventBasedGateway>
-    <bpmn:intermediateCatchEvent id="Event_0ahf3or" name="Close confirmation arrived">
-      <bpmn:incoming>Flow_1ej23lh</bpmn:incoming>
-      <bpmn:outgoing>Flow_040qoki</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0z9ffvo" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:sendTask id="Activity_0nz9v98" name="Send retry close">
-      <bpmn:incoming>Flow_017qqkv</bpmn:incoming>
-      <bpmn:outgoing>Flow_09ptvvl</bpmn:outgoing>
-      <bpmn:outgoing>Flow_0ibyw5y</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:intermediateCatchEvent id="Event_1oz6a5v" name="Error close message arrived">
-      <bpmn:incoming>Flow_1hmxxlo</bpmn:incoming>
-      <bpmn:outgoing>Flow_1vwf99d</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1nfcxt3" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:eventBasedGateway id="Gateway_054zuan">
-      <bpmn:incoming>Flow_0a5lp66</bpmn:incoming>
-      <bpmn:incoming>Flow_09ptvvl</bpmn:incoming>
-      <bpmn:outgoing>Flow_1hmxxlo</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1ej23lh</bpmn:outgoing>
-    </bpmn:eventBasedGateway>
-    <bpmn:manualTask id="Activity_0d7xj29" name="Do something">
-      <bpmn:incoming>Flow_1vwf99d</bpmn:incoming>
-      <bpmn:outgoing>Flow_017qqkv</bpmn:outgoing>
-    </bpmn:manualTask>
-    <bpmn:exclusiveGateway id="Gateway_1wgvm77">
-      <bpmn:incoming>Flow_040qoki</bpmn:incoming>
-      <bpmn:incoming>Flow_0ibyw5y</bpmn:incoming>
-      <bpmn:outgoing>Flow_0it05t0</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
     <bpmn:intermediateCatchEvent id="Event_0mcou1h" name="authorization failed">
       <bpmn:incoming>Flow_0bspny1</bpmn:incoming>
       <bpmn:outgoing>Flow_00rs2z5</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_06xnlck" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:sendTask id="Activity_1f13zze" name="Scan QRcode">
-      <bpmn:incoming>Flow_11al01f</bpmn:incoming>
-      <bpmn:outgoing>Flow_1xr5vgn</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:eventBasedGateway id="Gateway_0fb4pea">
-      <bpmn:incoming>Flow_1p55b7k</bpmn:incoming>
-      <bpmn:outgoing>Flow_1qaxogu</bpmn:outgoing>
-      <bpmn:outgoing>Flow_16s14y4</bpmn:outgoing>
-    </bpmn:eventBasedGateway>
+    <bpmn:intermediateCatchEvent id="Event_0pg20fe" name="authorization ok">
+      <bpmn:incoming>Flow_0lrccpf</bpmn:incoming>
+      <bpmn:outgoing>Flow_1uz24vi</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0xkfbiu" />
+    </bpmn:intermediateCatchEvent>
     <bpmn:boundaryEvent id="Event_0shjec1" name="Cancel pressed" attachedToRef="Activity_1f13zze">
       <bpmn:outgoing>Flow_1gqs1q3</bpmn:outgoing>
       <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0p2lciy">
         <bpmn:condition xsi:type="bpmn:tFormalExpression" />
       </bpmn:conditionalEventDefinition>
     </bpmn:boundaryEvent>
-    <bpmn:sequenceFlow id="Flow_014rl7x" sourceRef="Event_16o9thl" targetRef="Activity_1pla4uy" />
-    <bpmn:sequenceFlow id="Flow_0sjft71" sourceRef="Activity_1pla4uy" targetRef="Gateway_0g97c1m" />
-    <bpmn:sequenceFlow id="Flow_1uz24vi" sourceRef="Event_0pg20fe" targetRef="Gateway_0lfq5iu" />
-    <bpmn:sequenceFlow id="Flow_1p55b7k" name="no" sourceRef="Gateway_0lfq5iu" targetRef="Gateway_0fb4pea" />
-    <bpmn:sequenceFlow id="Flow_09oitg4" name="yes" sourceRef="Gateway_0lfq5iu" targetRef="Gateway_0raf426" />
-    <bpmn:sequenceFlow id="Flow_1xy2ntg" sourceRef="Event_1a9f57a" targetRef="Event_1go9psn" />
-    <bpmn:sequenceFlow id="Flow_1mixtbl" sourceRef="Event_1sararl" targetRef="Event_1go9psn" />
-    <bpmn:sequenceFlow id="Flow_0ano61j" sourceRef="Gateway_0rudd6v" targetRef="Event_1a9f57a" />
-    <bpmn:sequenceFlow id="Flow_1e72ysf" sourceRef="Gateway_0rudd6v" targetRef="Event_1sararl" />
-    <bpmn:sequenceFlow id="Flow_0it05t0" sourceRef="Gateway_1wgvm77" targetRef="Gateway_0rudd6v" />
-    <bpmn:sequenceFlow id="Flow_1ej23lh" sourceRef="Gateway_054zuan" targetRef="Event_0ahf3or" />
-    <bpmn:sequenceFlow id="Flow_040qoki" sourceRef="Event_0ahf3or" targetRef="Gateway_1wgvm77" />
-    <bpmn:sequenceFlow id="Flow_017qqkv" sourceRef="Activity_0d7xj29" targetRef="Activity_0nz9v98" />
-    <bpmn:sequenceFlow id="Flow_0ibyw5y" sourceRef="Activity_0nz9v98" targetRef="Gateway_1wgvm77" />
-    <bpmn:sequenceFlow id="Flow_09ptvvl" sourceRef="Activity_0nz9v98" targetRef="Gateway_054zuan" />
-    <bpmn:sequenceFlow id="Flow_1hmxxlo" sourceRef="Gateway_054zuan" targetRef="Event_1oz6a5v" />
-    <bpmn:sequenceFlow id="Flow_1vwf99d" sourceRef="Event_1oz6a5v" targetRef="Activity_0d7xj29" />
-    <bpmn:sequenceFlow id="Flow_0a5lp66" sourceRef="Activity_0wjuzdo" targetRef="Gateway_054zuan" />
-    <bpmn:sequenceFlow id="Flow_0op3bpx" sourceRef="Gateway_0raf426" targetRef="Gateway_08tpuu6" />
-    <bpmn:sequenceFlow id="Flow_0lrccpf" sourceRef="Gateway_0g97c1m" targetRef="Event_0pg20fe" />
-    <bpmn:sequenceFlow id="Flow_0bspny1" sourceRef="Gateway_0g97c1m" targetRef="Event_0mcou1h" />
-    <bpmn:sequenceFlow id="Flow_00rs2z5" sourceRef="Event_0mcou1h" targetRef="Event_0ksmooy" />
-    <bpmn:sequenceFlow id="Flow_1gqs1q3" sourceRef="Event_0shjec1" targetRef="Activity_06o8l1r" />
-    <bpmn:sequenceFlow id="Flow_11al01f" sourceRef="Event_1j3a2qj" targetRef="Activity_1f13zze" />
-    <bpmn:sequenceFlow id="Flow_1qaxogu" sourceRef="Gateway_0fb4pea" targetRef="Event_1j3a2qj" />
-    <bpmn:sequenceFlow id="Flow_16s14y4" sourceRef="Gateway_0fb4pea" targetRef="Event_152z6kv" />
-    <bpmn:sequenceFlow id="Flow_1cbofaj" sourceRef="Event_152z6kv" targetRef="Event_08q0ejf" />
-    <bpmn:intermediateCatchEvent id="Event_152z6kv" name="reservation failed">
-      <bpmn:incoming>Flow_16s14y4</bpmn:incoming>
-      <bpmn:outgoing>Flow_1cbofaj</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0ss6we8" />
+    <bpmn:sendTask id="Activity_06o8l1r" name="Cancel rent">
+      <bpmn:incoming>Flow_1gqs1q3</bpmn:incoming>
+    </bpmn:sendTask>
+    <bpmn:intermediateCatchEvent id="Event_0ahf3or" name="Close confirmation arrived">
+      <bpmn:incoming>Flow_1ej23lh</bpmn:incoming>
+      <bpmn:outgoing>Flow_040qoki</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0z9ffvo" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:manualTask id="Activity_0d7xj29" name="Do something">
+      <bpmn:incoming>Flow_1vwf99d</bpmn:incoming>
+      <bpmn:outgoing>Flow_017qqkv</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:intermediateCatchEvent id="Event_1oz6a5v" name="Error close message arrived">
+      <bpmn:incoming>Flow_1hmxxlo</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vwf99d</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1nfcxt3" />
     </bpmn:intermediateCatchEvent>
     <bpmn:endEvent id="Event_08q0ejf">
       <bpmn:incoming>Flow_1cbofaj</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_1xr5vgn" sourceRef="Activity_1f13zze" targetRef="Gateway_0raf426" />
-    <bpmn:sendTask id="Activity_06o8l1r" name="Cancel rent">
-      <bpmn:incoming>Flow_1gqs1q3</bpmn:incoming>
-    </bpmn:sendTask>
-    <bpmn:intermediateCatchEvent id="Event_1j3a2qj" name="reservation done">
-      <bpmn:incoming>Flow_1qaxogu</bpmn:incoming>
-      <bpmn:outgoing>Flow_11al01f</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0m90aue" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:sequenceFlow id="Flow_0ezf4mi" sourceRef="Gateway_08tpuu6" targetRef="Event_0efj1l4" />
-    <bpmn:sequenceFlow id="Flow_10qahjy" sourceRef="Gateway_08tpuu6" targetRef="Event_1ncdnrp" />
-    <bpmn:exclusiveGateway id="Gateway_0raf426">
-      <bpmn:incoming>Flow_09oitg4</bpmn:incoming>
-      <bpmn:incoming>Flow_1xr5vgn</bpmn:incoming>
-      <bpmn:outgoing>Flow_0op3bpx</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_0iunbaa" sourceRef="Event_0efj1l4" targetRef="Activity_1wd9m8b" />
-    <bpmn:sequenceFlow id="Flow_1nwfs1s" sourceRef="Activity_1wd9m8b" targetRef="Activity_0wjuzdo" />
-    <bpmn:sequenceFlow id="Flow_1draiz9" sourceRef="Event_1ncdnrp" targetRef="Event_0158gvi" />
-    <bpmn:intermediateCatchEvent id="Event_1ncdnrp" name="unlock failed">
-      <bpmn:incoming>Flow_10qahjy</bpmn:incoming>
-      <bpmn:outgoing>Flow_1draiz9</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0ynuvgq" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:endEvent id="Event_0158gvi" name="rent terminated">
-      <bpmn:incoming>Flow_1draiz9</bpmn:incoming>
+    <bpmn:endEvent id="Event_0ete397">
+      <bpmn:incoming>Flow_1o4zun3</bpmn:incoming>
     </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_00rs2z5" sourceRef="Event_0mcou1h" targetRef="Event_0ksmooy" />
+    <bpmn:sequenceFlow id="Flow_014rl7x" sourceRef="Event_16o9thl" targetRef="Activity_1pla4uy" />
+    <bpmn:sequenceFlow id="Flow_017qqkv" sourceRef="Activity_0d7xj29" targetRef="Activity_0nz9v98" />
+    <bpmn:sequenceFlow id="Flow_040qoki" sourceRef="Event_0ahf3or" targetRef="Gateway_1wgvm77" />
+    <bpmn:sequenceFlow id="Flow_09ptvvl" sourceRef="Activity_0nz9v98" targetRef="Gateway_054zuan" />
+    <bpmn:sequenceFlow id="Flow_0a5lp66" sourceRef="Activity_0wjuzdo" targetRef="Gateway_054zuan" />
+    <bpmn:sequenceFlow id="Flow_0ano61j" sourceRef="Gateway_0rudd6v" targetRef="Event_1a9f57a" />
+    <bpmn:sequenceFlow id="Flow_0bspny1" sourceRef="Gateway_0g97c1m" targetRef="Event_0mcou1h" />
+    <bpmn:sequenceFlow id="Flow_0ezf4mi" sourceRef="Gateway_08tpuu6" targetRef="Event_0efj1l4" />
+    <bpmn:sequenceFlow id="Flow_0ibyw5y" sourceRef="Activity_0nz9v98" targetRef="Gateway_1wgvm77" />
+    <bpmn:sequenceFlow id="Flow_0it05t0" sourceRef="Gateway_1wgvm77" targetRef="Gateway_0rudd6v" />
+    <bpmn:sequenceFlow id="Flow_0iunbaa" sourceRef="Event_0efj1l4" targetRef="Activity_1wd9m8b" />
+    <bpmn:sequenceFlow id="Flow_0lrccpf" sourceRef="Gateway_0g97c1m" targetRef="Event_0pg20fe" />
+    <bpmn:sequenceFlow id="Flow_0op3bpx" sourceRef="Gateway_0raf426" targetRef="Gateway_08tpuu6" />
+    <bpmn:sequenceFlow id="Flow_0sjft71" sourceRef="Activity_1pla4uy" targetRef="Gateway_0g97c1m" />
+    <bpmn:sequenceFlow id="Flow_10qahjy" sourceRef="Gateway_08tpuu6" targetRef="Event_1ncdnrp" />
+    <bpmn:sequenceFlow id="Flow_11al01f" sourceRef="Event_1j3a2qj" targetRef="Activity_1f13zze" />
+    <bpmn:sequenceFlow id="Flow_16s14y4" sourceRef="Gateway_0fb4pea" targetRef="Event_152z6kv" />
+    <bpmn:sequenceFlow id="Flow_1cbofaj" sourceRef="Event_152z6kv" targetRef="Event_08q0ejf" />
+    <bpmn:sequenceFlow id="Flow_1draiz9" sourceRef="Event_1ncdnrp" targetRef="Event_0158gvi" />
+    <bpmn:sequenceFlow id="Flow_1e72ysf" sourceRef="Gateway_0rudd6v" targetRef="Event_1sararl" />
+    <bpmn:sequenceFlow id="Flow_1ej23lh" sourceRef="Gateway_054zuan" targetRef="Event_0ahf3or" />
+    <bpmn:sequenceFlow id="Flow_1gqs1q3" sourceRef="Event_0shjec1" targetRef="Activity_06o8l1r" />
+    <bpmn:sequenceFlow id="Flow_1hmxxlo" sourceRef="Gateway_054zuan" targetRef="Event_1oz6a5v" />
+    <bpmn:sequenceFlow id="Flow_1mixtbl" sourceRef="Event_1sararl" targetRef="Event_1go9psn" />
+    <bpmn:sequenceFlow id="Flow_1nwfs1s" sourceRef="Activity_1wd9m8b" targetRef="Activity_0wjuzdo" />
+    <bpmn:sequenceFlow id="Flow_1o4zun3" sourceRef="Event_08lncb5" targetRef="Event_0ete397" />
+    <bpmn:sequenceFlow id="Flow_1qaxogu" sourceRef="Gateway_0fb4pea" targetRef="Event_1j3a2qj" />
+    <bpmn:sequenceFlow id="Flow_1uz24vi" sourceRef="Event_0pg20fe" targetRef="Gateway_0lfq5iu" />
+    <bpmn:sequenceFlow id="Flow_1vwf99d" sourceRef="Event_1oz6a5v" targetRef="Activity_0d7xj29" />
+    <bpmn:sequenceFlow id="Flow_1xr5vgn" sourceRef="Activity_1f13zze" targetRef="Gateway_0raf426" />
+    <bpmn:sequenceFlow id="Flow_1xy2ntg" sourceRef="Event_1a9f57a" targetRef="Event_1go9psn" />
+    <bpmn:eventBasedGateway id="Gateway_054zuan">
+      <bpmn:incoming>Flow_0a5lp66</bpmn:incoming>
+      <bpmn:incoming>Flow_09ptvvl</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hmxxlo</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1ej23lh</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
     <bpmn:eventBasedGateway id="Gateway_08tpuu6">
       <bpmn:incoming>Flow_0op3bpx</bpmn:incoming>
       <bpmn:outgoing>Flow_0ezf4mi</bpmn:outgoing>
       <bpmn:outgoing>Flow_10qahjy</bpmn:outgoing>
     </bpmn:eventBasedGateway>
-    <bpmn:intermediateCatchEvent id="Event_0efj1l4" name="unlock done">
-      <bpmn:incoming>Flow_0ezf4mi</bpmn:incoming>
-      <bpmn:outgoing>Flow_0iunbaa</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_11i8si5" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:manualTask id="Activity_1wd9m8b" name="Ride vehicle">
-      <bpmn:incoming>Flow_0iunbaa</bpmn:incoming>
-      <bpmn:outgoing>Flow_1nwfs1s</bpmn:outgoing>
-    </bpmn:manualTask>
-    <bpmn:sendTask id="Activity_0wjuzdo" name="Send close command">
-      <bpmn:incoming>Flow_1nwfs1s</bpmn:incoming>
-      <bpmn:outgoing>Flow_0a5lp66</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:exclusiveGateway id="Gateway_0lfq5iu" name="Is rental mode immediate ?">
-      <bpmn:incoming>Flow_1uz24vi</bpmn:incoming>
-      <bpmn:outgoing>Flow_09oitg4</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1p55b7k</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="Event_0ksmooy" name="rent failed">
-      <bpmn:incoming>Flow_00rs2z5</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:intermediateCatchEvent id="Event_0pg20fe" name="authorization ok">
-      <bpmn:incoming>Flow_0lrccpf</bpmn:incoming>
-      <bpmn:outgoing>Flow_1uz24vi</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0xkfbiu" />
-    </bpmn:intermediateCatchEvent>
+    <bpmn:eventBasedGateway id="Gateway_0fb4pea">
+      <bpmn:incoming>Flow_1p55b7k</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qaxogu</bpmn:outgoing>
+      <bpmn:outgoing>Flow_16s14y4</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
     <bpmn:eventBasedGateway id="Gateway_0g97c1m">
       <bpmn:incoming>Flow_0sjft71</bpmn:incoming>
       <bpmn:outgoing>Flow_0lrccpf</bpmn:outgoing>
       <bpmn:outgoing>Flow_0bspny1</bpmn:outgoing>
     </bpmn:eventBasedGateway>
+    <bpmn:exclusiveGateway id="Gateway_0raf426">
+      <bpmn:incoming>Flow_09oitg4</bpmn:incoming>
+      <bpmn:incoming>Flow_1xr5vgn</bpmn:incoming>
+      <bpmn:outgoing>Flow_0op3bpx</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:eventBasedGateway id="Gateway_0rudd6v">
+      <bpmn:incoming>Flow_0it05t0</bpmn:incoming>
+      <bpmn:outgoing>Flow_1e72ysf</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0ano61j</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:exclusiveGateway id="Gateway_1wgvm77">
+      <bpmn:incoming>Flow_040qoki</bpmn:incoming>
+      <bpmn:incoming>Flow_0ibyw5y</bpmn:incoming>
+      <bpmn:outgoing>Flow_0it05t0</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_0lfq5iu" name="Is rental mode immediate ?">
+      <bpmn:incoming>Flow_1uz24vi</bpmn:incoming>
+      <bpmn:outgoing>Flow_09oitg4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1p55b7k</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1p55b7k" name="no" sourceRef="Gateway_0lfq5iu" targetRef="Gateway_0fb4pea" />
+    <bpmn:intermediateCatchEvent id="Event_1sararl" name="Payment issue notification">
+      <bpmn:incoming>Flow_1e72ysf</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mixtbl</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0w834bw" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_1a9f57a" name="Receipt received">
+      <bpmn:incoming>Flow_0ano61j</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xy2ntg</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0aad8is" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="Event_0ksmooy" name="rent failed">
+      <bpmn:incoming>Flow_00rs2z5</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_0158gvi" name="rent terminated">
+      <bpmn:incoming>Flow_1draiz9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_1go9psn" name="Rental finished">
+      <bpmn:incoming>Flow_1mixtbl</bpmn:incoming>
+      <bpmn:incoming>Flow_1xy2ntg</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="Event_16o9thl" name="Rental intention arrived">
+      <bpmn:outgoing>Flow_014rl7x</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:intermediateCatchEvent id="Event_1j3a2qj" name="reservation done">
+      <bpmn:incoming>Flow_1qaxogu</bpmn:incoming>
+      <bpmn:outgoing>Flow_11al01f</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0m90aue" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_152z6kv" name="reservation failed">
+      <bpmn:incoming>Flow_16s14y4</bpmn:incoming>
+      <bpmn:outgoing>Flow_1cbofaj</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0ss6we8" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:manualTask id="Activity_1wd9m8b" name="Ride vehicle">
+      <bpmn:incoming>Flow_0iunbaa</bpmn:incoming>
+      <bpmn:outgoing>Flow_1nwfs1s</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:sendTask id="Activity_1f13zze" name="Scan QRcode">
+      <bpmn:incoming>Flow_11al01f</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xr5vgn</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="Activity_1pla4uy" name="ScanQR or book">
+      <bpmn:incoming>Flow_014rl7x</bpmn:incoming>
+      <bpmn:outgoing>Flow_0sjft71</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="Activity_0wjuzdo" name="Send close command">
+      <bpmn:incoming>Flow_1nwfs1s</bpmn:incoming>
+      <bpmn:outgoing>Flow_0a5lp66</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="Activity_0nz9v98" name="Send retry close">
+      <bpmn:incoming>Flow_017qqkv</bpmn:incoming>
+      <bpmn:outgoing>Flow_09ptvvl</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0ibyw5y</bpmn:outgoing>
+    </bpmn:sendTask>
     <bpmn:boundaryEvent id="Event_08lncb5" name="Timeout expired" attachedToRef="Activity_1f13zze">
       <bpmn:outgoing>Flow_1o4zun3</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1i2w6wi" />
     </bpmn:boundaryEvent>
-    <bpmn:sequenceFlow id="Flow_1o4zun3" sourceRef="Event_08lncb5" targetRef="Event_0ete397" />
-    <bpmn:endEvent id="Event_0ete397">
-      <bpmn:incoming>Flow_1o4zun3</bpmn:incoming>
-    </bpmn:endEvent>
+    <bpmn:intermediateCatchEvent id="Event_0efj1l4" name="unlock done">
+      <bpmn:incoming>Flow_0ezf4mi</bpmn:incoming>
+      <bpmn:outgoing>Flow_0iunbaa</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_11i8si5" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_1ncdnrp" name="unlock failed">
+      <bpmn:incoming>Flow_10qahjy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1draiz9</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0ynuvgq" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_09oitg4" name="yes" sourceRef="Gateway_0lfq5iu" targetRef="Gateway_0raf426" />
   </bpmn:process>
   <bpmn:process id="Process_1q8ksde" isExecutable="false">
-    <bpmn:startEvent id="Event_17acqbs" name="Tracking request arrived">
-      <bpmn:outgoing>Flow_0m1zn2e</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0qs0b95" />
-    </bpmn:startEvent>
     <bpmn:task id="Activity_03gkocg" name="Activate vehicle telemetry">
       <bpmn:incoming>Flow_0m1zn2e</bpmn:incoming>
       <bpmn:outgoing>Flow_114f8a1</bpmn:outgoing>
     </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_08zvr5j" sourceRef="Gateway_1giwc34" targetRef="Event_1w7xh9i" />
+    <bpmn:sequenceFlow id="Flow_0gfee5y" sourceRef="Gateway_1giwc34" targetRef="Event_0r3b3z6" />
+    <bpmn:sequenceFlow id="Flow_0m1zn2e" sourceRef="Event_17acqbs" targetRef="Activity_03gkocg" />
+    <bpmn:sequenceFlow id="Flow_114f8a1" sourceRef="Activity_03gkocg" targetRef="Gateway_1giwc34" />
+    <bpmn:sequenceFlow id="Flow_1hvtvm6" sourceRef="Event_1w7xh9i" targetRef="Activity_1b1adsz" />
+    <bpmn:sequenceFlow id="Flow_1k4uwsi" sourceRef="Event_0r3b3z6" targetRef="Activity_0tq9pjm" />
+    <bpmn:sequenceFlow id="Flow_1n0bc82" sourceRef="Activity_0tq9pjm" targetRef="Event_1fgbe8k" />
+    <bpmn:sequenceFlow id="Flow_1vpycm9" sourceRef="Activity_1b1adsz" targetRef="Gateway_1giwc34" />
     <bpmn:eventBasedGateway id="Gateway_1giwc34">
       <bpmn:incoming>Flow_114f8a1</bpmn:incoming>
       <bpmn:incoming>Flow_1vpycm9</bpmn:incoming>
       <bpmn:outgoing>Flow_08zvr5j</bpmn:outgoing>
       <bpmn:outgoing>Flow_0gfee5y</bpmn:outgoing>
     </bpmn:eventBasedGateway>
+    <bpmn:sendTask id="Activity_1b1adsz" name="Retrieve coordinates &#38; battery">
+      <bpmn:incoming>Flow_1hvtvm6</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vpycm9</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="Activity_0tq9pjm" name="Retrieve last coordinates &#38; battery">
+      <bpmn:incoming>Flow_1k4uwsi</bpmn:incoming>
+      <bpmn:outgoing>Flow_1n0bc82</bpmn:outgoing>
+    </bpmn:sendTask>
     <bpmn:intermediateCatchEvent id="Event_1w7xh9i" name="Status requested">
       <bpmn:incoming>Flow_08zvr5j</bpmn:incoming>
       <bpmn:outgoing>Flow_1hvtvm6</bpmn:outgoing>
@@ -471,36 +483,24 @@
       <bpmn:outgoing>Flow_1k4uwsi</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_14un0f2" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:sendTask id="Activity_1b1adsz" name="Retrieve coordinates &#38; battery">
-      <bpmn:incoming>Flow_1hvtvm6</bpmn:incoming>
-      <bpmn:outgoing>Flow_1vpycm9</bpmn:outgoing>
-    </bpmn:sendTask>
+    <bpmn:startEvent id="Event_17acqbs" name="Tracking request arrived">
+      <bpmn:outgoing>Flow_0m1zn2e</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0qs0b95" />
+    </bpmn:startEvent>
     <bpmn:endEvent id="Event_1fgbe8k" name="Tracking request satisfied">
       <bpmn:incoming>Flow_1n0bc82</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sendTask id="Activity_0tq9pjm" name="Retrieve last coordinates &#38; battery">
-      <bpmn:incoming>Flow_1k4uwsi</bpmn:incoming>
-      <bpmn:outgoing>Flow_1n0bc82</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:sequenceFlow id="Flow_0m1zn2e" sourceRef="Event_17acqbs" targetRef="Activity_03gkocg" />
-    <bpmn:sequenceFlow id="Flow_114f8a1" sourceRef="Activity_03gkocg" targetRef="Gateway_1giwc34" />
-    <bpmn:sequenceFlow id="Flow_1vpycm9" sourceRef="Activity_1b1adsz" targetRef="Gateway_1giwc34" />
-    <bpmn:sequenceFlow id="Flow_08zvr5j" sourceRef="Gateway_1giwc34" targetRef="Event_1w7xh9i" />
-    <bpmn:sequenceFlow id="Flow_0gfee5y" sourceRef="Gateway_1giwc34" targetRef="Event_0r3b3z6" />
-    <bpmn:sequenceFlow id="Flow_1hvtvm6" sourceRef="Event_1w7xh9i" targetRef="Activity_1b1adsz" />
-    <bpmn:sequenceFlow id="Flow_1k4uwsi" sourceRef="Event_0r3b3z6" targetRef="Activity_0tq9pjm" />
-    <bpmn:sequenceFlow id="Flow_1n0bc82" sourceRef="Activity_0tq9pjm" targetRef="Event_1fgbe8k" />
   </bpmn:process>
   <bpmn:process id="Process_0tpr1e2" isExecutable="true">
-    <bpmn:startEvent id="StartEvent_1" name="Immediate or short term rent request arrived">
-      <bpmn:outgoing>Flow_142gav6</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1asxkmm" />
-    </bpmn:startEvent>
-    <bpmn:eventBasedGateway id="Gateway_0ys7ie9">
-      <bpmn:incoming>Flow_1y49huy</bpmn:incoming>
-      <bpmn:outgoing>Flow_1aftyii</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1nxct11</bpmn:outgoing>
-    </bpmn:eventBasedGateway>
+    <bpmn:intermediateCatchEvent id="Event_1org9ym" name="30 min">
+      <bpmn:incoming>Flow_11p05xw</bpmn:incoming>
+      <bpmn:outgoing>Flow_166y4xd</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0y2x72s" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:task id="Activity_16sruhj" name="Add penal">
+      <bpmn:incoming>Flow_011cy9e</bpmn:incoming>
+      <bpmn:outgoing>Flow_1koecs4</bpmn:outgoing>
+    </bpmn:task>
     <bpmn:intermediateCatchEvent id="Event_12gxxm7" name="auth failed">
       <bpmn:incoming>Flow_1aftyii</bpmn:incoming>
       <bpmn:outgoing>Flow_1ewtkzf</bpmn:outgoing>
@@ -511,121 +511,16 @@
       <bpmn:outgoing>Flow_00fag5s</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1sgnife" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:endEvent id="Event_02m3tss" name="send authorization failed message">
-      <bpmn:incoming>Flow_1ewtkzf</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1v2u8ar" />
-    </bpmn:endEvent>
-    <bpmn:intermediateThrowEvent id="Event_0ks89e2" name="send auth ok message">
-      <bpmn:incoming>Flow_00fag5s</bpmn:incoming>
-      <bpmn:outgoing>Flow_0u0g6tk</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1f8gry0" />
-    </bpmn:intermediateThrowEvent>
-    <bpmn:exclusiveGateway id="Gateway_1rrwc65" name="is rent mode immediate ?">
-      <bpmn:incoming>Flow_0u0g6tk</bpmn:incoming>
-      <bpmn:outgoing>Flow_0wba5mv</bpmn:outgoing>
-      <bpmn:outgoing>Flow_1orkaav</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:eventBasedGateway id="Gateway_0goc5w9">
-      <bpmn:incoming>Flow_0smj892</bpmn:incoming>
-      <bpmn:outgoing>Flow_105ybuk</bpmn:outgoing>
-      <bpmn:outgoing>Flow_0m71wn7</bpmn:outgoing>
-    </bpmn:eventBasedGateway>
-    <bpmn:intermediateCatchEvent id="Event_19d7e9l" name="unlock failed">
-      <bpmn:incoming>Flow_0m71wn7</bpmn:incoming>
-      <bpmn:outgoing>Flow_0br1xz5</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_19nwgif" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:sendTask id="Activity_0ekfgkw" name="Send request tracking">
-      <bpmn:incoming>Flow_1a25xcy</bpmn:incoming>
-      <bpmn:outgoing>Flow_0za4hio</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:sendTask id="Activity_1pti4ik" name="Send lock request">
-      <bpmn:incoming>Flow_0xe4ipa</bpmn:incoming>
-      <bpmn:incoming>Flow_132da4d</bpmn:incoming>
-      <bpmn:incoming>Flow_1smzam3</bpmn:incoming>
-      <bpmn:outgoing>Flow_1otb8r0</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:intermediateCatchEvent id="Event_0817wf2" name="lock failed">
-      <bpmn:incoming>Flow_1lhqa88</bpmn:incoming>
-      <bpmn:outgoing>Flow_062we6j</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1s63mnp" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:intermediateCatchEvent id="Event_01wn4pm" name="Message of confirmation arrived">
-      <bpmn:incoming>Flow_0yjv3xo</bpmn:incoming>
-      <bpmn:outgoing>Flow_0rt4ax1</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_11hanhq" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:eventBasedGateway id="Gateway_1pre95x">
-      <bpmn:incoming>Flow_1otb8r0</bpmn:incoming>
-      <bpmn:outgoing>Flow_1lhqa88</bpmn:outgoing>
-      <bpmn:outgoing>Flow_0yjv3xo</bpmn:outgoing>
-    </bpmn:eventBasedGateway>
-    <bpmn:sendTask id="Activity_0yi80l7" name="Send stop tracking">
-      <bpmn:incoming>Flow_1cv53s9</bpmn:incoming>
-      <bpmn:outgoing>Flow_04rlbj9</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:exclusiveGateway id="Gateway_1mzmk83" name="Is battery under 15 ?">
-      <bpmn:incoming>Flow_1psunn5</bpmn:incoming>
-      <bpmn:outgoing>Flow_011cy9e</bpmn:outgoing>
-      <bpmn:outgoing>Flow_0a8qrzn</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:task id="Activity_16sruhj" name="Add penal">
-      <bpmn:incoming>Flow_011cy9e</bpmn:incoming>
-      <bpmn:outgoing>Flow_1koecs4</bpmn:outgoing>
-    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_07bcuvu" name="block money = 0 and rent not payed" sourceRef="Gateway_1b7dc0r" targetRef="Activity_0ynjcx7" />
+    <bpmn:sequenceFlow id="Flow_0y9g0my" name="block money = 0 and rent payed" sourceRef="Gateway_1b7dc0r" targetRef="Event_0b7ua6w" />
     <bpmn:task id="Activity_0g3yrz1" name="Calculate standard rate">
       <bpmn:incoming>Flow_0a8qrzn</bpmn:incoming>
       <bpmn:outgoing>Flow_1xgofrn</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:exclusiveGateway id="Gateway_1gg0xkj">
-      <bpmn:incoming>Flow_1koecs4</bpmn:incoming>
-      <bpmn:incoming>Flow_1xgofrn</bpmn:incoming>
-      <bpmn:outgoing>Flow_0a9y8e9</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sendTask id="Activity_0pspnm5" name="Charge credit card">
-      <bpmn:incoming>Flow_0a9y8e9</bpmn:incoming>
-      <bpmn:outgoing>Flow_0ggjqwo</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:eventBasedGateway id="Gateway_00q1dd2">
-      <bpmn:incoming>Flow_0ggjqwo</bpmn:incoming>
-      <bpmn:outgoing>Flow_1mytmbu</bpmn:outgoing>
-      <bpmn:outgoing>Flow_136n1ml</bpmn:outgoing>
-    </bpmn:eventBasedGateway>
-    <bpmn:intermediateCatchEvent id="Event_08ddh1z" name="Error message arrived">
-      <bpmn:incoming>Flow_1mytmbu</bpmn:incoming>
-      <bpmn:outgoing>Flow_0gvv4ai</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_19w3fl7" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:intermediateCatchEvent id="Event_03mt6xh" name="Confirmation message arrived">
-      <bpmn:incoming>Flow_136n1ml</bpmn:incoming>
-      <bpmn:outgoing>Flow_035cvip</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1hl5nax" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:task id="Activity_1kbkhy4" name="Take money from cautional block">
-      <bpmn:incoming>Flow_0gvv4ai</bpmn:incoming>
-      <bpmn:outgoing>Flow_0enly41</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:exclusiveGateway id="Gateway_1b7dc0r" name="Is the rent payed ?">
-      <bpmn:incoming>Flow_0enly41</bpmn:incoming>
-      <bpmn:outgoing>Flow_0y9g0my</bpmn:outgoing>
-      <bpmn:outgoing>Flow_07bcuvu</bpmn:outgoing>
-      <bpmn:outgoing>Flow_18ln3sg</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sendTask id="Activity_1t88g8r" name="Send rental receipt">
-      <bpmn:incoming>Flow_035cvip</bpmn:incoming>
-      <bpmn:outgoing>Flow_1ps7pfl</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:sendTask id="Activity_0ynjcx7" name="Send payment failure &#38; Debt notice">
-      <bpmn:incoming>Flow_07bcuvu</bpmn:incoming>
-      <bpmn:outgoing>Flow_1b1604k</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:endEvent id="Event_0yej8yo" name="reservation cancelled">
-      <bpmn:incoming>Flow_0pe82nk</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:intermediateCatchEvent id="Event_1xosndm" name="Receive operation outcome">
-      <bpmn:incoming>Flow_0hdrrci</bpmn:incoming>
-      <bpmn:outgoing>Flow_0pe82nk</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1b9uh5a" />
+    <bpmn:intermediateCatchEvent id="Event_0wov2gg" name="cancel request received">
+      <bpmn:incoming>Flow_1i0gy75</bpmn:incoming>
+      <bpmn:outgoing>Flow_14qi5z7</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0k32aoi" />
     </bpmn:intermediateCatchEvent>
     <bpmn:sendTask id="Activity_17z8kre" name="Cancel reservation vehicle">
       <bpmn:incoming>Flow_08eze2q</bpmn:incoming>
@@ -636,158 +531,188 @@
       <bpmn:incoming>Flow_0um9wgv</bpmn:incoming>
       <bpmn:outgoing>Flow_08eze2q</bpmn:outgoing>
     </bpmn:sendTask>
-    <bpmn:intermediateCatchEvent id="Event_0agi8kc" name="last status received">
-      <bpmn:incoming>Flow_04rlbj9</bpmn:incoming>
-      <bpmn:outgoing>Flow_1psunn5</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1nyhn4m" />
+    <bpmn:sendTask id="Activity_0pspnm5" name="Charge credit card">
+      <bpmn:incoming>Flow_0a9y8e9</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ggjqwo</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:boundaryEvent id="Event_01gcqm6" name="Close command received" attachedToRef="Activity_17v4sy1">
+      <bpmn:outgoing>Flow_1smzam3</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_070phdi" />
+    </bpmn:boundaryEvent>
+    <bpmn:intermediateCatchEvent id="Event_03mt6xh" name="Confirmation message arrived">
+      <bpmn:incoming>Flow_136n1ml</bpmn:incoming>
+      <bpmn:outgoing>Flow_035cvip</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1hl5nax" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:endEvent id="Event_1mkft53" name="rent terminated">
-      <bpmn:incoming>Flow_1ps7pfl</bpmn:incoming>
-      <bpmn:escalationEventDefinition id="EscalationEventDefinition_1g0aah7" />
-    </bpmn:endEvent>
-    <bpmn:endEvent id="Event_12bti7o" name="reservation cancelled">
-      <bpmn:incoming>Flow_1mfnhgp</bpmn:incoming>
-      <bpmn:escalationEventDefinition id="EscalationEventDefinition_01wdgin" />
-    </bpmn:endEvent>
+    <bpmn:intermediateCatchEvent id="Event_08ddh1z" name="Error message arrived">
+      <bpmn:incoming>Flow_1mytmbu</bpmn:incoming>
+      <bpmn:outgoing>Flow_0gvv4ai</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_19w3fl7" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_00fag5s" sourceRef="Event_0c59xci" targetRef="Event_0ks89e2" />
+    <bpmn:sequenceFlow id="Flow_035cvip" sourceRef="Event_03mt6xh" targetRef="Activity_1t88g8r" />
+    <bpmn:sequenceFlow id="Flow_04rlbj9" sourceRef="Activity_0yi80l7" targetRef="Event_0agi8kc" />
+    <bpmn:sequenceFlow id="Flow_04zpxnn" sourceRef="Activity_1rj4zyg" targetRef="Gateway_1yf2uw5" />
+    <bpmn:sequenceFlow id="Flow_05kzhok" sourceRef="Gateway_1yf2uw5" targetRef="Event_19rgsw5" />
+    <bpmn:sequenceFlow id="Flow_062we6j" sourceRef="Event_0817wf2" targetRef="Event_06l6h5a" />
+    <bpmn:sequenceFlow id="Flow_08eze2q" sourceRef="Activity_1u4a5kv" targetRef="Activity_17z8kre" />
+    <bpmn:sequenceFlow id="Flow_0a9jn4n" sourceRef="Event_0kj9och" targetRef="Event_0jng3v3" />
+    <bpmn:sequenceFlow id="Flow_0a9y8e9" sourceRef="Gateway_1gg0xkj" targetRef="Activity_0pspnm5" />
+    <bpmn:sequenceFlow id="Flow_0br1xz5" sourceRef="Event_19d7e9l" targetRef="Event_0kj9och" />
+    <bpmn:sequenceFlow id="Flow_0enly41" sourceRef="Activity_1kbkhy4" targetRef="Gateway_1b7dc0r" />
+    <bpmn:sequenceFlow id="Flow_0ggjqwo" sourceRef="Activity_0pspnm5" targetRef="Gateway_00q1dd2" />
+    <bpmn:sequenceFlow id="Flow_0gvv4ai" sourceRef="Event_08ddh1z" targetRef="Activity_1kbkhy4" />
+    <bpmn:sequenceFlow id="Flow_0hdrrci" sourceRef="Activity_17z8kre" targetRef="Event_1xosndm" />
+    <bpmn:sequenceFlow id="Flow_0m71wn7" sourceRef="Gateway_0goc5w9" targetRef="Event_19d7e9l" />
+    <bpmn:sequenceFlow id="Flow_0pe82nk" sourceRef="Event_1xosndm" targetRef="Event_0yej8yo" />
+    <bpmn:sequenceFlow id="Flow_0rejftj" sourceRef="Event_12g6feb" targetRef="Event_0uonu6m" />
+    <bpmn:sequenceFlow id="Flow_0rt4ax1" sourceRef="Event_01wn4pm" targetRef="Event_1araenp" />
+    <bpmn:sequenceFlow id="Flow_0smj892" sourceRef="Activity_1raxi06" targetRef="Gateway_0goc5w9" />
+    <bpmn:sequenceFlow id="Flow_0u0g6tk" sourceRef="Event_0ks89e2" targetRef="Gateway_1rrwc65" />
+    <bpmn:sequenceFlow id="Flow_0um9wgv" sourceRef="Event_14v5p9e" targetRef="Activity_1u4a5kv" />
+    <bpmn:sequenceFlow id="Flow_0w1n71s" sourceRef="Event_19rgsw5" targetRef="Event_1cdhizw" />
+    <bpmn:sequenceFlow id="Flow_0ws1116" sourceRef="Gateway_05uv81l" targetRef="Event_1m40o3t" />
+    <bpmn:sequenceFlow id="Flow_0x19x7o" sourceRef="Gateway_1yf2uw5" targetRef="Event_1cowqr5" />
+    <bpmn:sequenceFlow id="Flow_0xe4ipa" sourceRef="Activity_17v4sy1" targetRef="Activity_1pti4ik" />
+    <bpmn:sequenceFlow id="Flow_0yjv3xo" sourceRef="Gateway_1pre95x" targetRef="Event_01wn4pm" />
+    <bpmn:sequenceFlow id="Flow_0za4hio" sourceRef="Activity_0ekfgkw" targetRef="Activity_17v4sy1" />
+    <bpmn:sequenceFlow id="Flow_105ybuk" sourceRef="Gateway_0goc5w9" targetRef="Event_12g6feb" />
+    <bpmn:sequenceFlow id="Flow_11p05xw" sourceRef="Gateway_05uv81l" targetRef="Event_1org9ym" />
+    <bpmn:sequenceFlow id="Flow_132da4d" sourceRef="Event_1ux3dj6" targetRef="Activity_1pti4ik" />
+    <bpmn:sequenceFlow id="Flow_136n1ml" sourceRef="Gateway_00q1dd2" targetRef="Event_03mt6xh" />
+    <bpmn:sequenceFlow id="Flow_142gav6" sourceRef="StartEvent_1" targetRef="Event_0x5u3b6" />
+    <bpmn:sequenceFlow id="Flow_14qi5z7" sourceRef="Event_0wov2gg" targetRef="Gateway_00egid8" />
+    <bpmn:sequenceFlow id="Flow_166y4xd" sourceRef="Event_1org9ym" targetRef="Event_14v5p9e" />
+    <bpmn:sequenceFlow id="Flow_18kksos" sourceRef="Event_1m40o3t" targetRef="Activity_1raxi06" />
+    <bpmn:sequenceFlow id="Flow_19bo1z1" sourceRef="Event_1cdhizw" targetRef="Gateway_05uv81l" />
+    <bpmn:sequenceFlow id="Flow_1a25xcy" sourceRef="Event_0uonu6m" targetRef="Activity_0ekfgkw" />
+    <bpmn:sequenceFlow id="Flow_1aftyii" sourceRef="Gateway_0ys7ie9" targetRef="Event_12gxxm7" />
+    <bpmn:sequenceFlow id="Flow_1b1604k" sourceRef="Activity_0ynjcx7" targetRef="Event_0b7ua6w" />
+    <bpmn:sequenceFlow id="Flow_1cv53s9" sourceRef="Event_1araenp" targetRef="Activity_0yi80l7" />
+    <bpmn:sequenceFlow id="Flow_1ewtkzf" sourceRef="Event_12gxxm7" targetRef="Event_02m3tss" />
+    <bpmn:sequenceFlow id="Flow_1g3s8r8" sourceRef="Event_1cowqr5" targetRef="Event_19w1zj6" />
+    <bpmn:sequenceFlow id="Flow_1i0gy75" sourceRef="Gateway_05uv81l" targetRef="Event_0wov2gg" />
+    <bpmn:sequenceFlow id="Flow_1koecs4" sourceRef="Activity_16sruhj" targetRef="Gateway_1gg0xkj" />
+    <bpmn:sequenceFlow id="Flow_1lhqa88" sourceRef="Gateway_1pre95x" targetRef="Event_0817wf2" />
+    <bpmn:sequenceFlow id="Flow_1mytmbu" sourceRef="Gateway_00q1dd2" targetRef="Event_08ddh1z" />
+    <bpmn:sequenceFlow id="Flow_1nxct11" sourceRef="Gateway_0ys7ie9" targetRef="Event_0c59xci" />
+    <bpmn:sequenceFlow id="Flow_1otb8r0" sourceRef="Activity_1pti4ik" targetRef="Gateway_1pre95x" />
+    <bpmn:sequenceFlow id="Flow_1ps7pfl" sourceRef="Activity_1t88g8r" targetRef="Event_1mkft53" />
+    <bpmn:sequenceFlow id="Flow_1psunn5" sourceRef="Event_0agi8kc" targetRef="Gateway_1mzmk83" />
+    <bpmn:sequenceFlow id="Flow_1smzam3" sourceRef="Event_01gcqm6" targetRef="Activity_1pti4ik" />
+    <bpmn:sequenceFlow id="Flow_1uaq4rn" sourceRef="Event_06l6h5a" targetRef="Event_1ux3dj6" />
+    <bpmn:sequenceFlow id="Flow_1xgofrn" sourceRef="Activity_0g3yrz1" targetRef="Gateway_1gg0xkj" />
+    <bpmn:sequenceFlow id="Flow_1y49huy" sourceRef="Event_0x5u3b6" targetRef="Gateway_0ys7ie9" />
+    <bpmn:eventBasedGateway id="Gateway_00q1dd2">
+      <bpmn:incoming>Flow_0ggjqwo</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mytmbu</bpmn:outgoing>
+      <bpmn:outgoing>Flow_136n1ml</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
     <bpmn:eventBasedGateway id="Gateway_05uv81l">
       <bpmn:incoming>Flow_19bo1z1</bpmn:incoming>
       <bpmn:outgoing>Flow_1i0gy75</bpmn:outgoing>
       <bpmn:outgoing>Flow_0ws1116</bpmn:outgoing>
       <bpmn:outgoing>Flow_11p05xw</bpmn:outgoing>
     </bpmn:eventBasedGateway>
+    <bpmn:eventBasedGateway id="Gateway_0goc5w9">
+      <bpmn:incoming>Flow_0smj892</bpmn:incoming>
+      <bpmn:outgoing>Flow_105ybuk</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0m71wn7</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:eventBasedGateway id="Gateway_0ys7ie9">
+      <bpmn:incoming>Flow_1y49huy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1aftyii</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1nxct11</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:exclusiveGateway id="Gateway_1gg0xkj">
+      <bpmn:incoming>Flow_1koecs4</bpmn:incoming>
+      <bpmn:incoming>Flow_1xgofrn</bpmn:incoming>
+      <bpmn:outgoing>Flow_0a9y8e9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:eventBasedGateway id="Gateway_1pre95x">
+      <bpmn:incoming>Flow_1otb8r0</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lhqa88</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0yjv3xo</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
     <bpmn:eventBasedGateway id="Gateway_1yf2uw5">
       <bpmn:incoming>Flow_04zpxnn</bpmn:incoming>
       <bpmn:outgoing>Flow_05kzhok</bpmn:outgoing>
       <bpmn:outgoing>Flow_0x19x7o</bpmn:outgoing>
     </bpmn:eventBasedGateway>
-    <bpmn:intermediateCatchEvent id="Event_19rgsw5" name="Reservation done">
-      <bpmn:incoming>Flow_05kzhok</bpmn:incoming>
-      <bpmn:outgoing>Flow_0w1n71s</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_12ic45h" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:sendTask id="Activity_1rj4zyg" name="Reserve vehicle">
-      <bpmn:incoming>Flow_1orkaav</bpmn:incoming>
-      <bpmn:outgoing>Flow_04zpxnn</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:subProcess id="Activity_17v4sy1" name="Rental in progress">
-      <bpmn:incoming>Flow_0za4hio</bpmn:incoming>
-      <bpmn:outgoing>Flow_0xe4ipa</bpmn:outgoing>
-      <bpmn:intermediateCatchEvent id="Event_1o6pss3" name="Wait 2 minutes">
-        <bpmn:incoming>Flow_04a89ve</bpmn:incoming>
-        <bpmn:outgoing>Flow_01loybe</bpmn:outgoing>
-        <bpmn:timerEventDefinition id="TimerEventDefinition_056levh" />
-      </bpmn:intermediateCatchEvent>
-      <bpmn:receiveTask id="Activity_1kreqrm" name="Receive status">
-        <bpmn:incoming>Flow_0pspx2r</bpmn:incoming>
-        <bpmn:outgoing>Flow_04a89ve</bpmn:outgoing>
-      </bpmn:receiveTask>
-      <bpmn:sequenceFlow id="Flow_04a89ve" sourceRef="Activity_1kreqrm" targetRef="Event_1o6pss3" />
-      <bpmn:sendTask id="Activity_1i3ghq0" name="Ask status">
-        <bpmn:incoming>Flow_01loybe</bpmn:incoming>
-        <bpmn:incoming>Flow_0j789w6</bpmn:incoming>
-        <bpmn:outgoing>Flow_0pspx2r</bpmn:outgoing>
-      </bpmn:sendTask>
-      <bpmn:sequenceFlow id="Flow_0pspx2r" sourceRef="Activity_1i3ghq0" targetRef="Activity_1kreqrm" />
-      <bpmn:sequenceFlow id="Flow_01loybe" sourceRef="Event_1o6pss3" targetRef="Activity_1i3ghq0" />
-      <bpmn:startEvent id="Event_0gvpfjl">
-        <bpmn:outgoing>Flow_0j789w6</bpmn:outgoing>
-      </bpmn:startEvent>
-      <bpmn:sequenceFlow id="Flow_0j789w6" sourceRef="Event_0gvpfjl" targetRef="Activity_1i3ghq0" />
-    </bpmn:subProcess>
-    <bpmn:boundaryEvent id="Event_01gcqm6" name="Close command received" attachedToRef="Activity_17v4sy1">
-      <bpmn:outgoing>Flow_1smzam3</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_070phdi" />
-    </bpmn:boundaryEvent>
-    <bpmn:sequenceFlow id="Flow_142gav6" sourceRef="StartEvent_1" targetRef="Event_0x5u3b6" />
-    <bpmn:sequenceFlow id="Flow_1y49huy" sourceRef="Event_0x5u3b6" targetRef="Gateway_0ys7ie9" />
-    <bpmn:sequenceFlow id="Flow_1aftyii" sourceRef="Gateway_0ys7ie9" targetRef="Event_12gxxm7" />
-    <bpmn:sequenceFlow id="Flow_1nxct11" sourceRef="Gateway_0ys7ie9" targetRef="Event_0c59xci" />
-    <bpmn:sequenceFlow id="Flow_1ewtkzf" sourceRef="Event_12gxxm7" targetRef="Event_02m3tss" />
-    <bpmn:sequenceFlow id="Flow_00fag5s" sourceRef="Event_0c59xci" targetRef="Event_0ks89e2" />
-    <bpmn:sequenceFlow id="Flow_0u0g6tk" sourceRef="Event_0ks89e2" targetRef="Gateway_1rrwc65" />
-    <bpmn:sequenceFlow id="Flow_1orkaav" name="no" sourceRef="Gateway_1rrwc65" targetRef="Activity_1rj4zyg" />
-    <bpmn:sequenceFlow id="Flow_0wba5mv" name="yes" sourceRef="Gateway_1rrwc65" targetRef="Activity_1raxi06" />
-    <bpmn:sequenceFlow id="Flow_166y4xd" sourceRef="Event_1org9ym" targetRef="Event_14v5p9e" />
-    <bpmn:sequenceFlow id="Flow_0um9wgv" sourceRef="Event_14v5p9e" targetRef="Activity_1u4a5kv" />
-    <bpmn:sequenceFlow id="Flow_1i0gy75" sourceRef="Gateway_05uv81l" targetRef="Event_0wov2gg" />
-    <bpmn:sequenceFlow id="Flow_14qi5z7" sourceRef="Event_0wov2gg" targetRef="Gateway_00egid8" />
-    <bpmn:sequenceFlow id="Flow_0ws1116" sourceRef="Gateway_05uv81l" targetRef="Event_1m40o3t" />
-    <bpmn:sequenceFlow id="Flow_18kksos" sourceRef="Event_1m40o3t" targetRef="Activity_1raxi06" />
-    <bpmn:sequenceFlow id="Flow_0smj892" sourceRef="Activity_1raxi06" targetRef="Gateway_0goc5w9" />
-    <bpmn:sequenceFlow id="Flow_105ybuk" sourceRef="Gateway_0goc5w9" targetRef="Event_12g6feb" />
-    <bpmn:sequenceFlow id="Flow_0m71wn7" sourceRef="Gateway_0goc5w9" targetRef="Event_19d7e9l" />
-    <bpmn:sequenceFlow id="Flow_0rejftj" sourceRef="Event_12g6feb" targetRef="Event_0uonu6m" />
-    <bpmn:sequenceFlow id="Flow_0br1xz5" sourceRef="Event_19d7e9l" targetRef="Event_0kj9och" />
-    <bpmn:sequenceFlow id="Flow_0za4hio" sourceRef="Activity_0ekfgkw" targetRef="Activity_17v4sy1" />
-    <bpmn:sequenceFlow id="Flow_0xe4ipa" sourceRef="Activity_17v4sy1" targetRef="Activity_1pti4ik" />
-    <bpmn:sequenceFlow id="Flow_132da4d" sourceRef="Event_1ux3dj6" targetRef="Activity_1pti4ik" />
-    <bpmn:sequenceFlow id="Flow_1smzam3" sourceRef="Event_01gcqm6" targetRef="Activity_1pti4ik" />
-    <bpmn:sequenceFlow id="Flow_1otb8r0" sourceRef="Activity_1pti4ik" targetRef="Gateway_1pre95x" />
-    <bpmn:sequenceFlow id="Flow_1lhqa88" sourceRef="Gateway_1pre95x" targetRef="Event_0817wf2" />
-    <bpmn:sequenceFlow id="Flow_062we6j" sourceRef="Event_0817wf2" targetRef="Event_06l6h5a" />
-    <bpmn:sequenceFlow id="Flow_0yjv3xo" sourceRef="Gateway_1pre95x" targetRef="Event_01wn4pm" />
-    <bpmn:sequenceFlow id="Flow_0rt4ax1" sourceRef="Event_01wn4pm" targetRef="Event_1araenp" />
-    <bpmn:sequenceFlow id="Flow_1uaq4rn" sourceRef="Event_06l6h5a" targetRef="Event_1ux3dj6" />
-    <bpmn:sequenceFlow id="Flow_1cv53s9" sourceRef="Event_1araenp" targetRef="Activity_0yi80l7" />
-    <bpmn:sequenceFlow id="Flow_04rlbj9" sourceRef="Activity_0yi80l7" targetRef="Event_0agi8kc" />
-    <bpmn:sequenceFlow id="Flow_1psunn5" sourceRef="Event_0agi8kc" targetRef="Gateway_1mzmk83" />
-    <bpmn:sequenceFlow id="Flow_011cy9e" name="yes" sourceRef="Gateway_1mzmk83" targetRef="Activity_16sruhj" />
-    <bpmn:sequenceFlow id="Flow_0a8qrzn" name="no" sourceRef="Gateway_1mzmk83" targetRef="Activity_0g3yrz1" />
-    <bpmn:sequenceFlow id="Flow_1koecs4" sourceRef="Activity_16sruhj" targetRef="Gateway_1gg0xkj" />
-    <bpmn:sequenceFlow id="Flow_1xgofrn" sourceRef="Activity_0g3yrz1" targetRef="Gateway_1gg0xkj" />
-    <bpmn:sequenceFlow id="Flow_0a9y8e9" sourceRef="Gateway_1gg0xkj" targetRef="Activity_0pspnm5" />
-    <bpmn:sequenceFlow id="Flow_0ggjqwo" sourceRef="Activity_0pspnm5" targetRef="Gateway_00q1dd2" />
-    <bpmn:sequenceFlow id="Flow_1mytmbu" sourceRef="Gateway_00q1dd2" targetRef="Event_08ddh1z" />
-    <bpmn:sequenceFlow id="Flow_136n1ml" sourceRef="Gateway_00q1dd2" targetRef="Event_03mt6xh" />
-    <bpmn:sequenceFlow id="Flow_0gvv4ai" sourceRef="Event_08ddh1z" targetRef="Activity_1kbkhy4" />
-    <bpmn:sequenceFlow id="Flow_035cvip" sourceRef="Event_03mt6xh" targetRef="Activity_1t88g8r" />
-    <bpmn:sequenceFlow id="Flow_0enly41" sourceRef="Activity_1kbkhy4" targetRef="Gateway_1b7dc0r" />
-    <bpmn:sequenceFlow id="Flow_18ln3sg" name="there is still some block money" sourceRef="Gateway_1b7dc0r" targetRef="Event_19awxc9" />
-    <bpmn:sequenceFlow id="Flow_0y9g0my" name="block money = 0 and rent payed" sourceRef="Gateway_1b7dc0r" targetRef="Event_0b7ua6w" />
-    <bpmn:sequenceFlow id="Flow_07bcuvu" name="block money = 0 and rent not payed" sourceRef="Gateway_1b7dc0r" targetRef="Activity_0ynjcx7" />
-    <bpmn:sequenceFlow id="Flow_1b1604k" sourceRef="Activity_0ynjcx7" targetRef="Event_0b7ua6w" />
-    <bpmn:sequenceFlow id="Flow_1ps7pfl" sourceRef="Activity_1t88g8r" targetRef="Event_1mkft53" />
-    <bpmn:sequenceFlow id="Flow_0pe82nk" sourceRef="Event_1xosndm" targetRef="Event_0yej8yo" />
-    <bpmn:sequenceFlow id="Flow_0hdrrci" sourceRef="Activity_17z8kre" targetRef="Event_1xosndm" />
-    <bpmn:sequenceFlow id="Flow_08eze2q" sourceRef="Activity_1u4a5kv" targetRef="Activity_17z8kre" />
-    <bpmn:sequenceFlow id="Flow_0gmzo5f" name="yes" sourceRef="Gateway_00egid8" targetRef="Activity_1u4a5kv" />
-    <bpmn:sequenceFlow id="Flow_1mfnhgp" name="no" sourceRef="Gateway_00egid8" targetRef="Event_12bti7o" />
-    <bpmn:sequenceFlow id="Flow_0w1n71s" sourceRef="Event_19rgsw5" targetRef="Event_1cdhizw" />
-    <bpmn:sequenceFlow id="Flow_04zpxnn" sourceRef="Activity_1rj4zyg" targetRef="Gateway_1yf2uw5" />
-    <bpmn:sequenceFlow id="Flow_05kzhok" sourceRef="Gateway_1yf2uw5" targetRef="Event_19rgsw5" />
-    <bpmn:sequenceFlow id="Flow_0x19x7o" sourceRef="Gateway_1yf2uw5" targetRef="Event_1cowqr5" />
-    <bpmn:sequenceFlow id="Flow_1g3s8r8" sourceRef="Event_1cowqr5" targetRef="Event_19w1zj6" />
-    <bpmn:sequenceFlow id="Flow_19bo1z1" sourceRef="Event_1cdhizw" targetRef="Gateway_05uv81l" />
-    <bpmn:intermediateCatchEvent id="Event_1m40o3t" name="QRcode scanned">
-      <bpmn:incoming>Flow_0ws1116</bpmn:incoming>
-      <bpmn:outgoing>Flow_18kksos</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1tsopkd" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:sendTask id="Activity_1raxi06" name="Send unlock request">
-      <bpmn:incoming>Flow_18kksos</bpmn:incoming>
-      <bpmn:incoming>Flow_0wba5mv</bpmn:incoming>
-      <bpmn:outgoing>Flow_0smj892</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:intermediateThrowEvent id="Event_1cdhizw" name="send reserve ok message">
-      <bpmn:incoming>Flow_0w1n71s</bpmn:incoming>
-      <bpmn:outgoing>Flow_19bo1z1</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0znc7bq" />
-    </bpmn:intermediateThrowEvent>
-    <bpmn:intermediateCatchEvent id="Event_1cowqr5" name="Reservation failed">
-      <bpmn:incoming>Flow_0x19x7o</bpmn:incoming>
-      <bpmn:outgoing>Flow_1g3s8r8</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_15zsx5y" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:endEvent id="Event_19w1zj6" name="send reserve failure message">
-      <bpmn:incoming>Flow_1g3s8r8</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0nbak4j" />
-    </bpmn:endEvent>
+    <bpmn:startEvent id="StartEvent_1" name="Immediate or short term rent request arrived">
+      <bpmn:outgoing>Flow_142gav6</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1asxkmm" />
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_1mzmk83" name="Is battery under 15 ?">
+      <bpmn:incoming>Flow_1psunn5</bpmn:incoming>
+      <bpmn:outgoing>Flow_011cy9e</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0a8qrzn</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
     <bpmn:exclusiveGateway id="Gateway_00egid8" name="Is more than 25 minutes ?">
       <bpmn:incoming>Flow_14qi5z7</bpmn:incoming>
       <bpmn:outgoing>Flow_1mfnhgp</bpmn:outgoing>
       <bpmn:outgoing>Flow_0gmzo5f</bpmn:outgoing>
     </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_1rrwc65" name="is rent mode immediate ?">
+      <bpmn:incoming>Flow_0u0g6tk</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wba5mv</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1orkaav</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_1b7dc0r" name="Is the rent payed ?">
+      <bpmn:incoming>Flow_0enly41</bpmn:incoming>
+      <bpmn:outgoing>Flow_0y9g0my</bpmn:outgoing>
+      <bpmn:outgoing>Flow_07bcuvu</bpmn:outgoing>
+      <bpmn:outgoing>Flow_18ln3sg</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:intermediateCatchEvent id="Event_0agi8kc" name="last status received">
+      <bpmn:incoming>Flow_04rlbj9</bpmn:incoming>
+      <bpmn:outgoing>Flow_1psunn5</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1nyhn4m" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_0817wf2" name="lock failed">
+      <bpmn:incoming>Flow_1lhqa88</bpmn:incoming>
+      <bpmn:outgoing>Flow_062we6j</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1s63mnp" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_01wn4pm" name="Message of confirmation arrived">
+      <bpmn:incoming>Flow_0yjv3xo</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rt4ax1</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_11hanhq" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_12g6feb" name="Message of confirmation arrived">
+      <bpmn:incoming>Flow_105ybuk</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rejftj</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1mmrb3u" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_1orkaav" name="no" sourceRef="Gateway_1rrwc65" targetRef="Activity_1rj4zyg" />
+    <bpmn:sequenceFlow id="Flow_0a8qrzn" name="no" sourceRef="Gateway_1mzmk83" targetRef="Activity_0g3yrz1" />
+    <bpmn:sequenceFlow id="Flow_1mfnhgp" name="no" sourceRef="Gateway_00egid8" targetRef="Event_12bti7o" />
+    <bpmn:intermediateCatchEvent id="Event_1m40o3t" name="QRcode scanned">
+      <bpmn:incoming>Flow_0ws1116</bpmn:incoming>
+      <bpmn:outgoing>Flow_18kksos</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1tsopkd" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_1xosndm" name="Receive operation outcome">
+      <bpmn:incoming>Flow_0hdrrci</bpmn:incoming>
+      <bpmn:outgoing>Flow_0pe82nk</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1b9uh5a" />
+    </bpmn:intermediateCatchEvent>
     <bpmn:subProcess id="Activity_1wic72u" name="Release auth" triggeredByEvent="true">
+      <bpmn:sequenceFlow id="Flow_00vwue4" sourceRef="Activity_17bn2du" targetRef="Gateway_1ivoryc" />
+      <bpmn:sequenceFlow id="Flow_0gacvn9" sourceRef="Gateway_1ivoryc" targetRef="Event_1x5qejm" />
+      <bpmn:sequenceFlow id="Flow_0hm1e5v" sourceRef="Event_1x5qejm" targetRef="Event_043r6vg" />
+      <bpmn:sequenceFlow id="Flow_1ctrdbb" sourceRef="Event_0xkpmmp" targetRef="Event_043r6vg" />
+      <bpmn:sequenceFlow id="Flow_1f9kr2f" sourceRef="Event_0cg1bb0" targetRef="Activity_17bn2du" />
+      <bpmn:sequenceFlow id="Flow_1o6jfgc" sourceRef="Gateway_1ivoryc" targetRef="Event_0xkpmmp" />
+      <bpmn:eventBasedGateway id="Gateway_1ivoryc">
+        <bpmn:incoming>Flow_00vwue4</bpmn:incoming>
+        <bpmn:outgoing>Flow_0gacvn9</bpmn:outgoing>
+        <bpmn:outgoing>Flow_1o6jfgc</bpmn:outgoing>
+      </bpmn:eventBasedGateway>
+      <bpmn:endEvent id="Event_043r6vg" name="release auth satisfied">
+        <bpmn:incoming>Flow_0hm1e5v</bpmn:incoming>
+        <bpmn:incoming>Flow_1ctrdbb</bpmn:incoming>
+      </bpmn:endEvent>
       <bpmn:intermediateCatchEvent id="Event_0xkpmmp" name="release failed">
         <bpmn:incoming>Flow_1o6jfgc</bpmn:incoming>
         <bpmn:outgoing>Flow_1ctrdbb</bpmn:outgoing>
@@ -798,71 +723,23 @@
         <bpmn:outgoing>Flow_0hm1e5v</bpmn:outgoing>
         <bpmn:messageEventDefinition id="MessageEventDefinition_1bb5q5u" />
       </bpmn:intermediateCatchEvent>
-      <bpmn:eventBasedGateway id="Gateway_1ivoryc">
-        <bpmn:incoming>Flow_00vwue4</bpmn:incoming>
-        <bpmn:outgoing>Flow_0gacvn9</bpmn:outgoing>
-        <bpmn:outgoing>Flow_1o6jfgc</bpmn:outgoing>
-      </bpmn:eventBasedGateway>
-      <bpmn:sequenceFlow id="Flow_0gacvn9" sourceRef="Gateway_1ivoryc" targetRef="Event_1x5qejm" />
-      <bpmn:sequenceFlow id="Flow_1o6jfgc" sourceRef="Gateway_1ivoryc" targetRef="Event_0xkpmmp" />
-      <bpmn:endEvent id="Event_043r6vg" name="release auth satisfied">
-        <bpmn:incoming>Flow_0hm1e5v</bpmn:incoming>
-        <bpmn:incoming>Flow_1ctrdbb</bpmn:incoming>
-      </bpmn:endEvent>
-      <bpmn:sendTask id="Activity_17bn2du" name="Send release request">
-        <bpmn:incoming>Flow_1f9kr2f</bpmn:incoming>
-        <bpmn:outgoing>Flow_00vwue4</bpmn:outgoing>
-      </bpmn:sendTask>
-      <bpmn:sequenceFlow id="Flow_1f9kr2f" sourceRef="Event_0cg1bb0" targetRef="Activity_17bn2du" />
-      <bpmn:sequenceFlow id="Flow_00vwue4" sourceRef="Activity_17bn2du" targetRef="Gateway_1ivoryc" />
-      <bpmn:sequenceFlow id="Flow_0hm1e5v" sourceRef="Event_1x5qejm" targetRef="Event_043r6vg" />
       <bpmn:startEvent id="Event_0cg1bb0" name="release request arrived">
         <bpmn:outgoing>Flow_1f9kr2f</bpmn:outgoing>
         <bpmn:escalationEventDefinition id="EscalationEventDefinition_1v6z3hk" />
       </bpmn:startEvent>
-      <bpmn:sequenceFlow id="Flow_1ctrdbb" sourceRef="Event_0xkpmmp" targetRef="Event_043r6vg" />
+      <bpmn:sendTask id="Activity_17bn2du" name="Send release request">
+        <bpmn:incoming>Flow_1f9kr2f</bpmn:incoming>
+        <bpmn:outgoing>Flow_00vwue4</bpmn:outgoing>
+      </bpmn:sendTask>
     </bpmn:subProcess>
-    <bpmn:intermediateThrowEvent id="Event_0x5u3b6" name="Send request auth">
-      <bpmn:incoming>Flow_142gav6</bpmn:incoming>
-      <bpmn:outgoing>Flow_1y49huy</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0cilp53" />
-    </bpmn:intermediateThrowEvent>
     <bpmn:endEvent id="Event_0jng3v3" name="rent failed with unlock">
       <bpmn:incoming>Flow_0a9jn4n</bpmn:incoming>
       <bpmn:escalationEventDefinition id="EscalationEventDefinition_0ldk1qb" />
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_0a9jn4n" sourceRef="Event_0kj9och" targetRef="Event_0jng3v3" />
-    <bpmn:sequenceFlow id="Flow_1a25xcy" sourceRef="Event_0uonu6m" targetRef="Activity_0ekfgkw" />
-    <bpmn:intermediateThrowEvent id="Event_0kj9och" name="send unlock failed message">
-      <bpmn:incoming>Flow_0br1xz5</bpmn:incoming>
-      <bpmn:outgoing>Flow_0a9jn4n</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1iiv3sc" />
-    </bpmn:intermediateThrowEvent>
-    <bpmn:intermediateCatchEvent id="Event_12g6feb" name="Message of confirmation arrived">
-      <bpmn:incoming>Flow_105ybuk</bpmn:incoming>
-      <bpmn:outgoing>Flow_0rejftj</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1mmrb3u" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:intermediateThrowEvent id="Event_0uonu6m" name="send unlock confirmation message">
-      <bpmn:incoming>Flow_0rejftj</bpmn:incoming>
-      <bpmn:outgoing>Flow_1a25xcy</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1e5mf5m" />
-    </bpmn:intermediateThrowEvent>
-    <bpmn:intermediateThrowEvent id="Event_1araenp" name="Send message confirmation">
-      <bpmn:incoming>Flow_0rt4ax1</bpmn:incoming>
-      <bpmn:outgoing>Flow_1cv53s9</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1nlwne5" />
-    </bpmn:intermediateThrowEvent>
-    <bpmn:intermediateCatchEvent id="Event_1ux3dj6" name="Retry close command received">
-      <bpmn:incoming>Flow_1uaq4rn</bpmn:incoming>
-      <bpmn:outgoing>Flow_132da4d</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0hp6i7b" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:intermediateThrowEvent id="Event_06l6h5a" name="Send message error">
-      <bpmn:incoming>Flow_062we6j</bpmn:incoming>
-      <bpmn:outgoing>Flow_1uaq4rn</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1dglu8b" />
-    </bpmn:intermediateThrowEvent>
+    <bpmn:endEvent id="Event_1mkft53" name="rent terminated">
+      <bpmn:incoming>Flow_1ps7pfl</bpmn:incoming>
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_1g0aah7" />
+    </bpmn:endEvent>
     <bpmn:endEvent id="Event_0b7ua6w" name="rent terminated">
       <bpmn:incoming>Flow_1b1604k</bpmn:incoming>
       <bpmn:incoming>Flow_0y9g0my</bpmn:incoming>
@@ -871,22 +748,145 @@
       <bpmn:incoming>Flow_18ln3sg</bpmn:incoming>
       <bpmn:signalEventDefinition id="SignalEventDefinition_0msumq0" />
     </bpmn:endEvent>
-    <bpmn:intermediateCatchEvent id="Event_1org9ym" name="30 min">
-      <bpmn:incoming>Flow_11p05xw</bpmn:incoming>
-      <bpmn:outgoing>Flow_166y4xd</bpmn:outgoing>
-      <bpmn:timerEventDefinition id="TimerEventDefinition_0y2x72s" />
+    <bpmn:subProcess id="Activity_17v4sy1" name="Rental in progress">
+      <bpmn:incoming>Flow_0za4hio</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xe4ipa</bpmn:outgoing>
+      <bpmn:sendTask id="Activity_1i3ghq0" name="Ask status">
+        <bpmn:incoming>Flow_01loybe</bpmn:incoming>
+        <bpmn:incoming>Flow_0j789w6</bpmn:incoming>
+        <bpmn:outgoing>Flow_0pspx2r</bpmn:outgoing>
+      </bpmn:sendTask>
+      <bpmn:startEvent id="Event_0gvpfjl">
+        <bpmn:outgoing>Flow_0j789w6</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="Flow_01loybe" sourceRef="Event_1o6pss3" targetRef="Activity_1i3ghq0" />
+      <bpmn:sequenceFlow id="Flow_04a89ve" sourceRef="Activity_1kreqrm" targetRef="Event_1o6pss3" />
+      <bpmn:sequenceFlow id="Flow_0j789w6" sourceRef="Event_0gvpfjl" targetRef="Activity_1i3ghq0" />
+      <bpmn:sequenceFlow id="Flow_0pspx2r" sourceRef="Activity_1i3ghq0" targetRef="Activity_1kreqrm" />
+      <bpmn:receiveTask id="Activity_1kreqrm" name="Receive status">
+        <bpmn:incoming>Flow_0pspx2r</bpmn:incoming>
+        <bpmn:outgoing>Flow_04a89ve</bpmn:outgoing>
+      </bpmn:receiveTask>
+      <bpmn:intermediateCatchEvent id="Event_1o6pss3" name="Wait 2 minutes">
+        <bpmn:incoming>Flow_04a89ve</bpmn:incoming>
+        <bpmn:outgoing>Flow_01loybe</bpmn:outgoing>
+        <bpmn:timerEventDefinition id="TimerEventDefinition_056levh" />
+      </bpmn:intermediateCatchEvent>
+    </bpmn:subProcess>
+    <bpmn:endEvent id="Event_0yej8yo" name="reservation cancelled">
+      <bpmn:incoming>Flow_0pe82nk</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_12bti7o" name="reservation cancelled">
+      <bpmn:incoming>Flow_1mfnhgp</bpmn:incoming>
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_01wdgin" />
+    </bpmn:endEvent>
+    <bpmn:intermediateCatchEvent id="Event_19rgsw5" name="Reservation done">
+      <bpmn:incoming>Flow_05kzhok</bpmn:incoming>
+      <bpmn:outgoing>Flow_0w1n71s</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_12ic45h" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:sequenceFlow id="Flow_11p05xw" sourceRef="Gateway_05uv81l" targetRef="Event_1org9ym" />
-    <bpmn:intermediateCatchEvent id="Event_0wov2gg" name="cancel request received">
-      <bpmn:incoming>Flow_1i0gy75</bpmn:incoming>
-      <bpmn:outgoing>Flow_14qi5z7</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0k32aoi" />
+    <bpmn:intermediateCatchEvent id="Event_1cowqr5" name="Reservation failed">
+      <bpmn:incoming>Flow_0x19x7o</bpmn:incoming>
+      <bpmn:outgoing>Flow_1g3s8r8</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_15zsx5y" />
     </bpmn:intermediateCatchEvent>
+    <bpmn:sendTask id="Activity_1rj4zyg" name="Reserve vehicle">
+      <bpmn:incoming>Flow_1orkaav</bpmn:incoming>
+      <bpmn:outgoing>Flow_04zpxnn</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:intermediateCatchEvent id="Event_1ux3dj6" name="Retry close command received">
+      <bpmn:incoming>Flow_1uaq4rn</bpmn:incoming>
+      <bpmn:outgoing>Flow_132da4d</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0hp6i7b" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="Event_0ks89e2" name="send auth ok message">
+      <bpmn:incoming>Flow_00fag5s</bpmn:incoming>
+      <bpmn:outgoing>Flow_0u0g6tk</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1f8gry0" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:endEvent id="Event_02m3tss" name="send authorization failed message">
+      <bpmn:incoming>Flow_1ewtkzf</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1v2u8ar" />
+    </bpmn:endEvent>
+    <bpmn:sendTask id="Activity_1pti4ik" name="Send lock request">
+      <bpmn:incoming>Flow_0xe4ipa</bpmn:incoming>
+      <bpmn:incoming>Flow_132da4d</bpmn:incoming>
+      <bpmn:incoming>Flow_1smzam3</bpmn:incoming>
+      <bpmn:outgoing>Flow_1otb8r0</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:intermediateThrowEvent id="Event_1araenp" name="Send message confirmation">
+      <bpmn:incoming>Flow_0rt4ax1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1cv53s9</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1nlwne5" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateThrowEvent id="Event_06l6h5a" name="Send message error">
+      <bpmn:incoming>Flow_062we6j</bpmn:incoming>
+      <bpmn:outgoing>Flow_1uaq4rn</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1dglu8b" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sendTask id="Activity_0ynjcx7" name="Send payment failure &#38; Debt notice">
+      <bpmn:incoming>Flow_07bcuvu</bpmn:incoming>
+      <bpmn:outgoing>Flow_1b1604k</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="Activity_1t88g8r" name="Send rental receipt">
+      <bpmn:incoming>Flow_035cvip</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ps7pfl</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:intermediateThrowEvent id="Event_0x5u3b6" name="Send request auth">
+      <bpmn:incoming>Flow_142gav6</bpmn:incoming>
+      <bpmn:outgoing>Flow_1y49huy</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0cilp53" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sendTask id="Activity_0ekfgkw" name="Send request tracking">
+      <bpmn:incoming>Flow_1a25xcy</bpmn:incoming>
+      <bpmn:outgoing>Flow_0za4hio</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:endEvent id="Event_19w1zj6" name="send reserve failure message">
+      <bpmn:incoming>Flow_1g3s8r8</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0nbak4j" />
+    </bpmn:endEvent>
+    <bpmn:intermediateThrowEvent id="Event_1cdhizw" name="send reserve ok message">
+      <bpmn:incoming>Flow_0w1n71s</bpmn:incoming>
+      <bpmn:outgoing>Flow_19bo1z1</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0znc7bq" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sendTask id="Activity_0yi80l7" name="Send stop tracking">
+      <bpmn:incoming>Flow_1cv53s9</bpmn:incoming>
+      <bpmn:outgoing>Flow_04rlbj9</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:intermediateThrowEvent id="Event_0uonu6m" name="send unlock confirmation message">
+      <bpmn:incoming>Flow_0rejftj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1a25xcy</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1e5mf5m" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateThrowEvent id="Event_0kj9och" name="send unlock failed message">
+      <bpmn:incoming>Flow_0br1xz5</bpmn:incoming>
+      <bpmn:outgoing>Flow_0a9jn4n</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1iiv3sc" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sendTask id="Activity_1raxi06" name="Send unlock request">
+      <bpmn:incoming>Flow_18kksos</bpmn:incoming>
+      <bpmn:incoming>Flow_0wba5mv</bpmn:incoming>
+      <bpmn:outgoing>Flow_0smj892</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:task id="Activity_1kbkhy4" name="Take money from cautional block">
+      <bpmn:incoming>Flow_0gvv4ai</bpmn:incoming>
+      <bpmn:outgoing>Flow_0enly41</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_18ln3sg" name="there is still some block money" sourceRef="Gateway_1b7dc0r" targetRef="Event_19awxc9" />
     <bpmn:intermediateThrowEvent id="Event_14v5p9e" name="Timeout notice">
       <bpmn:incoming>Flow_166y4xd</bpmn:incoming>
       <bpmn:outgoing>Flow_0um9wgv</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1wczoyg" />
     </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateCatchEvent id="Event_19d7e9l" name="unlock failed">
+      <bpmn:incoming>Flow_0m71wn7</bpmn:incoming>
+      <bpmn:outgoing>Flow_0br1xz5</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_19nwgif" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_0wba5mv" name="yes" sourceRef="Gateway_1rrwc65" targetRef="Activity_1raxi06" />
+    <bpmn:sequenceFlow id="Flow_011cy9e" name="yes" sourceRef="Gateway_1mzmk83" targetRef="Activity_16sruhj" />
+    <bpmn:sequenceFlow id="Flow_0gmzo5f" name="yes" sourceRef="Gateway_00egid8" targetRef="Activity_1u4a5kv" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_055e3o4">
@@ -1368,16 +1368,16 @@
       <bpmndi:BPMNShape id="Event_0ete397_di" bpmnElement="Event_0ete397">
         <dc:Bounds x="1832" y="292" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0fv5zdt_di" bpmnElement="Event_0shjec1">
-        <dc:Bounds x="1592" y="292" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1531" y="333" width="77" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0fbpx25_di" bpmnElement="Event_08lncb5">
         <dc:Bounds x="1672" y="292" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1663.5" y="333" width="79" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0fv5zdt_di" bpmnElement="Event_0shjec1">
+        <dc:Bounds x="1592" y="292" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1531" y="333" width="77" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_014rl7x_di" bpmnElement="Flow_014rl7x">
@@ -1797,23 +1797,8 @@
       <bpmndi:BPMNShape id="Activity_1ez0i1c_di" bpmnElement="Activity_1rj4zyg">
         <dc:Bounds x="1210" y="900" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_09j9e26_di" bpmnElement="Event_1org9ym">
-        <dc:Bounds x="1662" y="922" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1663" y="965" width="34" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0wov2gg_di" bpmnElement="Event_0wov2gg">
-        <dc:Bounds x="1692" y="1032" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1667" y="1076" width="72" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1y1a4er_di" bpmnElement="Event_14v5p9e">
-        <dc:Bounds x="1732" y="922" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1715" y="965" width="72" height="14" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="Activity_1169o8q_di" bpmnElement="Activity_1raxi06">
+        <dc:Bounds x="1780" y="670" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_17v4sy1_di" bpmnElement="Activity_17v4sy1" isExpanded="true">
         <dc:Bounds x="2890" y="610" width="650" height="200" />
@@ -1857,9 +1842,6 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1608" y="1185" width="85" height="14" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1169o8q_di" bpmnElement="Activity_1raxi06">
-        <dc:Bounds x="1780" y="670" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0pd261b_di" bpmnElement="Event_1cdhizw">
         <dc:Bounds x="1522" y="922" width="36" height="36" />
@@ -2003,6 +1985,24 @@
         <dc:Bounds x="6052" y="582" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="6033" y="625" width="74" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_09j9e26_di" bpmnElement="Event_1org9ym">
+        <dc:Bounds x="1662" y="922" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1663" y="965" width="34" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0wov2gg_di" bpmnElement="Event_0wov2gg">
+        <dc:Bounds x="1692" y="1032" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1667" y="1076" width="72" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1y1a4er_di" bpmnElement="Event_14v5p9e">
+        <dc:Bounds x="1732" y="922" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1715" y="965" width="72" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1u86os2_di" bpmnElement="Event_01gcqm6">

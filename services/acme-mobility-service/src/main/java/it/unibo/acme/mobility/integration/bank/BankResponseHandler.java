@@ -29,14 +29,15 @@ public class BankResponseHandler implements SOAPHandler<SOAPMessageContext> {
                 soapMsg.writeTo(out);
                 String xmlContent = new String(out.toByteArray(), StandardCharsets.UTF_8);
 
-                // DEBUG: Vediamo cosa arriva
-                // System.out.println("--- XML RAW ---");
+                // DEBUG: Decommenta se vuoi vedere l'XML originale rotto
+                // System.out.println("--- XML RAW IN ARRIVO ---");
                 // System.out.println(xmlContent);
 
-                // 2. MANIPOLAZIONE DIRETTA STRINGA
-                // Se l'XML contiene i tag "nudi", li forziamo con il namespace corretto.
+                // ==================================================================
+                // 2. MANIPOLAZIONE DIRETTA STRINGA (PATCH JOLIE -> JAX-WS)
+                // ==================================================================
                 
-                // Aggiungiamo il namespace al tag padre se manca o se è nudo
+                // CASO A: preAuthorizeResponse
                 if (xmlContent.contains("<preAuthorizeResponse>")) {
                     xmlContent = xmlContent.replace(
                         "<preAuthorizeResponse>", 
@@ -45,12 +46,46 @@ public class BankResponseHandler implements SOAPHandler<SOAPMessageContext> {
                     xmlContent = xmlContent.replace("</preAuthorizeResponse>", "</ns1:preAuthorizeResponse>");
                 }
 
-                // Aggiungiamo il prefisso al tag figlio <token>
-                // Usiamo "<token" per intercettare anche attributi come xsi:type
+                // CASO B: releaseDepositResponse (QUESTO MANCAVA E CAUSAVA L'ERRORE)
+                if (xmlContent.contains("<releaseDepositResponse>")) {
+                    xmlContent = xmlContent.replace(
+                        "<releaseDepositResponse>", 
+                        "<ns1:releaseDepositResponse xmlns:ns1=\"http://acmemobility.org/bank.xsd.wsdl\">"
+                    );
+                    xmlContent = xmlContent.replace("</releaseDepositResponse>", "</ns1:releaseDepositResponse>");
+                }
+
+                // CASO C: processFinalPaymentResponse (NUOVO)
+                if (xmlContent.contains("<processFinalPaymentResponse>")) {
+                    xmlContent = xmlContent.replace(
+                        "<processFinalPaymentResponse>", 
+                        "<ns1:processFinalPaymentResponse xmlns:ns1=\"http://acmemobility.org/bank.xsd.wsdl\">"
+                    );
+                    xmlContent = xmlContent.replace("</processFinalPaymentResponse>", "</ns1:processFinalPaymentResponse>");
+                }
+
+                // CASO D: Gestione dei tag figli comuni (token, status sono già gestiti)
+                // Aggiungiamo 'message' se serve
+                if (xmlContent.contains("<message")) {
+                    xmlContent = xmlContent.replace("<message", "<ns1:message");
+                    xmlContent = xmlContent.replace("</message>", "</ns1:message>");
+                }
+
+                
+                // C.1: Il tag <token> (usato nella preAuthorize)
                 if (xmlContent.contains("<token")) {
                     xmlContent = xmlContent.replace("<token", "<ns1:token");
                     xmlContent = xmlContent.replace("</token>", "</ns1:token>");
                 }
+
+                // C.2: Il tag <status> (usato nella releaseDeposit)
+                // Jolie ritorna <status xsi:type="...">OK</status>, noi lo trasformiamo in <ns1:status ...>
+                if (xmlContent.contains("<status")) {
+                    xmlContent = xmlContent.replace("<status", "<ns1:status");
+                    xmlContent = xmlContent.replace("</status>", "</ns1:status>");
+                }
+
+                // ==================================================================
 
                 // 3. Ricostruiamo il messaggio SOAP dalla stringa modificata
                 MessageFactory factory = MessageFactory.newInstance();
@@ -62,7 +97,7 @@ public class BankResponseHandler implements SOAPHandler<SOAPMessageContext> {
                 // 4. Sostituiamo il messaggio nel contesto
                 context.setMessage(newMsg);
 
-                // DEBUG: Controllo finale
+                // DEBUG: Controllo finale per vedere se il namespace ns1 è stato applicato
                 System.out.println("--- [HANDLER] XML REBUILT (String Patch) ---");
                 ByteArrayOutputStream debugOut = new ByteArrayOutputStream();
                 newMsg.writeTo(debugOut);

@@ -28,12 +28,59 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-
       <xs:element name="preAuthorizeResponse">
         <xs:complexType>
           <xs:sequence>
             <xs:element name="token" type="xs:string"/>
           </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="releaseDeposit">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="releaseDepositResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="status" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="captureDeposit">
+         <xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="captureDepositResponse">
+         <xs:complexType>
+            <xs:sequence>
+                <xs:element name="status" type="xs:string"/>
+                <xs:element name="message" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="processFinalPayment">
+         <xs:complexType>
+            <xs:sequence>
+                <xs:element name="token" type="xs:string"/>
+                <xs:element name="amount" type="xs:double"/>
+            </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="processFinalPaymentResponse">
+         <xs:complexType>
+            <xs:sequence>
+                <xs:element name="status" type="xs:string"/>
+                <xs:element name="message" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
         </xs:complexType>
       </xs:element>
 
@@ -45,40 +92,32 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      
-      <xs:element name="captureDeposit" type="xs:anyType"/>
-      <xs:element name="processFinalPaymentResponse" type="xs:anyType"/>
-      <xs:element name="processFinalPayment" type="xs:anyType"/>
-      <xs:element name="releaseDeposit" type="xs:anyType"/>
-      <xs:element name="PaymentFailedType" type="xs:anyType"/>
+      <xs:element name="PaymentFailedType">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="reason" type="xs:string"/>
+            <xs:element name="availableTotal" type="xs:double"/>
+            <xs:element name="required" type="xs:double"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
 
     </xs:schema>
   </wsdl:types>
 
-  <wsdl:message name="PaymentDeclined">
-    <wsdl:part name="body" element="tns:PaymentDeclined"/>
-  </wsdl:message>
-  <wsdl:message name="CaptureRequest">
-    <wsdl:part name="body" element="tns:captureDeposit"/>
-  </wsdl:message>
-  <wsdl:message name="BankResponse">
-    <wsdl:part name="body" element="tns:processFinalPaymentResponse"/>
-  </wsdl:message>
-  <wsdl:message name="FinalPaymentRequest">
-    <wsdl:part name="body" element="tns:processFinalPayment"/>
-  </wsdl:message>
-  <wsdl:message name="PreAuthResponse">
-    <wsdl:part name="body" element="tns:preAuthorizeResponse"/>
-  </wsdl:message>
-  <wsdl:message name="PreAuthRequest">
-    <wsdl:part name="body" element="tns:preAuthorize"/>
-  </wsdl:message>
-  <wsdl:message name="ReleaseRequest">
-    <wsdl:part name="body" element="tns:releaseDeposit"/>
-  </wsdl:message>
-  <wsdl:message name="PaymentFailedType">
-    <wsdl:part name="body" element="tns:PaymentFailedType"/>
-  </wsdl:message>
+  <wsdl:message name="PreAuthRequest"><wsdl:part name="body" element="tns:preAuthorize"/></wsdl:message>
+  <wsdl:message name="PreAuthResponse"><wsdl:part name="body" element="tns:preAuthorizeResponse"/></wsdl:message>
+  <wsdl:message name="PaymentDeclined"><wsdl:part name="body" element="tns:PaymentDeclined"/></wsdl:message>
+  
+  <wsdl:message name="ReleaseRequest"><wsdl:part name="body" element="tns:releaseDeposit"/></wsdl:message>
+  <wsdl:message name="ReleaseResponse"><wsdl:part name="body" element="tns:releaseDepositResponse"/></wsdl:message>
+
+  <wsdl:message name="CaptureRequest"><wsdl:part name="body" element="tns:captureDeposit"/></wsdl:message>
+  <wsdl:message name="CaptureResponse"><wsdl:part name="body" element="tns:captureDepositResponse"/></wsdl:message>
+
+  <wsdl:message name="FinalPaymentRequest"><wsdl:part name="body" element="tns:processFinalPayment"/></wsdl:message>
+  <wsdl:message name="FinalPaymentResponse"><wsdl:part name="body" element="tns:processFinalPaymentResponse"/></wsdl:message>
+  <wsdl:message name="PaymentFailedType"><wsdl:part name="body" element="tns:PaymentFailedType"/></wsdl:message>
 
   <wsdl:portType name="BankPort">
     <wsdl:operation name="preAuthorize">
@@ -86,15 +125,51 @@
       <wsdl:output message="tns:PreAuthResponse"/>
       <wsdl:fault name="PaymentDeclined" message="tns:PaymentDeclined"/>
     </wsdl:operation>
-    </wsdl:portType>
+
+    <wsdl:operation name="releaseDeposit">
+      <wsdl:input message="tns:ReleaseRequest"/>
+      <wsdl:output message="tns:ReleaseResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="captureDeposit">
+      <wsdl:input message="tns:CaptureRequest"/>
+      <wsdl:output message="tns:CaptureResponse"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="processFinalPayment">
+      <wsdl:input message="tns:FinalPaymentRequest"/>
+      <wsdl:output message="tns:FinalPaymentResponse"/>
+      <wsdl:fault name="PaymentFailed" message="tns:PaymentFailedType"/>
+    </wsdl:operation>
+  </wsdl:portType>
 
   <wsdl:binding name="BankPortSOAPBinding" type="tns:BankPort">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    
     <wsdl:operation name="preAuthorize">
       <soap:operation soapAction="preAuthorize" style="document"/>
       <wsdl:input><soap:body use="literal"/></wsdl:input>
       <wsdl:output><soap:body use="literal"/></wsdl:output>
       <wsdl:fault name="PaymentDeclined"><soap:fault name="PaymentDeclined" use="literal"/></wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="releaseDeposit">
+      <soap:operation soapAction="releaseDeposit" style="document"/>
+      <wsdl:input><soap:body use="literal"/></wsdl:input>
+      <wsdl:output><soap:body use="literal"/></wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="captureDeposit">
+      <soap:operation soapAction="captureDeposit" style="document"/>
+      <wsdl:input><soap:body use="literal"/></wsdl:input>
+      <wsdl:output><soap:body use="literal"/></wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="processFinalPayment">
+      <soap:operation soapAction="processFinalPayment" style="document"/>
+      <wsdl:input><soap:body use="literal"/></wsdl:input>
+      <wsdl:output><soap:body use="literal"/></wsdl:output>
+      <wsdl:fault name="PaymentFailed"><soap:fault name="PaymentFailed" use="literal"/></wsdl:fault>
     </wsdl:operation>
   </wsdl:binding>
 

@@ -63,9 +63,12 @@ public class NatsVehicleCommandDispatcher implements VehicleCommandDispatcher {
 
     @Override
     public void sendUnlockCommand(String vehicleId, double destLat, double destLon) {
+        // 1. Controllo Connessione: Se null, è un errore CRITICO
         if (natsConnection == null) {
-            LOG.severe("CANNOT SEND UNLOCK: Nats connection is NULL");
-            return;
+            String msg = "CRITICAL: Cannot send UNLOCK command for " + vehicleId + ". NATS connection is NULL.";
+            LOG.severe(msg);
+            // Lanciamo RuntimeException per far fallire la chiamata HTTP con 500
+            throw new IllegalStateException(msg); 
         }
 
         try {
@@ -75,14 +78,21 @@ public class NatsVehicleCommandDispatcher implements VehicleCommandDispatcher {
             
             natsConnection.publish(subject, json.getBytes(StandardCharsets.UTF_8));
             LOG.info(">>> SENT NATS UNLOCK COMMAND for " + vehicleId + " to subject " + subject);
+
         } catch (Exception e) {
+            // 2. Errore durante l'invio: Rilanciamo l'eccezione
             LOG.log(Level.SEVERE, "Error sending NATS message", e);
+            throw new RuntimeException("Failed to publish NATS message", e);
         }
     }
 
     @Override
     public void sendLockCommand(String vehicleId) {
-        if (natsConnection == null) return;
+        if (natsConnection == null) {
+             String msg = "CRITICAL: Cannot send LOCK command for " + vehicleId + ". NATS connection is NULL.";
+             LOG.severe(msg);
+             throw new IllegalStateException(msg);
+        }
         
         try {
             var command = new CommandPayload("LOCK", null, null);
@@ -92,6 +102,7 @@ public class NatsVehicleCommandDispatcher implements VehicleCommandDispatcher {
             natsConnection.publish(subject, json.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
             LOG.log(Level.SEVERE, "Error sending lock", e);
+            throw new RuntimeException("Failed to publish NATS message", e);
         }
     }
     

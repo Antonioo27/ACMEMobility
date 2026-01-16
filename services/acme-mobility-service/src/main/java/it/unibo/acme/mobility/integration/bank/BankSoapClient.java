@@ -5,6 +5,9 @@ import it.unibo.acme.mobility.integration.bank.generated.BankPort;
 import it.unibo.acme.mobility.integration.bank.generated.BankPortService;
 import it.unibo.acme.mobility.integration.bank.generated.CardData;
 import it.unibo.acme.mobility.integration.bank.generated.PaymentDeclined_Exception;
+// Import delle classi generate (nomi ipotetici basati sul tuo WSDL, verifica i nomi esatti)
+import it.unibo.acme.mobility.integration.bank.generated.ReleaseDeposit;
+import it.unibo.acme.mobility.integration.bank.generated.ReleaseDepositResponse;
 
 // Import standard di Spring per l'iniezione delle dipendenze e configurazione
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +19,7 @@ import javax.xml.ws.handler.Handler;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.xml.ws.Holder;
 /**
  * Client SOAP per comunicare con il servizio bancario (Jolie).
  * Gestisce la creazione della richiesta, l'autenticazione (se necessaria)
@@ -111,6 +114,86 @@ public class BankSoapClient {
         } catch (Exception e) {
             // 8. Gestione Errori Tecnici (es. Banca irraggiungibile, XML malformato, ecc.)
             throw new RuntimeException("BANK_ERROR: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Richiede il rilascio della cauzione (Unlock fallito o Noleggio annullato).
+     * @param token Il token ricevuto durante la pre-autorizzazione.
+     */
+    public void releaseDeposit(String token) {
+        try {
+            // ... (il blocco di configurazione WSDL/Service/Port/Handler resta uguale) ...
+            URL wsdlUrl = getClass().getClassLoader().getResource("wsdl/BankService.wsdl");
+            BankPortService service = new BankPortService(wsdlUrl);
+            BankPort port = service.getBankPortServicePort();
+            
+            BindingProvider bindingProvider = (BindingProvider) port;
+            bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, bankServiceUrl);
+
+            // Handler per i namespace
+            List<Handler> handlerChain = bindingProvider.getBinding().getHandlerChain();
+            if (handlerChain == null) handlerChain = new ArrayList<>();
+            handlerChain.add(new BankResponseHandler());
+            bindingProvider.getBinding().setHandlerChain(handlerChain);
+
+            // --- CORREZIONE QUI SOTTO ---
+            
+            // JAX-WS "Unwrapped": Passiamo direttamente la stringa, non l'oggetto.
+            // E ci ritorna direttamente la stringa (lo status), non l'oggetto Response.
+            String status = port.releaseDeposit(token);
+            
+            System.out.println("BankClient: Rilascio cauzione eseguito. Status: " + status);
+
+        } catch (Exception e) {
+            System.err.println("ERRORE GRAVE: Impossibile rilasciare la cauzione per token " + token);
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Esegue il pagamento finale (Capture/Charge).
+     * @param token Il token della pre-autorizzazione.
+     * @param amount L'importo finale da addebitare.
+     * @return Lo stato della transazione (es. "OK").
+     */
+    public String processFinalPayment(String token, double amount) {
+        try {
+            // 1. Setup (Copia-incolla standard)
+            URL wsdlUrl = getClass().getClassLoader().getResource("wsdl/BankService.wsdl");
+            BankPortService service = new BankPortService(wsdlUrl);
+            BankPort port = service.getBankPortServicePort();
+            
+            BindingProvider bindingProvider = (BindingProvider) port;
+            bindingProvider.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, bankServiceUrl);
+
+            // Handler per fixare i namespace di Jolie
+            List<Handler> handlerChain = bindingProvider.getBinding().getHandlerChain();
+            if (handlerChain == null) handlerChain = new ArrayList<>();
+            handlerChain.add(new BankResponseHandler());
+            bindingProvider.getBinding().setHandlerChain(handlerChain);
+
+            // 2. Chiamata Reale con Holder
+            // Il WSDL definisce due output: <status> e <message>.
+            // JAX-WS li mappa come parametri di tipo Holder<String>.
+            
+            Holder<String> statusHolder = new Holder<>();
+            Holder<String> messageHolder = new Holder<>();
+
+            // La firma è: void processFinalPayment(String token, double amount, Holder<String> status, Holder<String> message)
+            port.processFinalPayment(token, amount, statusHolder, messageHolder);
+            
+            System.out.println("BankClient: Pagamento completato. Status=" + statusHolder.value + ", Msg=" + messageHolder.value);
+
+            return statusHolder.value;
+
+        } catch (Exception e) {
+            // Gestione errori
+            if (e.getMessage() != null && e.getMessage().contains("PaymentFailed")) {
+                throw new RuntimeException("FONDI INSUFFICIENTI O ERRORE BANCA: " + e.getMessage());
+            }
+            throw new RuntimeException("Errore tecnico Banca: " + e.getMessage(), e);
         }
     }
 }
